@@ -47,6 +47,7 @@ namespace managers {
 
 		//meta! sender="RegistrationAgent", id="20", type="Response"
 		public void ProcessRegistration(MessageForm message) {
+		
 		}
 
 		//meta! sender="LunchAgent", id="28", type="Response"
@@ -79,62 +80,65 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		public void Init()
+		{
 		}
 
-		override public void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.PatientEnterCenter:
-					ProcessPatientEnterCenter(message);
-					break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.PatientEnterCenter:
+				ProcessPatientEnterCenter(message);
+			break;
 
-				case Mc.FromVaccination:
-					ProcessFromVaccination(message);
-					break;
+			case Mc.FromVaccination:
+				ProcessFromVaccination(message);
+			break;
 
-				case Mc.Vaccination:
-					ProcessVaccination(message);
-					break;
+			case Mc.Vaccination:
+				ProcessVaccination(message);
+			break;
 
-				case Mc.NurseStartBreak:
-					ProcessNurseStartBreak(message);
-					break;
+			case Mc.NurseStartBreak:
+				ProcessNurseStartBreak(message);
+			break;
 
-				case Mc.Registration:
-					ProcessRegistration(message);
-					break;
+			case Mc.Registration:
+				ProcessRegistration(message);
+			break;
 
-				case Mc.FromExamination:
-					ProcessFromExamination(message);
-					break;
+			case Mc.FromExamination:
+				ProcessFromExamination(message);
+			break;
 
-				case Mc.Examination:
-					ProcessExamination(message);
-					break;
+			case Mc.Examination:
+				ProcessExamination(message);
+			break;
 
-				case Mc.LunchBreak:
-					ProcessLunchBreak(message);
-					break;
+			case Mc.LunchBreak:
+				ProcessLunchBreak(message);
+			break;
 
-				case Mc.FromRegistration:
-					ProcessFromRegistration(message);
-					break;
+			case Mc.FromRegistration:
+				ProcessFromRegistration(message);
+			break;
 
-				case Mc.Waiting:
-					ProcessWaiting(message);
-					break;
+			case Mc.Waiting:
+				ProcessWaiting(message);
+			break;
 
-				case Mc.DoctorStartBreak:
-					ProcessDoctorStartBreak(message);
-					break;
+			case Mc.DoctorStartBreak:
+				ProcessDoctorStartBreak(message);
+			break;
 
-				case Mc.AdminStartBreak:
-					ProcessAdminStartBreak(message);
-					break;
+			case Mc.AdminStartBreak:
+				ProcessAdminStartBreak(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

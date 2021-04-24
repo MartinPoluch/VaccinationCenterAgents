@@ -52,6 +52,7 @@
     <Compile Include="entities\Doctor.cs" />
     <Compile Include="entities\Patient.cs" />
     <Compile Include="entities\ServiceEntity.cs" />
+    <Compile Include="entities\ServiceStat.cs" />
     <Compile Include="entities\ServiceStatus.cs" />
     <Compile Include="entities\ServiceType.cs" />
     <Compile Include="generated\agents\ExaminationAgent.cs" />

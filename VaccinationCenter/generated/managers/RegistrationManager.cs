@@ -28,7 +28,7 @@ namespace managers {
 		}
 
 		//meta! sender="AdminLunchScheduler", id="73", type="Notice"
-		public void ProcessLunchBreakScheduled(MessageForm message) {
+		public void ProcessAdminLunchBreak(MessageForm message) {
 		}
 
 		//meta! sender="VacCenterAgent", id="56", type="Notice"
@@ -44,7 +44,12 @@ namespace managers {
 		}
 
 		//meta! sender="RegistrationProcess", id="72", type="Notice"
-		public void ProcessServiceProcessDone(MessageForm message) {
+		public void ProcessRegistrationProcessEnd(MessageForm msg) {
+			EndOfService((MyMessage)msg);
+			MyMessage message = (MyMessage)msg.CreateCopy();
+			message.Service = null;
+			message.Code = Mc.Registration;
+			Response(message);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
@@ -57,34 +62,22 @@ namespace managers {
 		public void Init() {
 		}
 
-		public override void ProcessMessage(MessageForm message) {
+		override public void ProcessMessage(MessageForm message) {
 			switch (message.Code) {
-				case Mc.Finish:
-					switch (message.Sender.Id) {
-						case SimId.AdminLunchScheduler:
-							ProcessFinishAdminLunchScheduler(message);
-							break;
-
-						case SimId.RegistrationProcess:
-							ProcessFinishRegistrationProcess(message);
-							break;
-					}
-					break;
-
 				case Mc.Registration:
 					ProcessRegistration(message);
 					break;
 
-				case Mc.ServiceProcessDone:
-					ProcessServiceProcessDone(message);
+				case Mc.RegistrationProcessEnd:
+					ProcessRegistrationProcessEnd(message);
 					break;
 
 				case Mc.AdminEndBreak:
 					ProcessAdminEndBreak(message);
 					break;
 
-				case Mc.LunchBreakScheduled:
-					ProcessLunchBreakScheduled(message);
+				case Mc.AdminLunchBreak:
+					ProcessAdminLunchBreak(message);
 					break;
 
 				default:

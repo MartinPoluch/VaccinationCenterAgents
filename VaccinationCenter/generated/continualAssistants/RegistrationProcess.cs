@@ -18,14 +18,14 @@ namespace continualAssistants {
 		//meta! sender="RegistrationAgent", id="69", type="Start"
 		public void ProcessStart(MessageForm message) {
 			ServiceEntity service = ((MyMessage)message).Service;
-			message.Code = Mc.ServiceProcessDone;
+			message.Code = Mc.RegistrationProcessEnd;
 			Hold(service.ServiceDurationGen.Sample(), message);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
 		public void ProcessDefault(MessageForm message) {
 			switch (message.Code) {
-				case Mc.ServiceProcessDone: {
+				case Mc.RegistrationProcessEnd: {
 					Notice(message);
 					break;
 				}
@@ -33,15 +33,17 @@ namespace continualAssistants {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		override public void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.Start:
-					ProcessStart(message);
-					break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.Start:
+				ProcessStart(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

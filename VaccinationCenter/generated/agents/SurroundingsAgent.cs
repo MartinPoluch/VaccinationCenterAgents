@@ -2,6 +2,7 @@ using OSPABA;
 using simulation;
 using managers;
 using continualAssistants;
+using OSPRNG;
 
 namespace agents
 {
@@ -16,6 +17,7 @@ namespace agents
 			base(id, mySim, parent)
 		{
 			Init();
+			ExponentialRng = new ExponentialRNG(5.0);  //TODO only for validation, remove
 		}
 
 		override public void PrepareReplication()
@@ -39,8 +41,12 @@ namespace agents
 		}
 		//meta! tag="end"
 
+
+		public ExponentialRNG ExponentialRng { get; set; } //TODO only for validation, remove
+
 		public double GetArrivalsFrequency() {
-			return WorkDayTime / (double)PatientsPerDay;
+			//return WorkDayTime / (double)PatientsPerDay;
+			return ExponentialRng.Sample();
 		}
 	}
 }

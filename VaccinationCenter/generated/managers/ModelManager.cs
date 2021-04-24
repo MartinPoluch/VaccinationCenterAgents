@@ -38,22 +38,25 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		public void Init()
+		{
 		}
 
-		override public void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.PatientLeftCenter:
-					ProcessPatientLeftCenter(message);
-					break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.PatientLeftCenter:
+				ProcessPatientLeftCenter(message);
+			break;
 
-				case Mc.PatientArrival:
-					ProcessPatientArrival(message);
-					break;
+			case Mc.PatientArrival:
+				ProcessPatientArrival(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

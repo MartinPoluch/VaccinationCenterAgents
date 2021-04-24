@@ -22,8 +22,12 @@ namespace simulation
 		public const int AdminEndBreak = 1017;
 		public const int DoctorEndBreak = 1018;
 		public const int NurseEndBreak = 1020;
-		public const int ServiceProcessDone = 1021;
-		public const int LunchBreakScheduled = 1022;
+		public const int RegistrationProcessEnd = 1021;
+		public const int AdminLunchBreak = 1022;
+		public const int ExaminationProcessEnd = 1023;
+		public const int DoctorLunchBreak = 1024;
+		public const int NurseLunchBreak = 1025;
+		public const int VaccinationProcessEnd = 1026;
 		public const int EndOfMove = 1027;
 		public const int FromRegistration = 1028;
 		public const int FromExamination = 1029;

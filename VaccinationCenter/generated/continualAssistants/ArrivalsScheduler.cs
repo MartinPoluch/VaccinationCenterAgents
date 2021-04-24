@@ -1,11 +1,13 @@
 using OSPABA;
 using simulation;
 using agents;
+using OSPRNG;
 using VaccinationCenter.entities;
 
 namespace continualAssistants {
 	//meta! id="30"
 	public class ArrivalsScheduler : Scheduler {
+
 		public ArrivalsScheduler(int id, Simulation mySim, CommonAgent myAgent) :
 			base(id, mySim, myAgent) {
 		}
@@ -28,11 +30,11 @@ namespace continualAssistants {
 		public void ProcessDefault(MessageForm message) {
 			switch (message.Code) {
 				case Mc.NewArrival: {
-					((MyMessage)message).Patient = new Patient(MySim);
-					Notice(message);
-					Hold(MyAgent.GetArrivalsFrequency(), message.CreateCopy());
-					break;
-				}
+						((MyMessage)message).Patient = new Patient(MySim);
+						Notice(message);
+						Hold(MyAgent.GetArrivalsFrequency(), message.CreateCopy());
+						break;
+					}
 			}
 		}
 

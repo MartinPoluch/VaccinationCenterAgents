@@ -13,10 +13,8 @@ namespace VaccinationCenter.common {
 
 	public abstract class ServiceManager : Manager {
 
-
-		public ServiceManager(int id, Simulation mySim, Agent myAgent) :
+		protected ServiceManager(int id, Simulation mySim, Agent myAgent) :
 			base(id, mySim, myAgent) {
-			Init();
 		}
 
 		public override void PrepareReplication() {
@@ -58,14 +56,18 @@ namespace VaccinationCenter.common {
 		}
 
 		private void StartService(MyMessage message) {
+			double startOfWaiting = message.Patient.StartOfWaiting[MyAgent.GetServiceType()];
+			double waitingTime = MySim.CurrentTime - startOfWaiting;
+			MyAgent.WaitingTimes.AddSample(waitingTime);
+
 			ServiceEntity service = GetFreeService();
-			service.ServiceStatus = ServiceStatus.Occupied;
+			service.Occupy();
 			message.Service = service;
 			message.Addressee = MyAgent.GetServiceProcess();
 			StartContinualAssistant(message);
 		}
 
-		public void GoToServiceOrQueue(MyMessage message) {
+		protected void GoToServiceOrQueue(MyMessage message) {
 			Patient patient = message.Patient;
 			patient.StartOfWaiting[MyAgent.GetServiceType()] = MySim.CurrentTime;
 			if (IsAnyServiceFree()) {
@@ -76,59 +78,23 @@ namespace VaccinationCenter.common {
 			}
 		}
 
-		public void ProcessEndOfMove(MessageForm message) {
+		private void FreeService(MyMessage message) {
+			Debug.Assert(message.Service != null, "No service available");
+			ServiceEntity service = message.Service;
+			message.Service = null; // delete service reference
+			service.Free();
 		}
 
-
-		public void ProcessFinishMoveProcess(MessageForm message) {
-		}
-
-		public void ProcessFinishServiceProcess(MessageForm message) {
-		}
-
-		public void ProcessFinishBreakScheduler(MessageForm message) {
-		}
-
-		public void ProcessEndOfService(MessageForm msg) {
-			MyMessage message = (MyMessage)msg;
-			Console.WriteLine("End of service: " +MySim.CurrentTime);
-		}
-
-		public void ProcessStartBreak(MessageForm message) {
-		}
-
-		public void ProcessDefault(MessageForm message) {
-			switch (message.Code) {
+		protected void EndOfService(MyMessage message) {
+			FreeService(message);
+			if (! MyAgent.Queue.IsEmpty()) {
+				message.Patient = MyAgent.Queue.Dequeue(); // get first patient in queue
+				StartService(message); // we know that at least one service is free
 			}
-		}
-
-		public void Init() {
 		}
 
 		public override void ProcessMessage(MessageForm message) {
 			switch (message.Code) {
-				//case Mc.EndOfMove:
-				//	ProcessEndOfMove(message);
-				//	break;
-				//case SimId.MoveProcess:
-				//	ProcessFinishMoveProcess(message);
-				//	break;
-				//case SimId.ServiceProcess:
-				//	ProcessFinishServiceProcess(message);
-				//	break;
-				//case SimId.BreakScheduler:
-				//	ProcessFinishBreakScheduler(message);
-				//	break;
-				//case Mc.StartBreak:
-				//	ProcessStartBreak(message);
-				//	break;
-				//case Mc.EndOfService:
-				//	ProcessEndOfService(message);
-				//	break;
-
-				//default:
-				//	ProcessDefault(message);
-				//	break;
 			}
 		}
 

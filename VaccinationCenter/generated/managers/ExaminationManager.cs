@@ -26,7 +26,7 @@ namespace managers
 		}
 
 		//meta! sender="DoctorLunchScheduler", id="89", type="Notice"
-		public void ProcessLunchBreakScheduled(MessageForm message)
+		public void ProcessDoctorLunchBreak(MessageForm message)
 		{
 		}
 
@@ -46,7 +46,7 @@ namespace managers
 		}
 
 		//meta! sender="ExaminationProcess", id="88", type="Notice"
-		public void ProcessServiceProcessDone(MessageForm message)
+		public void ProcessExaminationProcessEnd(MessageForm message)
 		{
 		}
 
@@ -89,16 +89,16 @@ namespace managers
 				ProcessExamination(message);
 			break;
 
-			case Mc.LunchBreakScheduled:
-				ProcessLunchBreakScheduled(message);
+			case Mc.DoctorLunchBreak:
+				ProcessDoctorLunchBreak(message);
 			break;
 
 			case Mc.DoctorEndBreak:
 				ProcessDoctorEndBreak(message);
 			break;
 
-			case Mc.ServiceProcessDone:
-				ProcessServiceProcessDone(message);
+			case Mc.ExaminationProcessEnd:
+				ProcessExaminationProcessEnd(message);
 			break;
 
 			default:

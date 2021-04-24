@@ -18,9 +18,9 @@ namespace VaccinationCenter.common {
 
 		protected ServiceAgent(int id, Simulation mySim, Agent parent) :
 			base(id, mySim, parent) {
-			Init();
 			QueueLengthStat = new WStat(MySim);
 			Queue = new SimQueue<Patient>(QueueLengthStat);
+			WaitingTimes = new Stat();
 		}
 
 		public SimQueue<Patient> Queue { get; set; }
@@ -30,6 +30,12 @@ namespace VaccinationCenter.common {
 		public List<ServiceEntity> ServiceEntities { get; set; }
 
 		public Dictionary<int, UniformDiscreteRNG> ServiceDecisions { get; set; }
+
+		public Stat WaitingTimes { get; }
+
+		public double GetAverageServiceOccupancy() {
+			return (ServiceEntities.Sum(x => x.ServiceStat.GetServiceOccupancy()) / ServiceEntities.Count);
+		}
 
 		/**
 		 * Template method design patter.
@@ -57,10 +63,7 @@ namespace VaccinationCenter.common {
 			base.PrepareReplication();
 			QueueLengthStat.Clear();
 			Queue.Clear();
-		}
-
-		private void Init() {
-			
+			WaitingTimes.Clear();
 		}
 	}
 }

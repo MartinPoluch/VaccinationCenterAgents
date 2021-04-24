@@ -35,14 +35,15 @@ namespace agents {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		private void Init() {
+		private void Init()
+		{
 			new RegistrationManager(SimId.RegistrationManager, MySim, this);
 			new AdminLunchScheduler(SimId.AdminLunchScheduler, MySim, this);
 			new RegistrationProcess(SimId.RegistrationProcess, MySim, this);
 			AddOwnMessage(Mc.Registration);
-			AddOwnMessage(Mc.LunchBreakScheduled);
+			AddOwnMessage(Mc.AdminLunchBreak);
 			AddOwnMessage(Mc.AdminEndBreak);
-			AddOwnMessage(Mc.ServiceProcessDone);
+			AddOwnMessage(Mc.RegistrationProcessEnd);
 		}
 		//meta! tag="end"
 	}
