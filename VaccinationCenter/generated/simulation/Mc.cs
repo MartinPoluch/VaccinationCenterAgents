@@ -4,6 +4,7 @@ namespace simulation
 	public class Mc : IdList
 	{
 		//meta! userInfo="Generated code: do not modify", tag="begin"
+		public const int EndOfMove = 1038;
 		public const int PatientArrival = 1001;
 		public const int PatientEnterCenter = 1002;
 		public const int Registration = 1003;
@@ -28,10 +29,7 @@ namespace simulation
 		public const int DoctorLunchBreak = 1024;
 		public const int NurseLunchBreak = 1025;
 		public const int VaccinationProcessEnd = 1026;
-		public const int EndOfMove = 1027;
-		public const int FromRegistration = 1028;
-		public const int FromExamination = 1029;
-		public const int FromVaccination = 1030;
+		public const int MoveToAnotherRoom = 1029;
 		public const int EndOfWaiting = 1031;
 		//meta! tag="end"
 

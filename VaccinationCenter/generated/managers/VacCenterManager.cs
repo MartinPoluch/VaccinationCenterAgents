@@ -22,12 +22,9 @@ namespace managers {
 		}
 
 		//meta! sender="MovementAgent", id="105", type="Response"
-		public void ProcessFromExamination(MessageForm message) {
+		public void ProcessMoveToAnotherRoom(MessageForm message) {
 		}
 
-		//meta! sender="MovementAgent", id="106", type="Response"
-		public void ProcessFromVaccination(MessageForm message) {
-		}
 
 		//meta! sender="ExaminationAgent", id="26", type="Notice"
 		public void ProcessDoctorStartBreak(MessageForm message) {
@@ -39,6 +36,9 @@ namespace managers {
 
 		//meta! sender="VaccinationAgent", id="22", type="Response"
 		public void ProcessVaccination(MessageForm message) {
+			message.Addressee = MySim.FindAgent(SimId.WaitingAgent);
+			message.Code = Mc.Waiting;
+			Request(message);
 		}
 
 		//meta! sender="VaccinationAgent", id="27", type="Notice"
@@ -47,15 +47,13 @@ namespace managers {
 
 		//meta! sender="RegistrationAgent", id="20", type="Response"
 		public void ProcessRegistration(MessageForm message) {
-		
+			message.Addressee = MySim.FindAgent(SimId.ExaminationAgent);
+			message.Code = Mc.Examination;
+			Request(message);
 		}
 
 		//meta! sender="LunchAgent", id="28", type="Response"
 		public void ProcessLunchBreak(MessageForm message) {
-		}
-
-		//meta! sender="MovementAgent", id="104", type="Response"
-		public void ProcessFromRegistration(MessageForm message) {
 		}
 
 		//meta! sender="ModelAgent", id="19", type="Notice"
@@ -67,10 +65,16 @@ namespace managers {
 
 		//meta! sender="ExaminationAgent", id="21", type="Response"
 		public void ProcessExamination(MessageForm message) {
+			message.Addressee = MySim.FindAgent(SimId.VaccinationAgent);
+			message.Code = Mc.Vaccination;
+			Request(message);
 		}
 
 		//meta! sender="WaitingAgent", id="23", type="Response"
 		public void ProcessWaiting(MessageForm message) {
+			message.Addressee = MySim.FindAgent(SimId.ModelAgent);
+			message.Code = Mc.PatientLeftCenter;
+			Notice(message);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
@@ -92,10 +96,6 @@ namespace managers {
 				ProcessPatientEnterCenter(message);
 			break;
 
-			case Mc.FromVaccination:
-				ProcessFromVaccination(message);
-			break;
-
 			case Mc.Vaccination:
 				ProcessVaccination(message);
 			break;
@@ -108,8 +108,8 @@ namespace managers {
 				ProcessRegistration(message);
 			break;
 
-			case Mc.FromExamination:
-				ProcessFromExamination(message);
+			case Mc.MoveToAnotherRoom:
+				ProcessMoveToAnotherRoom(message);
 			break;
 
 			case Mc.Examination:
@@ -118,10 +118,6 @@ namespace managers {
 
 			case Mc.LunchBreak:
 				ProcessLunchBreak(message);
-			break;
-
-			case Mc.FromRegistration:
-				ProcessFromRegistration(message);
 			break;
 
 			case Mc.Waiting:

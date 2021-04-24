@@ -24,15 +24,13 @@ namespace agents
 		private void Init()
 		{
 			new VacCenterManager(SimId.VacCenterManager, MySim, this);
-			AddOwnMessage(Mc.FromExamination);
-			AddOwnMessage(Mc.FromVaccination);
+			AddOwnMessage(Mc.MoveToAnotherRoom);
 			AddOwnMessage(Mc.DoctorStartBreak);
 			AddOwnMessage(Mc.AdminStartBreak);
 			AddOwnMessage(Mc.Vaccination);
 			AddOwnMessage(Mc.NurseStartBreak);
 			AddOwnMessage(Mc.Registration);
 			AddOwnMessage(Mc.LunchBreak);
-			AddOwnMessage(Mc.FromRegistration);
 			AddOwnMessage(Mc.PatientEnterCenter);
 			AddOwnMessage(Mc.Examination);
 			AddOwnMessage(Mc.Waiting);

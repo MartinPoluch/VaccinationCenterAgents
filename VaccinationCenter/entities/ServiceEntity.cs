@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using OSPABA;
 using OSPRNG;
+using VaccinationCenter.stats;
 
 namespace VaccinationCenter.entities {
 
-	public abstract class ServiceEntity : Entity {
+	public abstract class ServiceEntity : Entity, Resettable {
 
 		protected ServiceEntity(Simulation mySim) : base(mySim) {
 			ServiceStatus = ServiceStatus.Free;
@@ -17,7 +18,14 @@ namespace VaccinationCenter.entities {
 			ServiceStat = new ServiceStat(mySim);
 		}
 
+		public void Reset() {
+			ServiceStatus = ServiceStatus.Free;
+			ServiceStat.Reset();
+		}
+
 		public RNG<double> ServiceDurationGen { get; protected set; }
+
+		public ServiceType ServiceType { get; protected set; }
 
 		public ServiceStatus ServiceStatus { get; private set; }
 

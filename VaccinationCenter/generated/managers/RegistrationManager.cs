@@ -17,9 +17,6 @@ namespace managers {
 			base.PrepareReplication();
 			// Setup component for the next replication
 
-			if (PetriNet != null) {
-				PetriNet.Clear();
-			}
 		}
 
 		//meta! sender="VacCenterAgent", id="20", type="Request"
@@ -44,12 +41,12 @@ namespace managers {
 		}
 
 		//meta! sender="RegistrationProcess", id="72", type="Notice"
-		public void ProcessRegistrationProcessEnd(MessageForm msg) {
-			EndOfService((MyMessage)msg);
-			MyMessage message = (MyMessage)msg.CreateCopy();
-			message.Service = null;
-			message.Code = Mc.Registration;
-			Response(message);
+		public void ProcessRegistrationProcessEnd(MessageForm message) {
+			EndOfService((MyMessage)message);
+			MyMessage endOfRegistration = (MyMessage)message.CreateCopy();
+			endOfRegistration.Service = null;
+			endOfRegistration.Code = Mc.Registration;
+			Response(endOfRegistration);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
@@ -59,30 +56,46 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		public void Init()
+		{
 		}
 
-		override public void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.Registration:
-					ProcessRegistration(message);
-					break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.Finish:
+				switch (message.Sender.Id)
+				{
+				case SimId.AdminLunchScheduler:
+					ProcessFinishAdminLunchScheduler(message);
+				break;
 
-				case Mc.RegistrationProcessEnd:
-					ProcessRegistrationProcessEnd(message);
-					break;
+				case SimId.RegistrationProcess:
+					ProcessFinishRegistrationProcess(message);
+				break;
+				}
+			break;
 
-				case Mc.AdminEndBreak:
-					ProcessAdminEndBreak(message);
-					break;
+			case Mc.Registration:
+				ProcessRegistration(message);
+			break;
 
-				case Mc.AdminLunchBreak:
-					ProcessAdminLunchBreak(message);
-					break;
+			case Mc.RegistrationProcessEnd:
+				ProcessRegistrationProcessEnd(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			case Mc.AdminEndBreak:
+				ProcessAdminEndBreak(message);
+			break;
+
+			case Mc.AdminLunchBreak:
+				ProcessAdminLunchBreak(message);
+			break;
+
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

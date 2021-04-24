@@ -22,6 +22,9 @@ namespace managers {
 
 		//meta! sender="VacCenterAgent", id="48", type="Notice"
 		public void ProcessPatientLeftCenter(MessageForm message) {
+			message.Addressee = MySim.FindAgent(SimId.SurroundingsAgent);
+			message.Code = Mc.PatientExit;
+			Notice(message);
 		}
 
 		//meta! sender="SurroundingsAgent", id="18", type="Notice"

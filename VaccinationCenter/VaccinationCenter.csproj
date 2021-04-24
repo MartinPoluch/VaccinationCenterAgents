@@ -46,13 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="common\Initializable.cs" />
     <Compile Include="common\ServiceAgent.cs" />
     <Compile Include="common\ServiceManager.cs" />
     <Compile Include="entities\AdminWorker.cs" />
     <Compile Include="entities\Doctor.cs" />
+    <Compile Include="entities\Nurse.cs" />
     <Compile Include="entities\Patient.cs" />
     <Compile Include="entities\ServiceEntity.cs" />
-    <Compile Include="entities\ServiceStat.cs" />
+    <Compile Include="stats\Resettable.cs" />
+    <Compile Include="stats\ServiceReplicationStat.cs" />
+    <Compile Include="stats\ServiceStat.cs" />
     <Compile Include="entities\ServiceStatus.cs" />
     <Compile Include="entities\ServiceType.cs" />
     <Compile Include="generated\agents\ExaminationAgent.cs" />

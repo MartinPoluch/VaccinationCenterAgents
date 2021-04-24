@@ -14,7 +14,7 @@ using VaccinationCenter.models;
 
 namespace VaccinationCenter.common {
 
-	public abstract class ServiceAgent : Agent {
+	public abstract class ServiceAgent : Agent, Initializable {
 
 		protected ServiceAgent(int id, Simulation mySim, Agent parent) :
 			base(id, mySim, parent) {
@@ -40,7 +40,7 @@ namespace VaccinationCenter.common {
 		/**
 		 * Template method design patter.
 		 */
-		public virtual void Initialization(SimParameter simParameter) {
+		public virtual void Initialize(SimParameter simParameter) {
 			ServiceEntities = new List<ServiceEntity>();
 			int numOfServices = simParameter.GetNumberOfServices(GetServiceType());
 			for (int i = 0; i < numOfServices; i++) {
@@ -64,6 +64,9 @@ namespace VaccinationCenter.common {
 			QueueLengthStat.Clear();
 			Queue.Clear();
 			WaitingTimes.Clear();
+			foreach (ServiceEntity service in ServiceEntities) {
+				
+			}
 		}
 	}
 }

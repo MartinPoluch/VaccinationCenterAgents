@@ -17,5 +17,6 @@ namespace VaccinationCenter.entities {
 		}
 
 		public Dictionary<ServiceType, double> StartOfWaiting { get; set; }
+
 	}
 }

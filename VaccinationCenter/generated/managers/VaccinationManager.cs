@@ -2,10 +2,11 @@ using OSPABA;
 using simulation;
 using agents;
 using continualAssistants;
+using VaccinationCenter.common;
 
 namespace managers {
 	//meta! id="4"
-	public class VaccinationManager : Manager {
+	public class VaccinationManager : ServiceManager {
 		public VaccinationManager(int id, Simulation mySim, Agent myAgent) :
 			base(id, mySim, myAgent) {
 			Init();
@@ -22,6 +23,7 @@ namespace managers {
 
 		//meta! sender="VacCenterAgent", id="22", type="Request"
 		public void ProcessVaccination(MessageForm message) {
+			GoToServiceOrQueue((MyMessage)message);
 		}
 
 		//meta! sender="NursesLunchScheduler", id="95", type="Notice"
@@ -38,6 +40,11 @@ namespace managers {
 
 		//meta! sender="VaccinationProcess", id="97", type="Notice"
 		public void ProcessVaccinationProcessEnd(MessageForm message) {
+			EndOfService((MyMessage)message);
+			MyMessage endOfVaccination = (MyMessage)message.CreateCopy();
+			endOfVaccination.Service = null;
+			endOfVaccination.Code = Mc.Vaccination;
+			Response(endOfVaccination);
 		}
 
 		//meta! sender="VacCenterAgent", id="59", type="Notice"

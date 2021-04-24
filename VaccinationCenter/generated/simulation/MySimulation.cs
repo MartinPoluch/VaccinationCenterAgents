@@ -1,10 +1,17 @@
 using System;
+using System.Collections.Generic;
 using OSPABA;
 using agents;
+using OSPStat;
+using VaccinationCenter.common;
+using VaccinationCenter.entities;
 using VaccinationCenter.models;
+using VaccinationCenter.stats;
 
 namespace simulation {
+
 	public class MySimulation : Simulation {
+
 		public MySimulation(SimParameter simParameter) {
 			Init();
 			SimParameter = simParameter;
@@ -12,31 +19,69 @@ namespace simulation {
 
 		private SimParameter SimParameter { get; set; }
 
+		private List<ServiceAgent> ServiceAgents { get; set; }
+
+		public Dictionary<ServiceType, ServiceReplicationStat> ServiceAgentStats { get; set; }
+
+		public Stat WaitingRoomStat { get; set; }
+
 		protected override void PrepareSimulation() {
 			base.PrepareSimulation();
-			RegistrationAgent.Initialization(SimParameter);
+			//initialize stats
+			ServiceAgents = new List<ServiceAgent>() {RegistrationAgent, ExaminationAgent, VaccinationAgent};
+			ServiceAgentStats = new Dictionary<ServiceType, ServiceReplicationStat>() {
+				[ServiceType.AdminWorker] = new ServiceReplicationStat(),
+				[ServiceType.Doctor] = new ServiceReplicationStat(),
+				[ServiceType.Nurse] = new ServiceReplicationStat(),
+			};
+			WaitingRoomStat = new Stat();
+
+			Initializable[] initAgents = { // agents that needs Simulation Parameter for their initialization
+				SurroundingsAgent, RegistrationAgent, ExaminationAgent, VaccinationAgent
+			};
+			foreach (Initializable agent in initAgents) {
+				agent.Initialize(SimParameter);
+			}
 		}
 
 		protected override void PrepareReplication() {
 			base.PrepareReplication();
-			// Reset entities, queues, local statistics, etc...
+			if (CurrentReplication % 100 == 0) {
+				Console.WriteLine($"Replication: {CurrentReplication}");
+			}
 		}
 
 		protected override void ReplicationFinished() {
-			// Collect local statistics into global, update UI, etc...
 			base.ReplicationFinished();
+			foreach (ServiceAgent serviceAgent in ServiceAgents) {
+				ServiceReplicationStat replicationStat = ServiceAgentStats[serviceAgent.GetServiceType()];
+				replicationStat.UpdateStats(serviceAgent);
+			}
+			WaitingRoomStat.AddSample(WaitingAgent.WaitingRoomStat.Mean());
 		}
 
 		protected override void SimulationFinished() {
 			base.SimulationFinished();
-			Console.WriteLine("Simulation finished");
-			Console.WriteLine($"Avg queue length: {RegistrationAgent.QueueLengthStat.Mean()}");
-			Console.WriteLine($"Avg waiting time: {RegistrationAgent.WaitingTimes.Mean()}");
-			Console.WriteLine($"Avg service occupancy: {RegistrationAgent.GetAverageServiceOccupancy()}");
+			PrintResults();
+		}
+
+		private void PrintResults() {
+			Console.WriteLine("\n-----------------------------------------------");
+			foreach (var pair in ServiceAgentStats) {
+				Console.WriteLine($"Service type: {pair.Key}");
+				var replicationStat = pair.Value;
+				Console.WriteLine($"Avg queue length: {replicationStat.QueueLengths.Mean()}");
+				Console.WriteLine($"Avg wait times: {replicationStat.WaitingTimes.Mean()}");
+				Console.WriteLine($"Avg service occupancy: {replicationStat.Occupancy.Mean()}");
+				Console.WriteLine("\n-----------------------------------------------");
+			}
+
+			Console.WriteLine($"Avg. waiting patients: {WaitingRoomStat.Mean()}");
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		private void Init() {
+		private void Init()
+		{
 			ModelAgent = new ModelAgent(SimId.ModelAgent, this, null);
 			SurroundingsAgent = new SurroundingsAgent(SimId.SurroundingsAgent, this, ModelAgent);
 			VacCenterAgent = new VacCenterAgent(SimId.VacCenterAgent, this, ModelAgent);
@@ -47,15 +92,24 @@ namespace simulation {
 			WaitingAgent = new WaitingAgent(SimId.WaitingAgent, this, VacCenterAgent);
 			MovementAgent = new MovementAgent(SimId.MovementAgent, this, VacCenterAgent);
 		}
-		public ModelAgent ModelAgent { get; set; }
-		public SurroundingsAgent SurroundingsAgent { get; set; }
-		public VacCenterAgent VacCenterAgent { get; set; }
-		public VaccinationAgent VaccinationAgent { get; set; }
-		public ExaminationAgent ExaminationAgent { get; set; }
-		public RegistrationAgent RegistrationAgent { get; set; }
-		public LunchAgent LunchAgent { get; set; }
-		public WaitingAgent WaitingAgent { get; set; }
-		public MovementAgent MovementAgent { get; set; }
+		public ModelAgent ModelAgent
+		{ get; set; }
+		public SurroundingsAgent SurroundingsAgent
+		{ get; set; }
+		public VacCenterAgent VacCenterAgent
+		{ get; set; }
+		public VaccinationAgent VaccinationAgent
+		{ get; set; }
+		public ExaminationAgent ExaminationAgent
+		{ get; set; }
+		public RegistrationAgent RegistrationAgent
+		{ get; set; }
+		public LunchAgent LunchAgent
+		{ get; set; }
+		public WaitingAgent WaitingAgent
+		{ get; set; }
+		public MovementAgent MovementAgent
+		{ get; set; }
 		//meta! tag="end"
 	}
 }

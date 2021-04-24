@@ -25,22 +25,17 @@ namespace managers
 			}
 		}
 
-		//meta! sender="MovementProcess", id="101", type="Notice"
-		public void ProcessEndOfMove(MessageForm message)
-		{
-		}
-
 		//meta! sender="VacCenterAgent", id="105", type="Request"
-		public void ProcessFromExamination(MessageForm message)
+		public void ProcessMoveToAnotherRoom(MessageForm message)
 		{
 		}
 
-		//meta! sender="VacCenterAgent", id="106", type="Request"
+		//meta! userInfo="Removed from model"
 		public void ProcessFromVaccination(MessageForm message)
 		{
 		}
 
-		//meta! sender="VacCenterAgent", id="104", type="Request"
+		//meta! userInfo="Removed from model"
 		public void ProcessFromRegistration(MessageForm message)
 		{
 		}
@@ -58,6 +53,11 @@ namespace managers
 			}
 		}
 
+		//meta! sender="MovementProcess", id="137", type="Notice"
+		public void ProcessEndOfMove(MessageForm message)
+		{
+		}
+
 		//meta! userInfo="Generated code: do not modify", tag="begin"
 		public void Init()
 		{
@@ -67,20 +67,12 @@ namespace managers
 		{
 			switch (message.Code)
 			{
-			case Mc.FromExamination:
-				ProcessFromExamination(message);
+			case Mc.MoveToAnotherRoom:
+				ProcessMoveToAnotherRoom(message);
 			break;
 
 			case Mc.Finish:
 				ProcessFinish(message);
-			break;
-
-			case Mc.FromVaccination:
-				ProcessFromVaccination(message);
-			break;
-
-			case Mc.FromRegistration:
-				ProcessFromRegistration(message);
 			break;
 
 			case Mc.EndOfMove:

@@ -2,16 +2,32 @@ using OSPABA;
 using simulation;
 using managers;
 using continualAssistants;
+using VaccinationCenter.common;
+using VaccinationCenter.entities;
 
 namespace agents
 {
 	//meta! id="5"
-	public class ExaminationAgent : Agent
+	public class ExaminationAgent : ServiceAgent
 	{
 		public ExaminationAgent(int id, Simulation mySim, Agent parent) :
-			base(id, mySim, parent)
-		{
+			base(id, mySim, parent) {
 			Init();
+			ExaminationProcess = (ContinualAssistant)FindAssistant(SimId.ExaminationProcess);
+		}
+
+		private ContinualAssistant ExaminationProcess { get; }
+
+		protected override ServiceEntity CreateEntity() {
+			return new Doctor(MySim);
+		}
+
+		public override ServiceType GetServiceType() {
+			return ServiceType.Doctor;
+		}
+
+		public override ContinualAssistant GetServiceProcess() {
+			return ExaminationProcess;
 		}
 
 		override public void PrepareReplication()

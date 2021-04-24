@@ -12,42 +12,53 @@ namespace continualAssistants {
 			base(id, mySim, myAgent) {
 		}
 
-		override public void PrepareReplication() {
+		public override void PrepareReplication() {
 			base.PrepareReplication();
 			// Setup component for the next replication
 		}
 
 		//meta! sender="SurroundingsAgent", id="31", type="Start"
-		public void ProcessStart(MessageForm msg) {
-			MyMessage message = (MyMessage)msg;
+		public void ProcessStart(MessageForm message) {
 			message.Code = Mc.NewArrival;
-			message.Patient = new Patient(MySim);
-			Notice(message);
-			Hold(MyAgent.GetArrivalsFrequency(), message.CreateCopy());
+			NewArrivalProcess(message);
+		}
+
+		private void NewArrivalProcess(MessageForm message) {
+			MyMessage newArrival = (MyMessage)message;
+			Patient patient = new Patient(MySim); // incrementation of patient Id
+			if (MyAgent.PatientIsMissing()) {
+				MyAgent.PatientsMissing++;
+			}
+			else {
+				newArrival.Patient = patient;
+				Notice(newArrival);
+			}
+
+			Hold(MyAgent.GetArrivalsFrequency(), newArrival.CreateCopy());
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
 		public void ProcessDefault(MessageForm message) {
 			switch (message.Code) {
 				case Mc.NewArrival: {
-						((MyMessage)message).Patient = new Patient(MySim);
-						Notice(message);
-						Hold(MyAgent.GetArrivalsFrequency(), message.CreateCopy());
-						break;
-					}
+					NewArrivalProcess(message);
+					break;
+				}
 			}
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		override public void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.Start:
-					ProcessStart(message);
-					break;
+		public override void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.Start:
+				ProcessStart(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

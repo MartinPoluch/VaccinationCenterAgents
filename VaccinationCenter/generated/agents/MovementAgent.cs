@@ -25,10 +25,8 @@ namespace agents
 		{
 			new MovementManager(SimId.MovementManager, MySim, this);
 			new MovementProcess(SimId.MovementProcess, MySim, this);
+			AddOwnMessage(Mc.MoveToAnotherRoom);
 			AddOwnMessage(Mc.EndOfMove);
-			AddOwnMessage(Mc.FromExamination);
-			AddOwnMessage(Mc.FromVaccination);
-			AddOwnMessage(Mc.FromRegistration);
 		}
 		//meta! tag="end"
 	}

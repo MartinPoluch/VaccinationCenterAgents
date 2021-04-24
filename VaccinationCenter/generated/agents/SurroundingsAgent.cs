@@ -3,27 +3,51 @@ using simulation;
 using managers;
 using continualAssistants;
 using OSPRNG;
+using VaccinationCenter.common;
+using VaccinationCenter.models;
 
-namespace agents
-{
+namespace agents {
 	//meta! id="2"
-	public class SurroundingsAgent : Agent
-	{
+	public class SurroundingsAgent : Agent, Initializable {
 
-		public readonly int PatientsPerDay = 540;
 		public readonly double WorkDayTime = 9 * 60 * 60;
 
 		public SurroundingsAgent(int id, Simulation mySim, Agent parent) :
-			base(id, mySim, parent)
-		{
+			base(id, mySim, parent) {
 			Init();
-			ExponentialRng = new ExponentialRNG(5.0);  //TODO only for validation, remove
+			MissingDecisionGen = new UniformContinuousRNG(0, 1);
 		}
 
-		override public void PrepareReplication()
-		{
+		public int PatientsPerDay { get; private set; } // planned number of patients per day
+
+		public int PatientsArrived { get; set; }
+
+		public int PatientsLeft { get; set; }
+
+		public int PatientsMissing { get; set; }
+
+		private UniformDiscreteRNG MissingPatientsGen { get; set; }
+
+		private RNG<double> MissingDecisionGen { get; set; }
+
+		private double ProbabilityOfMissing { get; set; }
+
+		public void Initialize(SimParameter parameter) {
+			PatientsPerDay = parameter.NumOfPatients;
+			MissingPatientsGen = new UniformDiscreteRNG(
+				parameter.GetMinMissingPatients(),
+				parameter.GetMaxMissingPatients());
+		}
+
+		public override void PrepareReplication() {
 			base.PrepareReplication();
-			base.PrepareReplication();
+			PatientsArrived = 0;
+			PatientsLeft = 0;
+			PatientsMissing = 0;
+
+			double missingPatients = MissingPatientsGen.Sample();
+			ProbabilityOfMissing = missingPatients / (double)PatientsPerDay;
+
 			MyMessage initialMsg = new MyMessage(MySim) {
 				Addressee = this,
 				Code = Mc.Initialization,
@@ -32,8 +56,7 @@ namespace agents
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		private void Init()
-		{
+		private void Init() {
 			new SurroundingsManager(SimId.SurroundingsManager, MySim, this);
 			new ArrivalsScheduler(SimId.ArrivalsScheduler, MySim, this);
 			AddOwnMessage(Mc.PatientExit);
@@ -41,12 +64,12 @@ namespace agents
 		}
 		//meta! tag="end"
 
-
-		public ExponentialRNG ExponentialRng { get; set; } //TODO only for validation, remove
-
 		public double GetArrivalsFrequency() {
-			//return WorkDayTime / (double)PatientsPerDay;
-			return ExponentialRng.Sample();
+			return WorkDayTime / (double)PatientsPerDay;
+		}
+
+		public bool PatientIsMissing() {
+			return (MissingDecisionGen.Sample() < ProbabilityOfMissing);
 		}
 	}
 }

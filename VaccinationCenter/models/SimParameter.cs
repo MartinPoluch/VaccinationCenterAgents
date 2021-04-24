@@ -15,6 +15,8 @@ namespace VaccinationCenter.models {
 
 		public int NumOfNurses { get; set; }
 
+		public int NumOfPatients { get; set; }
+
 		public int GetNumberOfServices(ServiceType type) {
 			switch (type) {
 				case ServiceType.AdminWorker: {
@@ -31,6 +33,16 @@ namespace VaccinationCenter.models {
 					return -1;
 				}
 			}
+		}
+
+		public int GetMinMissingPatients() {
+			double ratio = 5 / (double)540;
+			return (int)Math.Round(ratio * NumOfPatients);
+		}
+
+		public int GetMaxMissingPatients() {
+			double ratio = 25 / (double)540;
+			return ((int)Math.Round(ratio * NumOfPatients)) - 1;
 		}
 	}
 }

@@ -7,10 +7,10 @@ using OSPABA;
 using OSPRNG;
 
 namespace VaccinationCenter.entities {
-	public class Doctor : ServiceEntity {
-		public Doctor(Simulation mySim) : base(mySim) {
-			ServiceDurationGen = new ExponentialRNG(260.0);
-			ServiceType = ServiceType.Doctor;
+	public class Nurse : ServiceEntity {
+		public Nurse(Simulation mySim) : base(mySim) {
+			ServiceDurationGen = new TriangularRNG(20, 75, 100);
+			ServiceType = ServiceType.Nurse;
 		}
 	}
 }
