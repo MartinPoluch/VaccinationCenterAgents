@@ -1,0 +1,37 @@
+using OSPABA;
+namespace simulation
+{
+	public class Mc : IdList
+	{
+		//meta! userInfo="Generated code: do not modify", tag="begin"
+		public const int PatientArrival = 1001;
+		public const int PatientEnterCenter = 1002;
+		public const int Registration = 1003;
+		public const int Examination = 1004;
+		public const int Vaccination = 1005;
+		public const int Waiting = 1006;
+		public const int AdminStartBreak = 1007;
+		public const int DoctorStartBreak = 1008;
+		public const int NurseStartBreak = 1009;
+		public const int LunchBreak = 1010;
+		public const int NewArrival = 1011;
+		public const int EndOfTravel = 1012;
+		public const int EndOfLunch = 1014;
+		public const int PatientLeftCenter = 1015;
+		public const int PatientExit = 1016;
+		public const int AdminEndBreak = 1017;
+		public const int DoctorEndBreak = 1018;
+		public const int NurseEndBreak = 1020;
+		public const int ServiceProcessDone = 1021;
+		public const int LunchBreakScheduled = 1022;
+		public const int EndOfMove = 1027;
+		public const int FromRegistration = 1028;
+		public const int FromExamination = 1029;
+		public const int FromVaccination = 1030;
+		public const int EndOfWaiting = 1031;
+		//meta! tag="end"
+
+		// 1..1000 range reserved for user
+		public const int Initialization = 1;
+	}
+}

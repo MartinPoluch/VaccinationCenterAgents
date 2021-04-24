@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E6636A6A-B801-483E-803E-70C2F5880162}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>VaccinationCenter</RootNamespace>
+    <AssemblyName>VaccinationCenter</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ABACore">
+      <HintPath>..\ABACore.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="common\ServiceAgent.cs" />
+    <Compile Include="common\ServiceManager.cs" />
+    <Compile Include="entities\AdminWorker.cs" />
+    <Compile Include="entities\Doctor.cs" />
+    <Compile Include="entities\Patient.cs" />
+    <Compile Include="entities\ServiceEntity.cs" />
+    <Compile Include="entities\ServiceStatus.cs" />
+    <Compile Include="entities\ServiceType.cs" />
+    <Compile Include="generated\agents\ExaminationAgent.cs" />
+    <Compile Include="generated\agents\LunchAgent.cs" />
+    <Compile Include="generated\agents\ModelAgent.cs" />
+    <Compile Include="generated\agents\MovementAgent.cs" />
+    <Compile Include="generated\agents\RegistrationAgent.cs" />
+    <Compile Include="generated\agents\SurroundingsAgent.cs" />
+    <Compile Include="generated\agents\VacCenterAgent.cs" />
+    <Compile Include="generated\agents\VaccinationAgent.cs" />
+    <Compile Include="generated\agents\WaitingAgent.cs" />
+    <Compile Include="generated\continualAssistants\AdminLunchScheduler.cs" />
+    <Compile Include="generated\continualAssistants\ArrivalsScheduler.cs" />
+    <Compile Include="generated\continualAssistants\DoctorLunchScheduler.cs" />
+    <Compile Include="generated\continualAssistants\ExaminationProcess.cs" />
+    <Compile Include="generated\continualAssistants\LunchProcess.cs" />
+    <Compile Include="generated\continualAssistants\MovementProcess.cs" />
+    <Compile Include="generated\continualAssistants\NursesLunchScheduler.cs" />
+    <Compile Include="generated\continualAssistants\RegistrationProcess.cs" />
+    <Compile Include="generated\continualAssistants\TravelProcess.cs" />
+    <Compile Include="generated\continualAssistants\VaccinationProcess.cs" />
+    <Compile Include="generated\continualAssistants\WaitingProcess.cs" />
+    <Compile Include="generated\instantAssistants\DummyAction.cs" />
+    <Compile Include="generated\managers\ExaminationManager.cs" />
+    <Compile Include="generated\managers\LunchManager.cs" />
+    <Compile Include="generated\managers\ModelManager.cs" />
+    <Compile Include="generated\managers\MovementManager.cs" />
+    <Compile Include="generated\managers\RegistrationManager.cs" />
+    <Compile Include="generated\managers\SurroundingsManager.cs" />
+    <Compile Include="generated\managers\VacCenterManager.cs" />
+    <Compile Include="generated\managers\VaccinationManager.cs" />
+    <Compile Include="generated\managers\WaitingManager.cs" />
+    <Compile Include="generated\simulation\Mc.cs" />
+    <Compile Include="generated\simulation\MyMessage.cs" />
+    <Compile Include="generated\simulation\MySimulation.cs" />
+    <Compile Include="generated\simulation\SimId.cs" />
+    <Compile Include="models\SimParameter.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
