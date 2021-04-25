@@ -4,9 +4,122 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
+        xmlns:chartControl="clr-namespace:GUI.ChartControl"
+        xmlns:inputs="clr-namespace:GUI.Inputs"
+        xmlns:outputs="clr-namespace:GUI.Outputs"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="1500">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBox Name="ConsoleOut" Grid.Row="5" Grid.Column="0" Height="100"  TextWrapping="Wrap" AcceptsReturn="True"  IsReadOnly="True" Margin="10"></TextBox>
+
+        <ToggleButton Name="StartAndStopBtn"  Grid.Row="0" Grid.Column="1"  Content ="Start"  Margin = "10" Width ="150"  HorizontalAlignment = "Center"  Checked = "StartClick" Unchecked = "StopClick" />
+        <ToggleButton Name="PauseAndContinueBtn"  Grid.Row="1" Grid.Column="1"  Content ="Pause"  Margin = "10" Width ="150"  HorizontalAlignment = "Center"  Checked = "PauseClick" Unchecked = "ContinueClick" />
+
+        <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Margin="10">
+            <TabItem Header="Current state">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <local:CurrentStateOutput x:Name="CurrentStateOutput" Grid.Row="0" Grid.Column="0"></local:CurrentStateOutput>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Replications">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <local:ReplicationOutput x:Name="ReplicationsOut" Grid.Row="0" Grid.Column="0" Margin="10"></local:ReplicationOutput>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Doctors dependency">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <TabControl Grid.Row="2" Grid.Column="1" Margin="10">
+            <TabItem Header="Simulation inputs">
+                <local:SimInput x:Name="SimInputs"></local:SimInput>
+            </TabItem>
+            <TabItem Header="Other inputs">
+                <inputs:OtherInput x:Name="OtherInputs"></inputs:OtherInput>
+            </TabItem>
+
+        </TabControl>
+
+        <GroupBox Grid.Row="3" Grid.Column="1" Header="Animation speed" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="5">Frequency</TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1" MinWidth="40" MaxHeight="25" Text="{Binding ElementName=FrequencySlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" Margin="5"/>
+                <Slider Name="FrequencySlider" Grid.Row="1" Grid.Column="0" Value="{Binding Path=VacCenterSim.AnimationFrequency}" Minimum="1" Maximum="600" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Margin="10"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="5">Duration</TextBlock>
+                <TextBox Grid.Row="3" Grid.Column="1" MinWidth="40" MaxHeight="25" Text="{Binding ElementName=DurationSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" Margin="5"/>
+                <Slider Name="DurationSlider" Grid.Row="3" Grid.Column="0" Value="{Binding Path=VacCenterSim.AnimationDuration}" Minimum="500" Maximum="1000" TickPlacement="BottomRight" TickFrequency="100" IsSnapToTickEnabled="True" Margin="10"/>
+
+            </Grid>
+        </GroupBox>
+
+        <Grid Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" FontSize="20" FontWeight="Bold" Margin="10">Replication:</TextBlock>
+            <TextBlock Name="CurrentReplicationOut"  Grid.Row="0" Grid.Column="1" FontSize="20" FontWeight="Bold" Margin="10">0</TextBlock>
+            <TextBlock Name="SimulationTimeOut" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" FontSize="25" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="00:00" Margin="10"></TextBlock>
+        </Grid>
+
+
     </Grid>
 </Window>

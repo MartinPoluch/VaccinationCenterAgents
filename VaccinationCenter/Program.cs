@@ -17,7 +17,8 @@ namespace VaccinationCenter {
 				NumOfNurses = 14,
 				NumOfPatients = 2500,
 			};
-			MySimulation simulation = new MySimulation(simParameter);
+			MySimulation simulation = new MySimulation();
+			simulation.SimParameter = simParameter;
 			int replication = 10000;
 			double endTime = double.MaxValue;
 			simulation.Simulate(replication, endTime);

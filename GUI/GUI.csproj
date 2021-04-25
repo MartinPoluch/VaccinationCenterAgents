@@ -38,6 +38,12 @@
     <Reference Include="ABACore">
       <HintPath>..\ABACore.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -58,6 +64,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Utils.cs" />
+    <Page Include="ChartControls\MyChart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Inputs\OtherInput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Inputs\SimInput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -66,12 +85,60 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ChartControls\MeasureModel.cs" />
+    <Compile Include="ChartControls\MyChart.xaml.cs">
+      <DependentUpon>MyChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Inputs\Mode.cs" />
+    <Compile Include="Inputs\OtherInput.xaml.cs">
+      <DependentUpon>OtherInput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Inputs\SimInput.xaml.cs">
+      <DependentUpon>SimInput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Outputs\CurrentStateOutput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Outputs\GeneralOutput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Outputs\ReplicationOutput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Outputs\RoomOutput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Outputs\RoomReplicationOutput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Outputs\CurrentStateOutput.xaml.cs">
+      <DependentUpon>CurrentStateOutput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outputs\GeneralOutput.xaml.cs">
+      <DependentUpon>GeneralOutput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outputs\OutputStat.cs" />
+    <Compile Include="Outputs\ReplicationOutput.xaml.cs">
+      <DependentUpon>ReplicationOutput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outputs\RoomOutput.xaml.cs">
+      <DependentUpon>RoomOutput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outputs\RoomReplicationOutput.xaml.cs">
+      <DependentUpon>RoomReplicationOutput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outputs\ServiceObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -89,6 +156,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -96,6 +164,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VaccinationCenter\VaccinationCenter.csproj">
+      <Project>{e6636a6a-b801-483e-803e-70c2f5880162}</Project>
+      <Name>VaccinationCenter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

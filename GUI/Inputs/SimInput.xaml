@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="GUI.SimInput"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GUI"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Grid.Row="0" Grid.Column="0" Header="General input" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="5">Replications:</TextBlock>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Replications}" PreviewTextInput="CheckIntegerInput" Margin="5"></TextBox>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="5">Source intensity (per day):</TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SourceIntensity}" PreviewTextInput="CheckIntegerInput" Margin="5"></TextBox>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="10">Replication refresh frequency::</TextBlock>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ReplicationRefreshFreq}" PreviewTextInput="CheckIntegerInput" Margin="10"></TextBox>
+
+                <CheckBox Name="MaximumSpeedCheckBox" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="{Binding MaximumSpeed}" Margin="5">Maximum speed (without animations)</CheckBox>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Grid.Column="0" Header="Staff capacity" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="10">Workers:</TextBlock>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding NumOfWorkers}" PreviewTextInput="CheckIntegerInput" Margin="10"></TextBox>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="10">Doctors:</TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding NumOfDoctors}" PreviewTextInput="CheckIntegerInput" Margin="10"></TextBox>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="10">Nurses:</TextBlock>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding NumOfNurses}" PreviewTextInput="CheckIntegerInput" Margin="10"></TextBox>
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

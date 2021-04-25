@@ -12,12 +12,11 @@ namespace simulation {
 
 	public class MySimulation : Simulation {
 
-		public MySimulation(SimParameter simParameter) {
+		public MySimulation() {
 			Init();
-			SimParameter = simParameter;
 		}
 
-		private SimParameter SimParameter { get; set; }
+		public SimParameter SimParameter { get; set; }
 
 		private List<ServiceAgent> ServiceAgents { get; set; }
 
@@ -25,9 +24,9 @@ namespace simulation {
 
 		public Stat WaitingRoomStat { get; set; }
 
-		public Stat PatientsLeft { get; set; }
+		public Stat PatientsLeftStat { get; set; }
 
-		public Stat PatientMissing { get; set; }
+		public Stat PatientsMissingStat { get; set; }
 
 		public Stat CoolingDurationStat { get; set; }
 
@@ -42,8 +41,8 @@ namespace simulation {
 			};
 			WaitingRoomStat = new Stat();
 			CoolingDurationStat = new Stat();
-			PatientsLeft = new Stat();
-			PatientMissing = new Stat();
+			PatientsLeftStat = new Stat();
+			PatientsMissingStat = new Stat();
 
 			Initializable[] initAgents = { // agents that needs Simulation Parameter for their initialization
 				SurroundingsAgent, RegistrationAgent, ExaminationAgent, VaccinationAgent
@@ -68,8 +67,8 @@ namespace simulation {
 			}
 			WaitingRoomStat.AddSample(WaitingAgent.WaitingRoomStat.Mean());
 			CoolingDurationStat.AddSample(SurroundingsAgent.LastPatientExitTime - SurroundingsAgent.WorkDayDuration);
-			PatientMissing.AddSample(SurroundingsAgent.PatientsMissing);
-			PatientsLeft.AddSample(SurroundingsAgent.PatientsLeft);
+			PatientsMissingStat.AddSample(SurroundingsAgent.PatientsMissing);
+			PatientsLeftStat.AddSample(SurroundingsAgent.PatientsLeft);
 		}
 
 		protected override void SimulationFinished() {
@@ -90,8 +89,8 @@ namespace simulation {
 
 			Console.WriteLine($"Avg. waiting patients: {WaitingRoomStat.Mean()}");
 			Console.WriteLine($"Avg. cooling: {CoolingDurationStat.Mean()/(3600)}");
-			Console.WriteLine($"Avg. patients left: {PatientsLeft.Mean()}");
-			Console.WriteLine($"Avg. patients missing: {PatientMissing.Mean()}");
+			Console.WriteLine($"Avg. patients left: {PatientsLeftStat.Mean()}");
+			Console.WriteLine($"Avg. patients missing: {PatientsMissingStat.Mean()}");
 
 
 		}
