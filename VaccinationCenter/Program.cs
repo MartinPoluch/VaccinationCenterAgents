@@ -18,7 +18,7 @@ namespace VaccinationCenter {
 				NumOfPatients = 540,
 			};
 			MySimulation simulation = new MySimulation(simParameter);
-			int replication = 1000;
+			int replication = 10000;
 			double endTime = 9 * 60 * 60;
 			simulation.Simulate(replication, endTime);
 			Console.Read();

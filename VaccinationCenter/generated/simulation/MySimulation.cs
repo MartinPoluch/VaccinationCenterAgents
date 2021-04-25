@@ -53,6 +53,9 @@ namespace simulation {
 
 		protected override void ReplicationFinished() {
 			base.ReplicationFinished();
+			//Console.WriteLine($"r:{CurrentReplication} value={RegistrationAgent.WaitingTimes.Mean()} count:{RegistrationAgent.WaitingTimes.SampleSize}");
+			//Console.WriteLine($"r:{CurrentReplication} value={RegistrationAgent.QueueLengthStat.Mean()} count:{RegistrationAgent.QueueLengthStat.SampleSize}");
+			//Console.WriteLine($"r:{CurrentReplication} value={RegistrationAgent.GetAverageServiceOccupancy()}");
 			foreach (ServiceAgent serviceAgent in ServiceAgents) {
 				ServiceReplicationStat replicationStat = ServiceAgentStats[serviceAgent.GetServiceType()];
 				replicationStat.UpdateStats(serviceAgent);

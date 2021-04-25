@@ -61,11 +61,12 @@ namespace VaccinationCenter.common {
 
 		public override void PrepareReplication() {
 			base.PrepareReplication();
+			//Console.WriteLine();
 			QueueLengthStat.Clear();
 			Queue.Clear();
 			WaitingTimes.Clear();
 			foreach (ServiceEntity service in ServiceEntities) {
-				
+				service.Reset();
 			}
 		}
 	}
