@@ -25,6 +25,12 @@ namespace simulation {
 
 		public Stat WaitingRoomStat { get; set; }
 
+		public Stat PatientsLeft { get; set; }
+
+		public Stat PatientMissing { get; set; }
+
+		public Stat CoolingDurationStat { get; set; }
+
 		protected override void PrepareSimulation() {
 			base.PrepareSimulation();
 			//initialize stats
@@ -35,6 +41,9 @@ namespace simulation {
 				[ServiceType.Nurse] = new ServiceReplicationStat(),
 			};
 			WaitingRoomStat = new Stat();
+			CoolingDurationStat = new Stat();
+			PatientsLeft = new Stat();
+			PatientMissing = new Stat();
 
 			Initializable[] initAgents = { // agents that needs Simulation Parameter for their initialization
 				SurroundingsAgent, RegistrationAgent, ExaminationAgent, VaccinationAgent
@@ -53,14 +62,14 @@ namespace simulation {
 
 		protected override void ReplicationFinished() {
 			base.ReplicationFinished();
-			//Console.WriteLine($"r:{CurrentReplication} value={RegistrationAgent.WaitingTimes.Mean()} count:{RegistrationAgent.WaitingTimes.SampleSize}");
-			//Console.WriteLine($"r:{CurrentReplication} value={RegistrationAgent.QueueLengthStat.Mean()} count:{RegistrationAgent.QueueLengthStat.SampleSize}");
-			//Console.WriteLine($"r:{CurrentReplication} value={RegistrationAgent.GetAverageServiceOccupancy()}");
 			foreach (ServiceAgent serviceAgent in ServiceAgents) {
 				ServiceReplicationStat replicationStat = ServiceAgentStats[serviceAgent.GetServiceType()];
-				replicationStat.UpdateStats(serviceAgent);
+				replicationStat.UpdateStats(serviceAgent, SurroundingsAgent.LastPatientExitTime);
 			}
 			WaitingRoomStat.AddSample(WaitingAgent.WaitingRoomStat.Mean());
+			CoolingDurationStat.AddSample(SurroundingsAgent.LastPatientExitTime - SurroundingsAgent.WorkDayDuration);
+			PatientMissing.AddSample(SurroundingsAgent.PatientsMissing);
+			PatientsLeft.AddSample(SurroundingsAgent.PatientsLeft);
 		}
 
 		protected override void SimulationFinished() {
@@ -80,6 +89,11 @@ namespace simulation {
 			}
 
 			Console.WriteLine($"Avg. waiting patients: {WaitingRoomStat.Mean()}");
+			Console.WriteLine($"Avg. cooling: {CoolingDurationStat.Mean()/(3600)}");
+			Console.WriteLine($"Avg. patients left: {PatientsLeft.Mean()}");
+			Console.WriteLine($"Avg. patients missing: {PatientMissing.Mean()}");
+
+
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
@@ -94,6 +108,7 @@ namespace simulation {
 			LunchAgent = new LunchAgent(SimId.LunchAgent, this, VacCenterAgent);
 			WaitingAgent = new WaitingAgent(SimId.WaitingAgent, this, VacCenterAgent);
 			MovementAgent = new MovementAgent(SimId.MovementAgent, this, VacCenterAgent);
+			RefillAgent = new RefillAgent(SimId.RefillAgent, this, VaccinationAgent);
 		}
 		public ModelAgent ModelAgent
 		{ get; set; }
@@ -112,6 +127,8 @@ namespace simulation {
 		public WaitingAgent WaitingAgent
 		{ get; set; }
 		public MovementAgent MovementAgent
+		{ get; set; }
+		public RefillAgent RefillAgent
 		{ get; set; }
 		//meta! tag="end"
 	}

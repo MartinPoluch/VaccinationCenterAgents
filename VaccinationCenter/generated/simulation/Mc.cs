@@ -7,14 +7,17 @@ namespace simulation
 		public const int EndOfMove = 1038;
 		public const int PatientArrival = 1001;
 		public const int PatientEnterCenter = 1002;
+		public const int Refill = 1039;
 		public const int Registration = 1003;
 		public const int Examination = 1004;
 		public const int Vaccination = 1005;
 		public const int Waiting = 1006;
 		public const int AdminStartBreak = 1007;
+		public const int EndOfNurseMove = 1040;
 		public const int DoctorStartBreak = 1008;
 		public const int NurseStartBreak = 1009;
 		public const int LunchBreak = 1010;
+		public const int EndOfRefill = 1041;
 		public const int NewArrival = 1011;
 		public const int EndOfTravel = 1012;
 		public const int EndOfLunch = 1014;

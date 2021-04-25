@@ -40,7 +40,10 @@ namespace managers {
 
 		//meta! sender="VaccinationProcess", id="97", type="Notice"
 		public void ProcessVaccinationProcessEnd(MessageForm message) {
-			EndOfService((MyMessage)message);
+			MyMessage myMessage = (MyMessage)message;
+			FreeService(myMessage); // does not resend message, no copy needed
+			ServiceNextPatient(myMessage);
+
 			MyMessage endOfVaccination = (MyMessage)message.CreateCopy();
 			endOfVaccination.Service = null;
 			endOfVaccination.Code = Mc.Vaccination;
@@ -57,6 +60,11 @@ namespace managers {
 			}
 		}
 
+		//meta! sender="RefillAgent", id="147", type="Request"
+		public void ProcessRefill(MessageForm message)
+		{
+		}
+
 		//meta! userInfo="Generated code: do not modify", tag="begin"
 		public void Init()
 		{
@@ -66,10 +74,6 @@ namespace managers {
 		{
 			switch (message.Code)
 			{
-			case Mc.NurseEndBreak:
-				ProcessNurseEndBreak(message);
-			break;
-
 			case Mc.NurseLunchBreak:
 				ProcessNurseLunchBreak(message);
 			break;
@@ -77,12 +81,12 @@ namespace managers {
 			case Mc.Finish:
 				switch (message.Sender.Id)
 				{
-				case SimId.NursesLunchScheduler:
-					ProcessFinishNursesLunchScheduler(message);
-				break;
-
 				case SimId.VaccinationProcess:
 					ProcessFinishVaccinationProcess(message);
+				break;
+
+				case SimId.NursesLunchScheduler:
+					ProcessFinishNursesLunchScheduler(message);
 				break;
 				}
 			break;
@@ -91,8 +95,16 @@ namespace managers {
 				ProcessVaccinationProcessEnd(message);
 			break;
 
+			case Mc.Refill:
+				ProcessRefill(message);
+			break;
+
 			case Mc.Vaccination:
 				ProcessVaccination(message);
+			break;
+
+			case Mc.NurseEndBreak:
+				ProcessNurseEndBreak(message);
 			break;
 
 			default:

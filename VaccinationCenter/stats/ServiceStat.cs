@@ -12,8 +12,7 @@ namespace VaccinationCenter.entities {
 
 		private double _durationOfOccupiedService;
 
-		public ServiceStat(Simulation simulation) {
-			Simulation = simulation;
+		public ServiceStat() {
 			_durationOfOccupiedService = 0;
 		}
 
@@ -21,22 +20,16 @@ namespace VaccinationCenter.entities {
 			_durationOfOccupiedService = 0;
 		}
 
-		public Simulation Simulation { get; }
-
 		public void AddServiceOccupancy(double duration) {
 			_durationOfOccupiedService += duration;
 		}
 
-		public double GetServiceOccupancy() {
-			double durationOfSimulation = Simulation.CurrentTime;
+		public double GetServiceOccupancy(double currentTime) {
+			double durationOfSimulation = currentTime;
 			if (durationOfSimulation == 0) {
 				return 0.0;
 			}
 			return (_durationOfOccupiedService / durationOfSimulation) * 100;
-		}
-
-		public override string ToString() {
-			return GetServiceOccupancy().ToString();
 		}
 	}
 }

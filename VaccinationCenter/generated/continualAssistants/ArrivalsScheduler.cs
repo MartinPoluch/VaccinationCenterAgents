@@ -1,3 +1,4 @@
+using System;
 using OSPABA;
 using simulation;
 using agents;
@@ -14,7 +15,7 @@ namespace continualAssistants {
 
 		public override void PrepareReplication() {
 			base.PrepareReplication();
-			// Setup component for the next replication
+			Patient.ResetPatientId();
 		}
 
 		//meta! sender="SurroundingsAgent", id="31", type="Start"
@@ -34,7 +35,9 @@ namespace continualAssistants {
 				Notice(newArrival);
 			}
 
-			Hold(MyAgent.GetArrivalsFrequency(), newArrival.CreateCopy());
+			if (patient.PatientId < MyAgent.PatientsPerDay - 1) {
+				Hold(MyAgent.GetArrivalsFrequency(), newArrival.CreateCopy());
+			}
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
@@ -48,7 +51,7 @@ namespace continualAssistants {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public override void ProcessMessage(MessageForm message)
+		override public void ProcessMessage(MessageForm message)
 		{
 			switch (message.Code)
 			{

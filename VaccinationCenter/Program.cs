@@ -12,14 +12,14 @@ namespace VaccinationCenter {
 	class Program {
 		static void Main(string[] args) {
 			SimParameter simParameter = new SimParameter() {
-				NumOfAdminWorkers = 5,
-				NumOfDoctors = 6,
-				NumOfNurses = 3,
-				NumOfPatients = 540,
+				NumOfAdminWorkers = 23,
+				NumOfDoctors = 20,
+				NumOfNurses = 14,
+				NumOfPatients = 2500,
 			};
 			MySimulation simulation = new MySimulation(simParameter);
 			int replication = 10000;
-			double endTime = 9 * 60 * 60;
+			double endTime = double.MaxValue;
 			simulation.Simulate(replication, endTime);
 			Console.Read();
 

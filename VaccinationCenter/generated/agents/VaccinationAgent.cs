@@ -34,13 +34,15 @@ namespace agents {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		private void Init() {
+		private void Init()
+		{
 			new VaccinationManager(SimId.VaccinationManager, MySim, this);
 			new NursesLunchScheduler(SimId.NursesLunchScheduler, MySim, this);
 			new VaccinationProcess(SimId.VaccinationProcess, MySim, this);
 			AddOwnMessage(Mc.VaccinationProcessEnd);
 			AddOwnMessage(Mc.NurseLunchBreak);
 			AddOwnMessage(Mc.Vaccination);
+			AddOwnMessage(Mc.Refill);
 			AddOwnMessage(Mc.NurseEndBreak);
 		}
 		//meta! tag="end"

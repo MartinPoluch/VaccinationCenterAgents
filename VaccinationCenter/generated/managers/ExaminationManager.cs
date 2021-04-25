@@ -41,7 +41,10 @@ namespace managers {
 
 		//meta! sender="ExaminationProcess", id="88", type="Notice"
 		public void ProcessExaminationProcessEnd(MessageForm message) {
-			EndOfService((MyMessage)message);
+			MyMessage myMessage = (MyMessage)message;
+			FreeService(myMessage); // does not resend message, no copy needed
+			ServiceNextPatient(myMessage);
+
 			MyMessage endOfExamination = (MyMessage)message.CreateCopy();
 			endOfExamination.Service = null;
 			endOfExamination.Code = Mc.Examination;
@@ -60,42 +63,46 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		public void Init()
+		{
 		}
 
-		override public void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.Finish:
-					switch (message.Sender.Id) {
-						case SimId.ExaminationProcess:
-							ProcessFinishExaminationProcess(message);
-							break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.DoctorEndBreak:
+				ProcessDoctorEndBreak(message);
+			break;
 
-						case SimId.DoctorLunchScheduler:
-							ProcessFinishDoctorLunchScheduler(message);
-							break;
-					}
-					break;
+			case Mc.Examination:
+				ProcessExamination(message);
+			break;
 
-				case Mc.Examination:
-					ProcessExamination(message);
-					break;
+			case Mc.DoctorLunchBreak:
+				ProcessDoctorLunchBreak(message);
+			break;
 
-				case Mc.DoctorLunchBreak:
-					ProcessDoctorLunchBreak(message);
-					break;
+			case Mc.ExaminationProcessEnd:
+				ProcessExaminationProcessEnd(message);
+			break;
 
-				case Mc.DoctorEndBreak:
-					ProcessDoctorEndBreak(message);
-					break;
+			case Mc.Finish:
+				switch (message.Sender.Id)
+				{
+				case SimId.ExaminationProcess:
+					ProcessFinishExaminationProcess(message);
+				break;
 
-				case Mc.ExaminationProcessEnd:
-					ProcessExaminationProcessEnd(message);
-					break;
+				case SimId.DoctorLunchScheduler:
+					ProcessFinishDoctorLunchScheduler(message);
+				break;
+				}
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

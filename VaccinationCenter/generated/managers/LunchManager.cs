@@ -67,29 +67,29 @@ namespace managers
 		{
 			switch (message.Code)
 			{
-			case Mc.EndOfLunch:
-				ProcessEndOfLunch(message);
+			case Mc.Finish:
+				switch (message.Sender.Id)
+				{
+				case SimId.LunchProcess:
+					ProcessFinishLunchProcess(message);
+				break;
+
+				case SimId.TravelProcess:
+					ProcessFinishTravelProcess(message);
+				break;
+				}
 			break;
 
-			case Mc.EndOfTravel:
-				ProcessEndOfTravel(message);
+			case Mc.EndOfLunch:
+				ProcessEndOfLunch(message);
 			break;
 
 			case Mc.LunchBreak:
 				ProcessLunchBreak(message);
 			break;
 
-			case Mc.Finish:
-				switch (message.Sender.Id)
-				{
-				case SimId.TravelProcess:
-					ProcessFinishTravelProcess(message);
-				break;
-
-				case SimId.LunchProcess:
-					ProcessFinishLunchProcess(message);
-				break;
-				}
+			case Mc.EndOfTravel:
+				ProcessEndOfTravel(message);
 			break;
 
 			default:

@@ -71,12 +71,12 @@ namespace managers
 				ProcessMoveToAnotherRoom(message);
 			break;
 
-			case Mc.Finish:
-				ProcessFinish(message);
-			break;
-
 			case Mc.EndOfMove:
 				ProcessEndOfMove(message);
+			break;
+
+			case Mc.Finish:
+				ProcessFinish(message);
 			break;
 
 			default:

@@ -54,6 +54,10 @@
     <Compile Include="entities\Nurse.cs" />
     <Compile Include="entities\Patient.cs" />
     <Compile Include="entities\ServiceEntity.cs" />
+    <Compile Include="generated\agents\RefillAgent.cs" />
+    <Compile Include="generated\continualAssistants\NurseMoveProcess.cs" />
+    <Compile Include="generated\continualAssistants\RefillProcess.cs" />
+    <Compile Include="generated\managers\RefillManager.cs" />
     <Compile Include="stats\Resettable.cs" />
     <Compile Include="stats\ServiceReplicationStat.cs" />
     <Compile Include="stats\ServiceStat.cs" />

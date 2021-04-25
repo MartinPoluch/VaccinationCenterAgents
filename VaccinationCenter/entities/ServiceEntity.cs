@@ -15,7 +15,7 @@ namespace VaccinationCenter.entities {
 		protected ServiceEntity(Simulation mySim) : base(mySim) {
 			ServiceStatus = ServiceStatus.Free;
 			StartOfServiceTime = 0;
-			ServiceStat = new ServiceStat(mySim);
+			ServiceStat = new ServiceStat();
 		}
 
 		public void Reset() {

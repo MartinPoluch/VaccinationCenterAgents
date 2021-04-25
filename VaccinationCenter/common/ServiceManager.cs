@@ -78,16 +78,15 @@ namespace VaccinationCenter.common {
 			}
 		}
 
-		private void FreeService(MyMessage message) {
+		protected void FreeService(MyMessage message) {
 			Debug.Assert(message.Service != null, "No service available");
 			ServiceEntity service = message.Service;
 			message.Service = null; // delete service reference
 			service.Free();
 		}
 
-		protected void EndOfService(MyMessage message) {
-			FreeService(message);
-			if (! MyAgent.Queue.IsEmpty()) {
+		protected void ServiceNextPatient(MyMessage message) {
+			if (!MyAgent.Queue.IsEmpty()) {
 				message.Patient = MyAgent.Queue.Dequeue(); // get first patient in queue
 				StartService(message); // we know that at least one service is free
 			}

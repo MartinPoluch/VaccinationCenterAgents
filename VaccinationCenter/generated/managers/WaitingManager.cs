@@ -43,26 +43,29 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		public void Init()
+		{
 		}
 
-		public override void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.EndOfWaiting:
-					ProcessEndOfWaiting(message);
-					break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.EndOfWaiting:
+				ProcessEndOfWaiting(message);
+			break;
 
-				case Mc.Finish:
-					ProcessFinish(message);
-					break;
+			case Mc.Waiting:
+				ProcessWaiting(message);
+			break;
 
-				case Mc.Waiting:
-					ProcessWaiting(message);
-					break;
+			case Mc.Finish:
+				ProcessFinish(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

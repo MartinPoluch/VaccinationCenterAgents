@@ -42,7 +42,10 @@ namespace managers {
 
 		//meta! sender="RegistrationProcess", id="72", type="Notice"
 		public void ProcessRegistrationProcessEnd(MessageForm message) {
-			EndOfService((MyMessage)message);
+			MyMessage myMessage = (MyMessage)message;
+			FreeService(myMessage); // does not resend message, no copy needed
+			ServiceNextPatient(myMessage);
+
 			MyMessage endOfRegistration = (MyMessage)message.CreateCopy();
 			endOfRegistration.Service = null;
 			endOfRegistration.Code = Mc.Registration;
@@ -67,12 +70,12 @@ namespace managers {
 			case Mc.Finish:
 				switch (message.Sender.Id)
 				{
-				case SimId.AdminLunchScheduler:
-					ProcessFinishAdminLunchScheduler(message);
-				break;
-
 				case SimId.RegistrationProcess:
 					ProcessFinishRegistrationProcess(message);
+				break;
+
+				case SimId.AdminLunchScheduler:
+					ProcessFinishAdminLunchScheduler(message);
 				break;
 				}
 			break;
@@ -81,12 +84,12 @@ namespace managers {
 				ProcessRegistration(message);
 			break;
 
-			case Mc.RegistrationProcessEnd:
-				ProcessRegistrationProcessEnd(message);
-			break;
-
 			case Mc.AdminEndBreak:
 				ProcessAdminEndBreak(message);
+			break;
+
+			case Mc.RegistrationProcessEnd:
+				ProcessRegistrationProcessEnd(message);
 			break;
 
 			case Mc.AdminLunchBreak:

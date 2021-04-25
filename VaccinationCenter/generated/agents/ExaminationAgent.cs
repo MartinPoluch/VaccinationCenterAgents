@@ -40,8 +40,8 @@ namespace agents
 		private void Init()
 		{
 			new ExaminationManager(SimId.ExaminationManager, MySim, this);
-			new ExaminationProcess(SimId.ExaminationProcess, MySim, this);
 			new DoctorLunchScheduler(SimId.DoctorLunchScheduler, MySim, this);
+			new ExaminationProcess(SimId.ExaminationProcess, MySim, this);
 			AddOwnMessage(Mc.DoctorLunchBreak);
 			AddOwnMessage(Mc.DoctorEndBreak);
 			AddOwnMessage(Mc.Examination);

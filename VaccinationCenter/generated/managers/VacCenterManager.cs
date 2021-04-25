@@ -92,44 +92,44 @@ namespace managers {
 		{
 			switch (message.Code)
 			{
-			case Mc.PatientEnterCenter:
-				ProcessPatientEnterCenter(message);
-			break;
-
-			case Mc.Vaccination:
-				ProcessVaccination(message);
-			break;
-
-			case Mc.NurseStartBreak:
-				ProcessNurseStartBreak(message);
+			case Mc.Examination:
+				ProcessExamination(message);
 			break;
 
 			case Mc.Registration:
 				ProcessRegistration(message);
 			break;
 
-			case Mc.MoveToAnotherRoom:
-				ProcessMoveToAnotherRoom(message);
-			break;
-
-			case Mc.Examination:
-				ProcessExamination(message);
-			break;
-
 			case Mc.LunchBreak:
 				ProcessLunchBreak(message);
+			break;
+
+			case Mc.Vaccination:
+				ProcessVaccination(message);
 			break;
 
 			case Mc.Waiting:
 				ProcessWaiting(message);
 			break;
 
+			case Mc.AdminStartBreak:
+				ProcessAdminStartBreak(message);
+			break;
+
 			case Mc.DoctorStartBreak:
 				ProcessDoctorStartBreak(message);
 			break;
 
-			case Mc.AdminStartBreak:
-				ProcessAdminStartBreak(message);
+			case Mc.NurseStartBreak:
+				ProcessNurseStartBreak(message);
+			break;
+
+			case Mc.PatientEnterCenter:
+				ProcessPatientEnterCenter(message);
+			break;
+
+			case Mc.MoveToAnotherRoom:
+				ProcessMoveToAnotherRoom(message);
 			break;
 
 			default:

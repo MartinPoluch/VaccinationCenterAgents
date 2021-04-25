@@ -1,16 +1,18 @@
+using System;
 using OSPABA;
 using simulation;
 using managers;
 using continualAssistants;
 using OSPRNG;
 using VaccinationCenter.common;
+using VaccinationCenter.entities;
 using VaccinationCenter.models;
 
 namespace agents {
 	//meta! id="2"
 	public class SurroundingsAgent : Agent, Initializable {
 
-		public readonly double WorkDayTime = 9 * 60 * 60;
+		public readonly double WorkDayDuration = 9 * 60 * 60;
 
 		public SurroundingsAgent(int id, Simulation mySim, Agent parent) :
 			base(id, mySim, parent) {
@@ -25,6 +27,8 @@ namespace agents {
 		public int PatientsLeft { get; set; }
 
 		public int PatientsMissing { get; set; }
+
+		public double LastPatientExitTime { get; set; }
 
 		private UniformDiscreteRNG MissingPatientsGen { get; set; }
 
@@ -44,6 +48,7 @@ namespace agents {
 			PatientsArrived = 0;
 			PatientsLeft = 0;
 			PatientsMissing = 0;
+			LastPatientExitTime = 0;
 
 			double missingPatients = MissingPatientsGen.Sample();
 			ProbabilityOfMissing = missingPatients / (double)PatientsPerDay;
@@ -56,7 +61,8 @@ namespace agents {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		private void Init() {
+		private void Init()
+		{
 			new SurroundingsManager(SimId.SurroundingsManager, MySim, this);
 			new ArrivalsScheduler(SimId.ArrivalsScheduler, MySim, this);
 			AddOwnMessage(Mc.PatientExit);
@@ -65,7 +71,7 @@ namespace agents {
 		//meta! tag="end"
 
 		public double GetArrivalsFrequency() {
-			return WorkDayTime / (double)PatientsPerDay;
+			return WorkDayDuration / (double)PatientsPerDay;
 		}
 
 		public bool PatientIsMissing() {

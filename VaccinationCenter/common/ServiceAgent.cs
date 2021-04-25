@@ -33,8 +33,8 @@ namespace VaccinationCenter.common {
 
 		public Stat WaitingTimes { get; }
 
-		public double GetAverageServiceOccupancy() {
-			return (ServiceEntities.Sum(x => x.ServiceStat.GetServiceOccupancy()) / ServiceEntities.Count);
+		public double GetAverageServiceOccupancy(double currentTime) {
+			return (ServiceEntities.Sum(x => x.ServiceStat.GetServiceOccupancy(currentTime)) / ServiceEntities.Count);
 		}
 
 		/**

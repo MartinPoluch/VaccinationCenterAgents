@@ -45,7 +45,8 @@ namespace agents {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		private void Init() {
+		private void Init()
+		{
 			new WaitingManager(SimId.WaitingManager, MySim, this);
 			new WaitingProcess(SimId.WaitingProcess, MySim, this);
 			AddOwnMessage(Mc.EndOfWaiting);
