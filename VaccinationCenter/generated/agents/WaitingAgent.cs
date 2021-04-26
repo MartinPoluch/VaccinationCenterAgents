@@ -25,6 +25,10 @@ namespace agents {
 
 		private RNG<double> WaitingDecisionGen { get; }
 
+		public int GetWaitingPatients() {
+			return WaitingRoom.Count;
+		}
+
 		public void AddPatientToWaitingRoom() {
 			WaitingRoom.Enqueue(1); //just dummy value, I am only interested in stats, dont care about content of queue
 		}

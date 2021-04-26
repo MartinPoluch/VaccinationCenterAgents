@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
+using agents;
 using GUI.Outputs;
 using OSPABA;
 using simulation;
@@ -15,16 +16,15 @@ namespace GUI {
 		}
 
 		public void Refresh(MySimulation simulation) {
-			//TODO implement stats
-			//VacSystemStat systemStat = state.SystemStat;
-			//PatientsArrived.Text = systemStat.ArrivedCustomers.ToString();
-			//PatientsLeft.Text = systemStat.NumberOfValues.ToString(CultureInfo.InvariantCulture);
-			//PatientsInSystem.Text = systemStat.CustomersInSystem.ToString();
-			//PatientsMissing.Text = systemStat.MissingPatients.ToString();
+			SurroundingsAgent surroundings = simulation.SurroundingsAgent;
+			PatientsArrived.Text = surroundings.PatientsArrived.ToString();
+			PatientsLeft.Text = surroundings.PatientsLeft.ToString();
+			PatientsMissing.Text = surroundings.PatientsMissing.ToString();
+			PatientsInSystem.Text = "XXX";
 
-			//WaitRoomStat waitRoom = state.WaitRoomStat;
-			//PatientsInWaitRoom.Text = waitRoom.WaitingPatients.ToString();
-			//AvgPatientsInWaitRoom.Text = waitRoom.GetAverageWaitingPatients().ToString(CultureInfo.InvariantCulture);
+			WaitingAgent waitingAgent = simulation.WaitingAgent;
+			PatientsInWaitRoom.Text = waitingAgent.GetWaitingPatients().ToString();
+			AvgPatientsInWaitRoom.Text = Utils.ParseMean(waitingAgent.WaitingRoomStat);
 		}
 	}
 }

@@ -46,7 +46,15 @@
                 <TextBlock Grid.Row="3" Grid.Column="0" Margin="5">Average service occupancy:</TextBlock>
                 <TextBlock Name="AvgServiceOccupancy" Grid.Row="3" Grid.Column="1" Margin="5">0</TextBlock>
 
-                <DataGrid Name="Services" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5"></DataGrid>
+                <DataGrid Name="Services" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding ServiceEntities}" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Path=ServiceStatus}"></DataGridTextColumn>
+                        <!--<DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="*"></DataGridTextColumn>-->
+                        <!--<DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="*"></DataGridTextColumn>-->
+                    </DataGrid.Columns>
+                   
+                </DataGrid>
 
             </Grid>
         </GroupBox>

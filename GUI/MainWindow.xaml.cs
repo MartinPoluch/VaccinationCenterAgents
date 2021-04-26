@@ -40,48 +40,56 @@ namespace GUI {
 
 		private void SimulationWillStart(Simulation simulation) {
 			MySimulation vacSimulation = (MySimulation)simulation;
-			vacSimulation.SimParameter = SimInputs.CreateSimParameter();
+			vacSimulation.SimParameter = SimInputs.CreateSimParameter(); // initialization of all simulation inputs
 		}
 
+		/**
+		 * We will slow down each replication, if maximum speed is not set
+		 */
 		private void ReplicationWillStart(Simulation simulation) {
-			//TODO
-			// slow down replication run
+			Dispatcher.Invoke(() => {
+				if (SimInputs.MaximumSpeed) {
+					VacCenterSim.SetMaxSimSpeed();
+				}
+				else {
+					VacCenterSim.SetSimSpeed(1, 1);
+				}
+			});
+			
 		}
 
 		/**
 		 * Refresh GUI during slow mode, refresh current stats
 		 */
 		private void RefreshUI(Simulation simulation) {
-			//TODO
-			//VacCenterState currentState = (VacCenterState)e.UserState;
-			//CurrentReplicationOut.Text = currentState.CurrentReplication.ToString();
-			//ReplicationsOut.Refresh(currentState);
-			//if (currentState.CurrentReplication == SimInputs.Replications) {
-			//	RefreshConsole(currentState);
-			//}
-			//if (!VacCenterSim.MaximumSpeed) { // refresh statistik pri pomalom rezime
-			//	CurrentStateOutput.Refresh(currentState);
-			//	SimulationTimeOut.Text = SimInputs.StartDateTime().AddSeconds(currentState.Time).ToString("HH:mm:ss");
-			//}
+			Dispatcher.Invoke(() => {
+				MySimulation vacSimulation = (MySimulation)simulation;
+				CurrentStateOutput.Refresh(vacSimulation);
+				string timeFormat = "HH:mm:ss";
+				SimulationTimeOut.Text = SimInputs.StartDateTime().AddSeconds(vacSimulation.CurrentTime).ToString(timeFormat);
+			});
 		}
 
 		/**
 		 * Refresh replication stats
 		 */
 		private void ReplicationDidFinish(Simulation simulation) {
-			MySimulation vacSimulation = (MySimulation)simulation;
-			ReplicationsOut.Refresh(vacSimulation);
+			Dispatcher.Invoke(() => {
+				MySimulation vacSimulation = (MySimulation)simulation;
+				// refresh after first replication, because CIs cannot be calculated from only one value
+				if (vacSimulation.CurrentReplication > 1) { 
+					ReplicationsOut.Refresh(vacSimulation);
+					CurrentReplicationOut.Text = vacSimulation.CurrentReplication.ToString();
+				}
+			});
 		}
 
 		private void SimulationDidFinish(Simulation simulation) {
-			//TODO implement
-			//var error = e.Error;
-			//if (error != null) {
-			//	Console.WriteLine($"Error occured: {error}");
-			//	MessageBox.Show(error.StackTrace, error.Message, MessageBoxButton.OK, MessageBoxImage.Error);
-			//}
-			//StartAndStopBtn.IsChecked = false;
-			//ActivateReadyState();
+			Dispatcher.Invoke(() => {
+				StartAndStopBtn.IsChecked = false;
+				ActivateReadyState();
+			});
+		
 		}
 
 		private void StartClick(object sender, RoutedEventArgs e) {
@@ -90,7 +98,8 @@ namespace GUI {
 				ActivateRunningState();
 				if (OtherInputs.SelectedMode() == Mode.Classic) {
 					//InitVacCenter();
-					VacCenterSim.SimulateAsync(SimInputs.Replications, Double.MaxValue);
+					Console.WriteLine("reps: " + SimInputs.Replications);
+					VacCenterSim.SimulateAsync(SimInputs.Replications, double.MaxValue);
 				}
 				
 			}

@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OSPABA;
 using simulation;
+using VaccinationCenter.common;
 using VaccinationCenter.entities;
 
 namespace GUI.Outputs {
@@ -24,6 +25,7 @@ namespace GUI.Outputs {
 	public partial class RoomOutput : UserControl, OutputStat {
 
 		public RoomOutput() {
+			ServiceEntities = new List<ServiceEntity>();
 			InitializeComponent();
 			DataContext = this;
 		}
@@ -32,18 +34,33 @@ namespace GUI.Outputs {
 
 		public ServiceType ServiceType { get; set; }
 
+		private ServiceAgent GetServiceAgent(MySimulation simulation) {
+			switch (ServiceType) {
+				case ServiceType.AdminWorker: {
+					return simulation.RegistrationAgent;
+				}
+				case ServiceType.Doctor: {
+					return simulation.ExaminationAgent;
+				}
+				case ServiceType.Nurse: {
+					return simulation.VaccinationAgent;
+				}
+				default: {
+					throw new Exception($"Service type not initialized, ServiceType={ServiceType}");
+				}
+			}
+		}
+
+		public List<ServiceEntity> ServiceEntities { get; set; }
+
 		public void Refresh(MySimulation simulation) {
-			//TODO implement stats
-			//AvgQueueLength.Text = room.QueueStat.AverageQueueLength().ToString(CultureInfo.InvariantCulture);
-			//AvgWaitTime.Text = room.QueueStat.AverageWaitingTime().ToString(CultureInfo.InvariantCulture);
-			//CurrentQueueLength.Text = room.Queue.Count.ToString();
-			//AvgServiceOccupancy.Text = room.AverageServiceOccupancy().ToString(CultureInfo.InvariantCulture);
-			////List<ServiceObject> serviceObjects = new List<ServiceObject>();
-			////foreach (Service service in room.Services) {
-			////	serviceObjects.Add(new ServiceObject(service.Id, service.Stat.GetServiceOccupancy(), service.State));
-			////}
-			//Services.ItemsSource = null;
-			//Services.ItemsSource = room.Services;
+			ServiceAgent service = GetServiceAgent(simulation);
+			AvgQueueLength.Text = Utils.ParseMean(service.QueueLengthStat);
+			AvgWaitTime.Text = Utils.ParseMean(service.WaitingTimesStat);
+			CurrentQueueLength.Text = service.Queue.Count.ToString();
+			AvgServiceOccupancy.Text = service.GetAverageServiceOccupancy(simulation.CurrentTime).ToString(CultureInfo.InvariantCulture);
+			ServiceEntities = service.ServiceEntities;
+			Services.ItemsSource = ServiceEntities;
 		}
 	}
 }

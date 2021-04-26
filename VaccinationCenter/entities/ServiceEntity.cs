@@ -23,7 +23,11 @@ namespace VaccinationCenter.entities {
 			ServiceStat.Reset();
 		}
 
-		public RNG<double> ServiceDurationGen { get; protected set; }
+		protected RNG<double> ServiceDurationGen { get; set; }
+
+		public double GenerateDuration() {
+			return ServiceDurationGen.Sample();
+		}
 
 		public ServiceType ServiceType { get; protected set; }
 

@@ -18,16 +18,15 @@ namespace GUI.Outputs {
 		public ServiceType ServiceType { get; set; }
 
 		public void Refresh(MySimulation simulation) {
-			//TODO implement stats
-			//RoomStat roomStat = state.ReplicationStats[RoomType];
-			//AvgWaitTime.Text = roomStat.WaitingTime.Average().ToString(CultureInfo.InvariantCulture);
-			//CiWaitTime.Text = roomStat.WaitingTime.ConfidenceInterval().ToString();
+			var serviceStat = simulation.ServiceAgentStats[ServiceType];
+			AvgWaitTime.Text = Utils.ParseMean(serviceStat.WaitingTimes);
+			CiWaitTime.Text = Utils.ParseConfidenceInterval(serviceStat.WaitingTimes);
 
-			//AvgQueueLength.Text = roomStat.QueueLength.Average().ToString(CultureInfo.InvariantCulture);
-			//CiQueueLength.Text = roomStat.QueueLength.ConfidenceInterval().ToString();
+			AvgQueueLength.Text = Utils.ParseMean(serviceStat.QueueLengths);
+			CiQueueLength.Text = Utils.ParseConfidenceInterval(serviceStat.QueueLengths);
 
-			//AvgServiceOccupancy.Text = roomStat.ServiceOccupancy.Average().ToString(CultureInfo.InvariantCulture);
-			//CiServiceOccupancy.Text = roomStat.ServiceOccupancy.ConfidenceInterval().ToString();
+			AvgServiceOccupancy.Text = Utils.ParseMean(serviceStat.Occupancy);
+			CiServiceOccupancy.Text = Utils.ParseConfidenceInterval(serviceStat.Occupancy);
 
 			//AvgQueueLengthAtEnd.Text = state.QueueLengthAtEndOfDayRs[RoomType].Average().ToString(CultureInfo.InvariantCulture);
 		}

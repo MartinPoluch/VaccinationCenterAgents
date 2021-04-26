@@ -19,7 +19,7 @@ namespace continualAssistants {
 		public void ProcessStart(MessageForm message) {
 			ServiceEntity service = ((MyMessage)message).Service;
 			message.Code = Mc.RegistrationProcessEnd;
-			Hold(service.ServiceDurationGen.Sample(), message);
+			Hold(service.GenerateDuration(), message);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"

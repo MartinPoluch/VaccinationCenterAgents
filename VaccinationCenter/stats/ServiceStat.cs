@@ -31,5 +31,9 @@ namespace VaccinationCenter.entities {
 			}
 			return (_durationOfOccupiedService / durationOfSimulation) * 100;
 		}
+
+		public override string ToString() {
+			return "XXX"; //TODO, solve this issue, how calculate service occupancy
+		}
 	}
 }

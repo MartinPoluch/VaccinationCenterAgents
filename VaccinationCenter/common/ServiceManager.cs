@@ -58,7 +58,7 @@ namespace VaccinationCenter.common {
 		private void StartService(MyMessage message) {
 			double startOfWaiting = message.Patient.StartOfWaiting[MyAgent.GetServiceType()];
 			double waitingTime = MySim.CurrentTime - startOfWaiting;
-			MyAgent.WaitingTimes.AddSample(waitingTime);
+			MyAgent.WaitingTimesStat.AddSample(waitingTime);
 
 			ServiceEntity service = GetFreeService();
 			service.Occupy();

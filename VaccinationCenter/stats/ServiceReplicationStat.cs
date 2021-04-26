@@ -16,7 +16,7 @@ namespace VaccinationCenter.stats {
 		}
 
 		public void UpdateStats(ServiceAgent serviceAgent, double endTime) {
-			WaitingTimes.AddSample(serviceAgent.WaitingTimes.Mean());
+			WaitingTimes.AddSample(serviceAgent.WaitingTimesStat.Mean());
 			QueueLengths.AddSample(serviceAgent.QueueLengthStat.Mean());
 			Occupancy.AddSample(serviceAgent.GetAverageServiceOccupancy(endTime));
 		}

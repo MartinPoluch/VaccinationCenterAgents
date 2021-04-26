@@ -20,7 +20,7 @@ namespace VaccinationCenter.common {
 			base(id, mySim, parent) {
 			QueueLengthStat = new WStat(MySim);
 			Queue = new SimQueue<Patient>(QueueLengthStat);
-			WaitingTimes = new Stat();
+			WaitingTimesStat = new Stat();
 		}
 
 		public SimQueue<Patient> Queue { get; set; }
@@ -31,7 +31,7 @@ namespace VaccinationCenter.common {
 
 		public Dictionary<int, UniformDiscreteRNG> ServiceDecisions { get; set; }
 
-		public Stat WaitingTimes { get; }
+		public Stat WaitingTimesStat { get; }
 
 		public double GetAverageServiceOccupancy(double currentTime) {
 			return (ServiceEntities.Sum(x => x.ServiceStat.GetServiceOccupancy(currentTime)) / ServiceEntities.Count);
@@ -64,7 +64,7 @@ namespace VaccinationCenter.common {
 			//Console.WriteLine();
 			QueueLengthStat.Clear();
 			Queue.Clear();
-			WaitingTimes.Clear();
+			WaitingTimesStat.Clear();
 			foreach (ServiceEntity service in ServiceEntities) {
 				service.Reset();
 			}
