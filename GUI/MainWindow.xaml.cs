@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -48,11 +49,12 @@ namespace GUI {
 		 */
 		private void ReplicationWillStart(Simulation simulation) {
 			Dispatcher.Invoke(() => {
+				CurrentReplicationOut.Text = (simulation.CurrentReplication + 1).ToString();
 				if (SimInputs.MaximumSpeed) {
 					VacCenterSim.SetMaxSimSpeed();
 				}
 				else {
-					VacCenterSim.SetSimSpeed(1, 1);
+					ChangeSimulationSpeed();
 				}
 			});
 			
@@ -79,7 +81,6 @@ namespace GUI {
 				// refresh after first replication, because CIs cannot be calculated from only one value
 				if (vacSimulation.CurrentReplication > 1) { 
 					ReplicationsOut.Refresh(vacSimulation);
-					CurrentReplicationOut.Text = vacSimulation.CurrentReplication.ToString();
 				}
 			});
 		}
@@ -98,8 +99,7 @@ namespace GUI {
 				ActivateRunningState();
 				if (OtherInputs.SelectedMode() == Mode.Classic) {
 					//InitVacCenter();
-					Console.WriteLine("reps: " + SimInputs.Replications);
-					VacCenterSim.SimulateAsync(SimInputs.Replications, double.MaxValue);
+					VacCenterSim.SimulateAsync(SimInputs.Replications, MySimulation.InfinityTime);
 				}
 				
 			}
@@ -161,5 +161,14 @@ namespace GUI {
 			VacCenterSim.ResumeSimulation();
 			ActivateRunningState();
 		}
+
+		private void SliderValueChanged(object sender, DragCompletedEventArgs e) {
+			ChangeSimulationSpeed();
+		}
+
+		private void ChangeSimulationSpeed() {
+			VacCenterSim.SetSimSpeed(FrequencySlider.Value, DurationSlider.Value);
+		}
+
 	}
 }

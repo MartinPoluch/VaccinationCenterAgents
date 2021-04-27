@@ -5,9 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace VaccinationCenter.entities {
-	public enum ServiceStatus {
-		Occupied,
-		Free,
-		Lunch,
+
+	public enum LunchStatus {
+		TooEarly,
+		Hungry,
+		TravelingTo,
+		Eating,
+		TravelingFrom,
+		Full
 	}
 }

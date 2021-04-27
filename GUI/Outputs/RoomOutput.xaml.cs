@@ -60,6 +60,7 @@ namespace GUI.Outputs {
 			CurrentQueueLength.Text = service.Queue.Count.ToString();
 			AvgServiceOccupancy.Text = service.GetAverageServiceOccupancy(simulation.CurrentTime).ToString(CultureInfo.InvariantCulture);
 			ServiceEntities = service.ServiceEntities;
+			Services.ItemsSource = null;
 			Services.ItemsSource = ServiceEntities;
 		}
 	}

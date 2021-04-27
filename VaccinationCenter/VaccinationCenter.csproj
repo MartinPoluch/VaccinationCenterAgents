@@ -51,6 +51,7 @@
     <Compile Include="common\ServiceManager.cs" />
     <Compile Include="entities\AdminWorker.cs" />
     <Compile Include="entities\Doctor.cs" />
+    <Compile Include="entities\LunchStatus.cs" />
     <Compile Include="entities\Nurse.cs" />
     <Compile Include="entities\Patient.cs" />
     <Compile Include="entities\ServiceEntity.cs" />

@@ -96,11 +96,21 @@
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Margin="5">Frequency</TextBlock>
                 <TextBox Grid.Row="1" Grid.Column="1" MinWidth="40" MaxHeight="25" Text="{Binding ElementName=FrequencySlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" Margin="5"/>
-                <Slider Name="FrequencySlider" Grid.Row="1" Grid.Column="0" Value="{Binding Path=VacCenterSim.AnimationFrequency}" Minimum="1" Maximum="600" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True" Margin="10"/>
+                <Slider Name="FrequencySlider" 
+                        Grid.Row="1" Grid.Column="0" 
+                        Minimum="1" Maximum="1000"  Value="1"
+                        TickPlacement="BottomRight" TickFrequency="1"
+                        IsSnapToTickEnabled="True" Margin="10"  
+                        Thumb.DragCompleted="SliderValueChanged"/>
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Margin="5">Duration</TextBlock>
                 <TextBox Grid.Row="3" Grid.Column="1" MinWidth="40" MaxHeight="25" Text="{Binding ElementName=DurationSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" Margin="5"/>
-                <Slider Name="DurationSlider" Grid.Row="3" Grid.Column="0" Value="{Binding Path=VacCenterSim.AnimationDuration}" Minimum="500" Maximum="1000" TickPlacement="BottomRight" TickFrequency="100" IsSnapToTickEnabled="True" Margin="10"/>
+                <Slider Name="DurationSlider" 
+                        Grid.Row="3" Grid.Column="0" 
+                        Minimum="0.1" Maximum="1"  Value="1"
+                        TickPlacement="BottomRight" TickFrequency="0.1"
+                        IsSnapToTickEnabled="True" Margin="10"
+                        Thumb.DragCompleted="SliderValueChanged"/>
 
             </Grid>
         </GroupBox>

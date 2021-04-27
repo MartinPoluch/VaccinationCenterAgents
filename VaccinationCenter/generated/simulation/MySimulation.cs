@@ -12,6 +12,8 @@ namespace simulation {
 
 	public class MySimulation : Simulation {
 
+		public static readonly double InfinityTime = double.MaxValue;
+
 		public MySimulation() {
 			Init();
 		}

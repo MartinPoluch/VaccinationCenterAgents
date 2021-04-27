@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OSPABA;
 using OSPRNG;
+using simulation;
 using VaccinationCenter.stats;
 
 namespace VaccinationCenter.entities {
@@ -14,8 +15,9 @@ namespace VaccinationCenter.entities {
 
 		protected ServiceEntity(Simulation mySim) : base(mySim) {
 			ServiceStatus = ServiceStatus.Free;
+			LunchStatus = LunchStatus.TooEarly;
 			StartOfServiceTime = 0;
-			ServiceStat = new ServiceStat();
+			ServiceStat = new ServiceStat((MySimulation)mySim);
 		}
 
 		public void Reset() {
@@ -32,6 +34,8 @@ namespace VaccinationCenter.entities {
 		public ServiceType ServiceType { get; protected set; }
 
 		public ServiceStatus ServiceStatus { get; private set; }
+
+		public LunchStatus LunchStatus { get; set; }
 
 		public ServiceStat ServiceStat { get; }
 

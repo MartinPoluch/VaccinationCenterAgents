@@ -37,21 +37,21 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Margin="5">Queue length:</TextBlock>
                 <TextBlock Name="CurrentQueueLength" Grid.Row="0" Grid.Column="1" Margin="5">0</TextBlock>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Margin="5">Average queue length:</TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="5">Avg. queue length:</TextBlock>
                 <TextBlock Name="AvgQueueLength" Grid.Row="1" Grid.Column="1" Margin="5">0</TextBlock>
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Margin="5">Average waiting time:</TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="5">Avg. waiting time:</TextBlock>
                 <TextBlock Name="AvgWaitTime" Grid.Row="2" Grid.Column="1" Margin="5">0</TextBlock>
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Margin="5">Average service occupancy:</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="5">Avg. service occupancy:</TextBlock>
                 <TextBlock Name="AvgServiceOccupancy" Grid.Row="3" Grid.Column="1" Margin="5">0</TextBlock>
 
                 <DataGrid Name="Services" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding ServiceEntities}" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Occupancy" Binding="{Binding Path=ServiceStat}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Status" Binding="{Binding Path=ServiceStatus}"></DataGridTextColumn>
-                        <!--<DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="*"></DataGridTextColumn>-->
-                        <!--<DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="*"></DataGridTextColumn>-->
+                        <DataGridTextColumn Header="LunchState" Binding="{Binding Path=LunchStatus}"></DataGridTextColumn>
                     </DataGrid.Columns>
                    
                 </DataGrid>
