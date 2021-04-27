@@ -32,21 +32,34 @@ namespace VaccinationCenter.entities {
 			_durationOfOccupiedService += duration;
 		}
 
-		public double GetServiceOccupancy(double currentTime) {
-			//TODO, do not include lunch duration
+		/**
+		 * Used in slow mode, for updating detailed service occupancy (in the table)
+		 */
+		public double GetServiceOccupancy() {
 			if (Simulation.CurrentTime != MySimulation.InfinityTime) { // if simulation does not end
 				_currentSimulationTime = Simulation.CurrentTime;
 			}
-			
-			double durationOfSimulation = _currentSimulationTime;
+
+			return GetServiceOccupancy(_currentSimulationTime);
+		}
+		
+		/**
+		 * Used for fast mode at end of each replication
+		 */
+		public double GetServiceOccupancy(double currentTime) {
+			//TODO, do not include lunch duration
+			double durationOfSimulation = currentTime;
 			if (durationOfSimulation == 0) {
 				return 0.0;
 			}
 			return Math.Round(((_durationOfOccupiedService / durationOfSimulation) * 100), 2);
 		}
 
+		/**
+		 * For each entity in the detailed table
+		 */
 		public override string ToString() {
-			return GetServiceOccupancy(0).ToString(CultureInfo.InvariantCulture); //TODO, remove parameter
+			return GetServiceOccupancy().ToString(CultureInfo.InvariantCulture); //TODO, remove parameter
 		}
 	}
 }
