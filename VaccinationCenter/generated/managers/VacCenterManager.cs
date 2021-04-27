@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics;
 using OSPABA;
 using simulation;
 using agents;
 using continualAssistants;
+using VaccinationCenter.entities;
 
 namespace managers {
 	//meta! id="3"
@@ -12,17 +14,45 @@ namespace managers {
 			Init();
 		}
 
-		override public void PrepareReplication() {
+		public override void PrepareReplication() {
 			base.PrepareReplication();
 			// Setup component for the next replication
+		}
 
-			if (PetriNet != null) {
-				PetriNet.Clear();
-			}
+		private void MovePatientToAnotherRoom(MessageForm message) {
+			message.Addressee = MySim.FindAgent(SimId.MovementAgent);
+			message.Code = Mc.MoveToAnotherRoom;
+			Request(message);
 		}
 
 		//meta! sender="MovementAgent", id="105", type="Response"
 		public void ProcessMoveToAnotherRoom(MessageForm message) {
+			MyMessage myMessage = (MyMessage)message;
+			Patient patient = myMessage.Patient;
+			switch (patient.LastVisitedService) {
+				case ServiceType.AdminWorker: {
+					myMessage.Addressee = MySim.FindAgent(SimId.ExaminationAgent);
+					myMessage.Code = Mc.Examination;
+					Request(myMessage);
+					break;
+				}
+				case ServiceType.Doctor: {
+					myMessage.Addressee = MySim.FindAgent(SimId.VaccinationAgent);
+					myMessage.Code = Mc.Vaccination;
+					Request(myMessage);
+					break;
+				}
+				case ServiceType.Nurse: {
+					myMessage.Addressee = MySim.FindAgent(SimId.WaitingAgent);
+					myMessage.Code = Mc.Waiting;
+					Request(myMessage);
+					break;
+				}
+				default: {
+					Debug.Fail("Patient did not visit any known service and he tries to move.");
+					break;
+				}
+			}
 		}
 
 
@@ -36,9 +66,7 @@ namespace managers {
 
 		//meta! sender="VaccinationAgent", id="22", type="Response"
 		public void ProcessVaccination(MessageForm message) {
-			message.Addressee = MySim.FindAgent(SimId.WaitingAgent);
-			message.Code = Mc.Waiting;
-			Request(message);
+			MovePatientToAnotherRoom(message);
 		}
 
 		//meta! sender="VaccinationAgent", id="27", type="Notice"
@@ -47,9 +75,7 @@ namespace managers {
 
 		//meta! sender="RegistrationAgent", id="20", type="Response"
 		public void ProcessRegistration(MessageForm message) {
-			message.Addressee = MySim.FindAgent(SimId.ExaminationAgent);
-			message.Code = Mc.Examination;
-			Request(message);
+			MovePatientToAnotherRoom(message);
 		}
 
 		//meta! sender="LunchAgent", id="28", type="Response"
@@ -65,9 +91,7 @@ namespace managers {
 
 		//meta! sender="ExaminationAgent", id="21", type="Response"
 		public void ProcessExamination(MessageForm message) {
-			message.Addressee = MySim.FindAgent(SimId.VaccinationAgent);
-			message.Code = Mc.Vaccination;
-			Request(message);
+			MovePatientToAnotherRoom(message);
 		}
 
 		//meta! sender="WaitingAgent", id="23", type="Response"
@@ -88,7 +112,7 @@ namespace managers {
 		{
 		}
 
-		override public void ProcessMessage(MessageForm message)
+		public override void ProcessMessage(MessageForm message)
 		{
 			switch (message.Code)
 			{

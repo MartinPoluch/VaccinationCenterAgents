@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,31 +12,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GUI.Outputs;
-using OSPABA;
+using agents;
 using simulation;
 using VaccinationCenter.entities;
 
-namespace GUI {
-
+namespace GUI.Outputs {
 	/// <summary>
-	/// Interaction logic for CurrentStateOutput.xaml
+	/// Interaction logic for MovementOutput.xaml
 	/// </summary>
-	public partial class CurrentStateOutput : UserControl, OutputStat {
+	public partial class MovementOutput : UserControl, OutputStat {
 
-		public CurrentStateOutput() {
+		public MovementOutput() {
 			InitializeComponent();
-			Registration.ServiceType = ServiceType.AdminWorker;
-			Examination.ServiceType = ServiceType.Doctor;
-			Vaccination.ServiceType = ServiceType.Nurse;
 		}
 
 		public void Refresh(MySimulation simulation) {
-			Registration.Refresh(simulation);
-			Examination.Refresh(simulation);
-			Vaccination.Refresh(simulation);
-			GeneralOut.Refresh(simulation);
-			Movement.Refresh(simulation);
+			MovementAgent agent = simulation.MovementAgent;
+			FromRegistration.Text = agent.MovingPatients[ServiceType.AdminWorker].ToString();
+			FromExamination.Text = agent.MovingPatients[ServiceType.Doctor].ToString();
+			FromVaccination.Text = agent.MovingPatients[ServiceType.Nurse].ToString();
 		}
 	}
 }

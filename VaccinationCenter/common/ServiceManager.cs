@@ -69,6 +69,7 @@ namespace VaccinationCenter.common {
 
 		protected void GoToServiceOrQueue(MyMessage message) {
 			Patient patient = message.Patient;
+			patient.LastVisitedService = MyAgent.GetServiceType();
 			patient.StartOfWaiting[MyAgent.GetServiceType()] = MySim.CurrentTime;
 			if (IsAnyServiceFree()) {
 				StartService(message);

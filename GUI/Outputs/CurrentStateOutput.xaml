@@ -22,7 +22,7 @@
         <outputs:RoomOutput x:Name="Registration" RoomName="Registration" Grid.Row="0" Grid.Column="0" Margin="10"></outputs:RoomOutput>
         <outputs:RoomOutput x:Name="Examination" RoomName="Examination" Grid.Row="0" Grid.Column="1" Margin="10"></outputs:RoomOutput>
         <outputs:RoomOutput x:Name="Vaccination" RoomName="Vaccination" Grid.Row="0" Grid.Column="2" Margin="10"></outputs:RoomOutput>
-        <local:GeneralOutput x:Name="GeneralOut" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="10"></local:GeneralOutput>
-       
+        <local:GeneralOutput x:Name="GeneralOut" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="10"></local:GeneralOutput>
+        <outputs:MovementOutput x:Name="Movement" Grid.Row="1" Grid.Column="2" Margin="10"></outputs:MovementOutput>
     </Grid>
 </UserControl>

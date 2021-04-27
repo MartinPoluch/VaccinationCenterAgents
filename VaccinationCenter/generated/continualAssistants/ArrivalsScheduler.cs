@@ -38,6 +38,8 @@ namespace continualAssistants {
 			if (patient.PatientId < MyAgent.PatientsPerDay - 1) {
 				Hold(MyAgent.GetArrivalsFrequency(), newArrival.CreateCopy());
 			}
+
+
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
