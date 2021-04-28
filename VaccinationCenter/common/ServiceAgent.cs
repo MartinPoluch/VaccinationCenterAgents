@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OSPABA;
+﻿using OSPABA;
 using OSPDataStruct;
 using OSPRNG;
 using OSPStat;
-using simulation;
+using System.Collections.Generic;
+using System.Linq;
 using VaccinationCenter.entities;
 using VaccinationCenter.models;
 
@@ -20,7 +16,17 @@ namespace VaccinationCenter.common {
 			base(id, mySim, parent) {
 			QueueLengthStat = new WStat(MySim);
 			Queue = new SimQueue<Patient>(QueueLengthStat);
-			WaitingTimesStat = new Stat();
+			WaitingTimeStat = new Stat();
+		}
+
+		public override void PrepareReplication() {
+			base.PrepareReplication();
+			QueueLengthStat.Clear();
+			Queue.Clear();
+			WaitingTimeStat.Clear();
+			foreach (ServiceEntity service in ServiceEntities) {
+				service.Reset();
+			}
 		}
 
 		public SimQueue<Patient> Queue { get; set; }
@@ -31,7 +37,7 @@ namespace VaccinationCenter.common {
 
 		public Dictionary<int, UniformDiscreteRNG> ServiceDecisions { get; set; }
 
-		public Stat WaitingTimesStat { get; }
+		public Stat WaitingTimeStat { get; }
 
 		public double GetAverageServiceOccupancy(double currentTime) {
 			return (ServiceEntities.Sum(x => x.ServiceStat.GetServiceOccupancy(currentTime)) / ServiceEntities.Count);
@@ -58,16 +64,5 @@ namespace VaccinationCenter.common {
 		public abstract ServiceType GetServiceType();
 
 		public abstract ContinualAssistant GetServiceProcess();
-
-		public override void PrepareReplication() {
-			base.PrepareReplication();
-			//Console.WriteLine();
-			QueueLengthStat.Clear();
-			Queue.Clear();
-			WaitingTimesStat.Clear();
-			foreach (ServiceEntity service in ServiceEntities) {
-				service.Reset();
-			}
-		}
 	}
 }

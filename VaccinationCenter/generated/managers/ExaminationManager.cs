@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using OSPABA;
 using simulation;
 using agents;
@@ -42,11 +43,11 @@ namespace managers {
 		//meta! sender="ExaminationProcess", id="88", type="Notice"
 		public void ProcessExaminationProcessEnd(MessageForm message) {
 			MyMessage myMessage = (MyMessage)message;
-			FreeService(myMessage); // does not resend message, no copy needed
-			ServiceNextPatient(myMessage);
+			FreeServiceAndReference(myMessage); // does not resend message, no copy needed
+			ServiceNextPatient((MyMessage)myMessage.CreateCopy());
 
-			MyMessage endOfExamination = (MyMessage)message.CreateCopy();
-			endOfExamination.Service = null;
+			Debug.Assert(myMessage.Service == null, "Service should be null.");
+			MyMessage endOfExamination = myMessage;
 			endOfExamination.Code = Mc.Examination;
 			Response(endOfExamination);
 		}

@@ -30,6 +30,10 @@ namespace GUI.Outputs {
 			DataContext = this;
 		}
 
+		public void AddColumn(DataGridTextColumn textColumn) {
+			Services.Columns.Add(textColumn);
+		}
+
 		public string RoomName { get; set; }
 
 		public ServiceType ServiceType { get; set; }
@@ -56,7 +60,7 @@ namespace GUI.Outputs {
 		public void Refresh(MySimulation simulation) {
 			ServiceAgent service = GetServiceAgent(simulation);
 			AvgQueueLength.Text = Utils.ParseMean(service.QueueLengthStat);
-			AvgWaitTime.Text = Utils.ParseMean(service.WaitingTimesStat);
+			AvgWaitTime.Text = Utils.ParseMean(service.WaitingTimeStat);
 			CurrentQueueLength.Text = service.Queue.Count.ToString();
 			AvgServiceOccupancy.Text = service.GetAverageServiceOccupancy(simulation.CurrentTime).ToString(CultureInfo.InvariantCulture);
 			ServiceEntities = service.ServiceEntities;

@@ -21,6 +21,13 @@ namespace simulation
 
 		public Patient Patient { get; set; }
 
+		/**
+		 * Casting for vaccination manager
+		 */
+		public Nurse GetNurse() {
+			return (Nurse)Service;
+		}
+
 		public override MessageForm CreateCopy() {
 			return new MyMessage(this) {
 				Service = Service,

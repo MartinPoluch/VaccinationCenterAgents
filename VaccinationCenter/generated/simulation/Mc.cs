@@ -38,5 +38,6 @@ namespace simulation
 
 		// 1..1000 range reserved for user
 		public const int Initialization = 1;
+		public const int OneRefillDone = 2; // nurse refilled one vaccine
 	}
 }

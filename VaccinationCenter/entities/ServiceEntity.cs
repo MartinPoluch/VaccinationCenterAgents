@@ -14,14 +14,18 @@ namespace VaccinationCenter.entities {
 	public abstract class ServiceEntity : Entity, Resettable {
 
 		protected ServiceEntity(Simulation mySim) : base(mySim) {
-			ServiceStatus = ServiceStatus.Free;
-			LunchStatus = LunchStatus.TooEarly;
-			StartOfServiceTime = 0;
+			Init();
 			ServiceStat = new ServiceStat((MySimulation)mySim);
 		}
 
-		public void Reset() {
+		private void Init() {
 			ServiceStatus = ServiceStatus.Free;
+			LunchStatus = LunchStatus.TooEarly;
+			StartOfServiceTime = 0;
+		}
+
+		public virtual void Reset() {
+			Init();
 			ServiceStat.Reset();
 		}
 
@@ -33,7 +37,7 @@ namespace VaccinationCenter.entities {
 
 		public ServiceType ServiceType { get; protected set; }
 
-		public ServiceStatus ServiceStatus { get; private set; }
+		public ServiceStatus ServiceStatus { get; protected set; }
 
 		public LunchStatus LunchStatus { get; set; }
 
@@ -42,7 +46,8 @@ namespace VaccinationCenter.entities {
 		private double StartOfServiceTime { get; set; } // time when service start working
 
 		public void Free() {
-			Debug.Assert(ServiceStatus == ServiceStatus.Occupied, "Cannot free service that is not occupied");
+			Debug.Assert((ServiceStatus == ServiceStatus.Occupied) || (ServiceStatus == ServiceStatus.MoveFromRefill),
+				"Cannot free service that is not occupied");
 			ServiceStatus = ServiceStatus.Free;
 			double duration = MySim.CurrentTime - StartOfServiceTime;
 			ServiceStat.AddServiceOccupancy(duration);

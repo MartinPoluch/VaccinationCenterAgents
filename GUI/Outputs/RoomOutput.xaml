@@ -50,8 +50,9 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding Path=Id}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Occupancy" Binding="{Binding Path=ServiceStat}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Path=ServiceStatus}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="LunchState" Binding="{Binding Path=LunchStatus}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="ServiceStatus" Binding="{Binding Path=ServiceStatus}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="LunchStatus" Binding="{Binding Path=LunchStatus}"></DataGridTextColumn>
+                        <!--<DataGridTextColumn Header="Doses" Visibility="{Binding Path=VisibleCapacity}" Binding="{Binding Path=Capacity}"></DataGridTextColumn>-->
                     </DataGrid.Columns>
                    
                 </DataGrid>

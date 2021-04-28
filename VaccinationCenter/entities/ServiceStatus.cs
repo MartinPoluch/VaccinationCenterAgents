@@ -9,5 +9,14 @@ namespace VaccinationCenter.entities {
 		Occupied,
 		Free,
 		Lunch,
+
+		/**
+		 * Only for Nurses
+		 * unfortunately I cannot extend enum
+		 */
+		MoveToRefill,
+		WaitingForRefill,
+		Refilling,
+		MoveFromRefill,
 	}
 }

@@ -56,9 +56,10 @@ namespace VaccinationCenter.common {
 		}
 
 		private void StartService(MyMessage message) {
+			Debug.Assert(message.Service == null, "Service should be NULL");
 			double startOfWaiting = message.Patient.StartOfWaiting[MyAgent.GetServiceType()];
 			double waitingTime = MySim.CurrentTime - startOfWaiting;
-			MyAgent.WaitingTimesStat.AddSample(waitingTime);
+			MyAgent.WaitingTimeStat.AddSample(waitingTime);
 
 			ServiceEntity service = GetFreeService();
 			service.Occupy();
@@ -79,7 +80,7 @@ namespace VaccinationCenter.common {
 			}
 		}
 
-		protected void FreeService(MyMessage message) {
+		protected void FreeServiceAndReference(MyMessage message) {
 			Debug.Assert(message.Service != null, "No service available");
 			ServiceEntity service = message.Service;
 			message.Service = null; // delete service reference
@@ -87,6 +88,7 @@ namespace VaccinationCenter.common {
 		}
 
 		protected void ServiceNextPatient(MyMessage message) {
+			//TODO handle lunch here
 			if (!MyAgent.Queue.IsEmpty()) {
 				message.Patient = MyAgent.Queue.Dequeue(); // get first patient in queue
 				StartService(message); // we know that at least one service is free

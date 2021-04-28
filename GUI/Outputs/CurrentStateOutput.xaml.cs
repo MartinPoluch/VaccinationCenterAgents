@@ -30,6 +30,11 @@ namespace GUI {
 			Registration.ServiceType = ServiceType.AdminWorker;
 			Examination.ServiceType = ServiceType.Doctor;
 			Vaccination.ServiceType = ServiceType.Nurse;
+			DataGridTextColumn dosesColumn = new DataGridTextColumn {
+				Header = "Doses",
+				Binding = new Binding("Doses")
+			};
+			Vaccination.AddColumn(dosesColumn);
 		}
 
 		public void Refresh(MySimulation simulation) {

@@ -1,8 +1,11 @@
+using System;
+using System.Diagnostics;
 using OSPABA;
 using simulation;
 using agents;
 using continualAssistants;
 using VaccinationCenter.common;
+using VaccinationCenter.entities;
 
 namespace managers {
 	//meta! id="4"
@@ -12,7 +15,7 @@ namespace managers {
 			Init();
 		}
 
-		override public void PrepareReplication() {
+		public override void PrepareReplication() {
 			base.PrepareReplication();
 			// Setup component for the next replication
 
@@ -41,11 +44,24 @@ namespace managers {
 		//meta! sender="VaccinationProcess", id="97", type="Notice"
 		public void ProcessVaccinationProcessEnd(MessageForm message) {
 			MyMessage myMessage = (MyMessage)message;
-			FreeService(myMessage); // does not resend message, no copy needed
-			ServiceNextPatient(myMessage);
+			Nurse nurse = myMessage.GetNurse(); // I need keep reference before FreeService call
+			nurse.Doses--;
+			FreeServiceAndReference(myMessage); // set service reference to NULL and update stats, no message copy needed
+			if (nurse.Doses <= 0) {
+				Debug.Assert(nurse.Doses == 0, $"nurse should have 0 doses (but has {nurse.Doses} doses)");
+				MyMessage refillMessage = (MyMessage)myMessage.CreateCopy();
+				refillMessage.Service = nurse; //FreeService() kill old reference, I need assign service reference again
+				refillMessage.Addressee = MySim.FindAgent(SimId.RefillAgent);
+				refillMessage.Code = Mc.Refill;
+				nurse.StartMoveToRefill();
+				Request(refillMessage);
+			}
+			else {
+				ServiceNextPatient((MyMessage)myMessage.CreateCopy());
+			}
 
-			MyMessage endOfVaccination = (MyMessage)message.CreateCopy();
-			endOfVaccination.Service = null;
+			Debug.Assert(myMessage.Service == null, "Service should be null.");
+			MyMessage endOfVaccination = myMessage;
 			endOfVaccination.Code = Mc.Vaccination;
 			Response(endOfVaccination);
 		}
@@ -61,55 +77,40 @@ namespace managers {
 		}
 
 		//meta! sender="RefillAgent", id="147", type="Request"
-		public void ProcessRefill(MessageForm message)
-		{
+		public void ProcessRefill(MessageForm message) {
+			MyMessage myMessage = (MyMessage)message;
+			FreeServiceAndReference(myMessage);
+			ServiceNextPatient(myMessage);
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init()
-		{
+		public void Init() {
 		}
 
-		override public void ProcessMessage(MessageForm message)
-		{
-			switch (message.Code)
-			{
-			case Mc.NurseLunchBreak:
-				ProcessNurseLunchBreak(message);
-			break;
+		public override void ProcessMessage(MessageForm message) {
+			switch (message.Code) {
+				case Mc.NurseLunchBreak:
+					ProcessNurseLunchBreak(message);
+					break;
+				case Mc.VaccinationProcessEnd:
+					ProcessVaccinationProcessEnd(message);
+					break;
 
-			case Mc.Finish:
-				switch (message.Sender.Id)
-				{
-				case SimId.VaccinationProcess:
-					ProcessFinishVaccinationProcess(message);
-				break;
+				case Mc.Refill:
+					ProcessRefill(message);
+					break;
 
-				case SimId.NursesLunchScheduler:
-					ProcessFinishNursesLunchScheduler(message);
-				break;
-				}
-			break;
+				case Mc.Vaccination:
+					ProcessVaccination(message);
+					break;
 
-			case Mc.VaccinationProcessEnd:
-				ProcessVaccinationProcessEnd(message);
-			break;
+				case Mc.NurseEndBreak:
+					ProcessNurseEndBreak(message);
+					break;
 
-			case Mc.Refill:
-				ProcessRefill(message);
-			break;
-
-			case Mc.Vaccination:
-				ProcessVaccination(message);
-			break;
-
-			case Mc.NurseEndBreak:
-				ProcessNurseEndBreak(message);
-			break;
-
-			default:
-				ProcessDefault(message);
-			break;
+				default:
+					ProcessDefault(message);
+					break;
 			}
 		}
 		//meta! tag="end"

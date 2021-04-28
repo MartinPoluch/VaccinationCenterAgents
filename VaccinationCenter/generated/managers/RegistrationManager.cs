@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using OSPABA;
 using simulation;
 using agents;
@@ -13,7 +14,7 @@ namespace managers {
 			Init();
 		}
 
-		override public void PrepareReplication() {
+		public override void PrepareReplication() {
 			base.PrepareReplication();
 			// Setup component for the next replication
 
@@ -43,11 +44,11 @@ namespace managers {
 		//meta! sender="RegistrationProcess", id="72", type="Notice"
 		public void ProcessRegistrationProcessEnd(MessageForm message) {
 			MyMessage myMessage = (MyMessage)message;
-			FreeService(myMessage); // does not resend message, no copy needed
-			ServiceNextPatient(myMessage);
+			FreeServiceAndReference(myMessage); // does not resend message, no copy needed
+			ServiceNextPatient((MyMessage)myMessage.CreateCopy());
 
-			MyMessage endOfRegistration = (MyMessage)message.CreateCopy();
-			endOfRegistration.Service = null;
+			Debug.Assert(myMessage.Service == null, "Service should be null.");
+			MyMessage endOfRegistration = myMessage;
 			endOfRegistration.Code = Mc.Registration;
 			Response(endOfRegistration);
 		}
