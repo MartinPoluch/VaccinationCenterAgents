@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OSPABA;
 using OSPRNG;
 
@@ -20,7 +16,7 @@ namespace VaccinationCenter.entities {
 
 		private void Init() {
 			Doses = MaxDoses;
-			StartOfWaiting = 0;
+			StartOfMovingToRefill = InvalidValue;
 		}
 
 		public override void Reset() {
@@ -32,13 +28,32 @@ namespace VaccinationCenter.entities {
 
 		public double StartOfWaiting { get; private set; }
 
+		public double StartOfMovingToRefill { get; private set; }
+
 		public bool HasFullDoses() {
 			return Doses == MaxDoses;
+		}
+
+		public override void Free() {
+			Debug.Assert(((ServiceStatus == ServiceStatus.Occupied) || (ServiceStatus == ServiceStatus.MoveFromRefill)),
+				"Cannot free nurse that is not occupied");
+			if (ServiceStatus == ServiceStatus.Occupied) {
+				base.Free();
+			}
+			else { // service moves from refill, I need to update occupancy time with entire duration of refill
+				Debug.Assert(ServiceStatus == ServiceStatus.MoveFromRefill);
+				ServiceStatus = ServiceStatus.Free;
+				Debug.Assert(StartOfMovingToRefill != InvalidValue, "Start of moving to refill was already used, It is invalid!");
+				double duration = MySim.CurrentTime - StartOfMovingToRefill;
+				ServiceStat.AddServiceOccupancy(duration);
+				StartOfMovingToRefill = InvalidValue;
+			}
 		}
 
 		public void StartMoveToRefill() {
 			Debug.Assert(ServiceStatus == ServiceStatus.Free);
 			ServiceStatus = ServiceStatus.MoveToRefill;
+			StartOfMovingToRefill = MySim.CurrentTime;
 		}
 
 		public void StartWaitingForRefill() {
@@ -56,6 +71,7 @@ namespace VaccinationCenter.entities {
 			Debug.Assert(ServiceStatus == ServiceStatus.Refilling);
 			ServiceStatus = ServiceStatus.MoveFromRefill;
 		}
+
 
 
 	}

@@ -25,6 +25,7 @@
         <outputs:RoomReplicationOutput x:Name="Registration" RoomName="Registration"  Grid.Row="0" Grid.Column="0" Margin="10"></outputs:RoomReplicationOutput>
         <outputs:RoomReplicationOutput x:Name="Examination" RoomName="Examination" Grid.Row="0" Grid.Column="1" Margin="10"></outputs:RoomReplicationOutput>
         <outputs:RoomReplicationOutput x:Name="Vaccination" RoomName="Vaccination" Grid.Row="0" Grid.Column="2" Margin="10"></outputs:RoomReplicationOutput>
+        <outputs:RefillReplicationOutput x:Name="Refill" Grid.Row="1" Grid.Column="2"></outputs:RefillReplicationOutput>
 
         <GroupBox Grid.Row="1" Grid.Column="0" Header="Validating"  Margin="10">
             <Grid>

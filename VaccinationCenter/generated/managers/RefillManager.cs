@@ -25,7 +25,6 @@ namespace managers {
 		public void ProcessEndOfNurseMove(MessageForm message) {
 			MyMessage myMessage = (MyMessage)message;
 			Nurse nurse = myMessage.GetNurse();
-			//Console.WriteLine($"Nurse {nurse.Id} done her move to refill room");
 			if (nurse.Doses == 0) { // move from vaccination room to refill room
 				EndOfMoveToRefillRoom(myMessage);
 			}
@@ -52,6 +51,7 @@ namespace managers {
 		private void EndOfMoveToRefillRoom(MyMessage myMessage) {
 			Nurse nurse = myMessage.GetNurse();
 			Debug.Assert(nurse.Doses == 0, "If nurse goes to refill room, then she should have 0 doses.");
+			MyAgent.NursesMovingToRefill--;
 			nurse.StartWaitingForRefill(); // if there is enough capacity, then the nurse will wait 0 seconds
 			if (MyAgent.NursesRefilling < RefillAgent.MaxNursesCapacity) { // nurse can do refill
 				StartRefillService(myMessage);
@@ -63,12 +63,14 @@ namespace managers {
 		}
 
 		private void EndOfMoveFromRefillRoom(MyMessage myMessage) {
+			MyAgent.NursesMovingFromRefill--;
 			myMessage.Code = Mc.Refill;
 			Response(myMessage); // back to vaccination room
 		}
 
 		//meta! sender="VaccinationAgent", id="147", type="Response"
 		public void ProcessRefill(MessageForm message) { // first interaction in this manager
+			MyAgent.NursesMovingToRefill++;
 			message.Addressee = MyAgent.FindAssistant(SimId.NurseMoveProcess);
 			StartContinualAssistant(message); // move from vaccination room to refill room
 		}
@@ -88,8 +90,8 @@ namespace managers {
 			nurse.StartMoveFromRefill();
 			myMessage.Addressee = MyAgent.FindAssistant(SimId.NurseMoveProcess);
 			StartContinualAssistant((MyMessage)myMessage.CreateCopy()); // move from refill room back to vaccination room
-			//Console.WriteLine($"Nurse {nurse.Id} done her refill");
 
+			MyAgent.NursesMovingFromRefill++;
 			MyAgent.NursesRefilling--;
 			if (! MyAgent.Queue.IsEmpty()) {
 				Nurse nextNurse = MyAgent.Queue.Dequeue();

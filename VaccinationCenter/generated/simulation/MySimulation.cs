@@ -32,6 +32,10 @@ namespace simulation {
 
 		public Stat CoolingDurationStat { get; set; }
 
+		public Stat NursesQueueLengthStat { get; set; }
+
+		public Stat NurseWaitingTimeStat { get; set; }
+
 		protected override void PrepareSimulation() {
 			base.PrepareSimulation();
 			//initialize stats
@@ -45,6 +49,8 @@ namespace simulation {
 			CoolingDurationStat = new Stat();
 			PatientsLeftStat = new Stat();
 			PatientsMissingStat = new Stat();
+			NursesQueueLengthStat = new Stat();
+			NurseWaitingTimeStat = new Stat();
 
 			Initializable[] initAgents = { // agents that needs Simulation Parameter for their initialization
 				SurroundingsAgent, RegistrationAgent, ExaminationAgent, VaccinationAgent
@@ -71,6 +77,8 @@ namespace simulation {
 			CoolingDurationStat.AddSample(SurroundingsAgent.LastPatientExitTime - SurroundingsAgent.WorkDayDuration);
 			PatientsMissingStat.AddSample(SurroundingsAgent.PatientsMissing);
 			PatientsLeftStat.AddSample(SurroundingsAgent.PatientsLeft);
+			NursesQueueLengthStat.AddSample(RefillAgent.QueueLengthStat.Mean());
+			NurseWaitingTimeStat.AddSample(RefillAgent.WaitingTimeStat.Mean());
 		}
 
 		protected override void SimulationFinished() {
@@ -84,7 +92,7 @@ namespace simulation {
 				Console.WriteLine($"Service type: {pair.Key}");
 				var replicationStat = pair.Value;
 				Console.WriteLine($"Avg queue length: {replicationStat.QueueLengths.Mean()}");
-				Console.WriteLine($"Avg wait times: {replicationStat.WaitingTimes.Mean()}");
+				Console.WriteLine($"Avg waiting time: {replicationStat.WaitingTimes.Mean()}");
 				Console.WriteLine($"Avg service occupancy: {replicationStat.Occupancy.Mean()}");
 				Console.WriteLine("\n-----------------------------------------------");
 			}
@@ -93,8 +101,8 @@ namespace simulation {
 			Console.WriteLine($"Avg. cooling: {CoolingDurationStat.Mean()/(3600)}");
 			Console.WriteLine($"Avg. patients left: {PatientsLeftStat.Mean()}");
 			Console.WriteLine($"Avg. patients missing: {PatientsMissingStat.Mean()}");
-
-
+			Console.WriteLine($"Avg. nurse length: {NursesQueueLengthStat.Mean()}");
+			Console.WriteLine($"Avg. nurse waiting time: {NurseWaitingTimeStat.Mean()}");
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"

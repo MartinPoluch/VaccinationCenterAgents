@@ -18,8 +18,8 @@ namespace agents {
 			base(id, mySim, parent) {
 			Init();
 			CustomInit();
-			Queue = new SimQueue<Nurse>(QueueLengthStat);
 			QueueLengthStat = new WStat(mySim);
+			Queue = new SimQueue<Nurse>(QueueLengthStat);
 			WaitingTimeStat = new Stat();
 			OneRefillGenerator = new TriangularRNG(6, 10, 40);
 			MoveDurationGenerator = new UniformContinuousRNG(10, 18);
@@ -34,7 +34,9 @@ namespace agents {
 			Queue.Clear();
 			QueueLengthStat.Clear();
 			WaitingTimeStat.Clear();
+			NursesMovingToRefill = 0;
 			NursesRefilling = 0;
+			NursesMovingFromRefill = 0;
 		}
 
 		public SimQueue<Nurse> Queue { get; set; }
@@ -43,7 +45,11 @@ namespace agents {
 
 		public Stat WaitingTimeStat { get; }
 
+		public int NursesMovingToRefill { get; set; }
+
 		public int NursesRefilling { get; set; }
+
+		public int NursesMovingFromRefill { get; set; }
 
 		public RNG<double> MoveDurationGenerator { get; }
 

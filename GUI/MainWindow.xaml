@@ -17,6 +17,7 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -24,12 +25,12 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <TextBox Name="ConsoleOut" Grid.Row="5" Grid.Column="0" Height="100"  TextWrapping="Wrap" AcceptsReturn="True"  IsReadOnly="True" Margin="10"></TextBox>
+        <TextBox Name="ConsoleOut" Grid.Row="6" VerticalAlignment="Bottom" Grid.Column="0" Height="20" TextWrapping="Wrap" AcceptsReturn="True"  IsReadOnly="True" Margin="0"></TextBox>
 
         <ToggleButton Name="StartAndStopBtn"  Grid.Row="0" Grid.Column="1"  Content ="Start"  Margin = "10" Width ="150"  HorizontalAlignment = "Center"  Checked = "StartClick" Unchecked = "StopClick" />
         <ToggleButton Name="PauseAndContinueBtn"  Grid.Row="1" Grid.Column="1"  Content ="Pause"  Margin = "10" Width ="150"  HorizontalAlignment = "Center"  Checked = "PauseClick" Unchecked = "ContinueClick" />
 
-        <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Margin="10">
+        <TabControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="6" Margin="10">
             <TabItem Header="Current state">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -54,18 +55,6 @@
                     </Grid.ColumnDefinitions>
 
                     <local:ReplicationOutput x:Name="ReplicationsOut" Grid.Row="0" Grid.Column="0" Margin="10"></local:ReplicationOutput>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Doctors dependency">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
                 </Grid>
             </TabItem>
         </TabControl>

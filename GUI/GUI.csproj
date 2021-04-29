@@ -70,6 +70,15 @@
     <Compile Include="Outputs\MovementOutput.xaml.cs">
       <DependentUpon>MovementOutput.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Outputs\RefillOutput.xaml.cs">
+      <DependentUpon>RefillOutput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outputs\RefillReplicationOutput.xaml.cs">
+      <DependentUpon>RefillReplicationOutput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Outputs\WaitRoomOutput.xaml.cs">
+      <DependentUpon>WaitRoomOutput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <Page Include="ChartControls\MyChart.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -118,6 +127,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Outputs\RefillOutput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Outputs\RefillReplicationOutput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Outputs\ReplicationOutput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -129,6 +146,10 @@
     <Page Include="Outputs\RoomReplicationOutput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Outputs\WaitRoomOutput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

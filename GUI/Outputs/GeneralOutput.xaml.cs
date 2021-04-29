@@ -21,10 +21,6 @@ namespace GUI {
 			PatientsLeft.Text = surroundings.PatientsLeft.ToString();
 			PatientsMissing.Text = surroundings.PatientsMissing.ToString();
 			PatientsInSystem.Text = "XXX";
-
-			WaitingAgent waitingAgent = simulation.WaitingAgent;
-			PatientsInWaitRoom.Text = waitingAgent.GetWaitingPatients().ToString();
-			AvgPatientsInWaitRoom.Text = Utils.ParseMean(waitingAgent.WaitingRoomStat);
 		}
 	}
 }

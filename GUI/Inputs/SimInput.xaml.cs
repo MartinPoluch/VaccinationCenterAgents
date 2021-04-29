@@ -29,13 +29,19 @@ namespace GUI {
 		}
 
 		private void InitializeInputs() {
-			Replications = 100000;
-			SourceIntensity = 2500;
-			NumOfWorkers = 23;
-			NumOfDoctors = 20;
-			NumOfNurses = 14;
+			Replications = 10000;
+			SourceIntensity = 540;
+			NumOfWorkers = 5;
+			NumOfDoctors = 6;
+			NumOfNurses = 3;
+
+			SourceIntensity = 1500;
+			NumOfWorkers = 15;
+			NumOfDoctors = 18;
+			NumOfNurses = 5;
+
 			MaximumSpeed = false;
-			SimulationDuration = int.MaxValue; // endless time, simulation with cooling
+			SimulationDuration = double.MaxValue; // endless time, simulation with cooling
 			ReplicationRefreshFreq = 1;
 		}
 

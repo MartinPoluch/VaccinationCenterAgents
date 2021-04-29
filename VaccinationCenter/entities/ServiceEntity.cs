@@ -13,6 +13,8 @@ namespace VaccinationCenter.entities {
 
 	public abstract class ServiceEntity : Entity, Resettable {
 
+		protected static readonly double InvalidValue = Double.MinValue; // for debugging purposes, used for time values
+
 		protected ServiceEntity(Simulation mySim) : base(mySim) {
 			Init();
 			ServiceStat = new ServiceStat((MySimulation)mySim);
@@ -21,7 +23,7 @@ namespace VaccinationCenter.entities {
 		private void Init() {
 			ServiceStatus = ServiceStatus.Free;
 			LunchStatus = LunchStatus.TooEarly;
-			StartOfServiceTime = 0;
+			StartOfServiceTime = InvalidValue;
 		}
 
 		public virtual void Reset() {
@@ -45,12 +47,13 @@ namespace VaccinationCenter.entities {
 
 		private double StartOfServiceTime { get; set; } // time when service start working
 
-		public void Free() {
-			Debug.Assert((ServiceStatus == ServiceStatus.Occupied) || (ServiceStatus == ServiceStatus.MoveFromRefill),
-				"Cannot free service that is not occupied");
+		public virtual void Free() {
+			Debug.Assert((ServiceStatus == ServiceStatus.Occupied), "Cannot free service that is not occupied");
 			ServiceStatus = ServiceStatus.Free;
+			Debug.Assert(StartOfServiceTime != InvalidValue, "Start of service time is invalid!");
 			double duration = MySim.CurrentTime - StartOfServiceTime;
 			ServiceStat.AddServiceOccupancy(duration);
+			StartOfServiceTime = InvalidValue; // value was already used, now it is invalid
 		}
 
 		public void Occupy() {

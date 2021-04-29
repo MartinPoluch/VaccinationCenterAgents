@@ -21,8 +21,9 @@ namespace GUI {
 			Registration.Refresh(simulation);
 			Examination.Refresh(simulation);
 			Vaccination.Refresh(simulation);
+			Refill.Refresh(simulation);
 			
-			var waitAgentStat = simulation.WaitingAgent.WaitingRoomStat;
+			var waitAgentStat = simulation.WaitingRoomStat;
 			AvgPeopleInWaitRoom.Text = Utils.ParseMean(waitAgentStat);
 			CiPeopleInWaitRoom.Text = Utils.ParseConfidenceInterval(waitAgentStat);
 
