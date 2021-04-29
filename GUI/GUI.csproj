@@ -67,16 +67,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Outputs\MovementOutput.xaml.cs">
+    <Compile Include="Outputs\current\MovementOutput.xaml.cs">
       <DependentUpon>MovementOutput.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Outputs\RefillOutput.xaml.cs">
+    <Compile Include="Outputs\current\RefillOutput.xaml.cs">
       <DependentUpon>RefillOutput.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Outputs\RefillReplicationOutput.xaml.cs">
+    <Compile Include="Outputs\replications\RefillReplicationOutput.xaml.cs">
       <DependentUpon>RefillReplicationOutput.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Outputs\WaitRoomOutput.xaml.cs">
+    <Compile Include="Outputs\current\WaitRoomOutput.xaml.cs">
       <DependentUpon>WaitRoomOutput.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
@@ -115,61 +115,60 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Outputs\CurrentStateOutput.xaml">
+    <Page Include="Outputs\current\CurrentStateOutput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Outputs\GeneralOutput.xaml">
+    <Page Include="Outputs\current\GeneralOutput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Outputs\MovementOutput.xaml">
+    <Page Include="Outputs\current\MovementOutput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Outputs\RefillOutput.xaml">
+    <Page Include="Outputs\current\RefillOutput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Outputs\RefillReplicationOutput.xaml">
+    <Page Include="Outputs\replications\RefillReplicationOutput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Outputs\ReplicationOutput.xaml">
+    <Page Include="Outputs\replications\ReplicationOutput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Outputs\RoomOutput.xaml">
+    <Page Include="Outputs\current\RoomOutput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Outputs\RoomReplicationOutput.xaml">
+    <Page Include="Outputs\replications\RoomReplicationOutput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Outputs\WaitRoomOutput.xaml">
+    <Page Include="Outputs\current\WaitRoomOutput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Outputs\CurrentStateOutput.xaml.cs">
+    <Compile Include="Outputs\current\CurrentStateOutput.xaml.cs">
       <DependentUpon>CurrentStateOutput.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Outputs\GeneralOutput.xaml.cs">
+    <Compile Include="Outputs\current\GeneralOutput.xaml.cs">
       <DependentUpon>GeneralOutput.xaml</DependentUpon>
     </Compile>
     <Compile Include="Outputs\OutputStat.cs" />
-    <Compile Include="Outputs\ReplicationOutput.xaml.cs">
+    <Compile Include="Outputs\replications\ReplicationOutput.xaml.cs">
       <DependentUpon>ReplicationOutput.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Outputs\RoomOutput.xaml.cs">
+    <Compile Include="Outputs\current\RoomOutput.xaml.cs">
       <DependentUpon>RoomOutput.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Outputs\RoomReplicationOutput.xaml.cs">
+    <Compile Include="Outputs\replications\RoomReplicationOutput.xaml.cs">
       <DependentUpon>RoomReplicationOutput.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Outputs\ServiceObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -202,5 +201,6 @@
       <Name>VaccinationCenter</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

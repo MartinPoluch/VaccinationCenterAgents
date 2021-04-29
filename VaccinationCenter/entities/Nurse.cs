@@ -71,8 +71,5 @@ namespace VaccinationCenter.entities {
 			Debug.Assert(ServiceStatus == ServiceStatus.Refilling);
 			ServiceStatus = ServiceStatus.MoveFromRefill;
 		}
-
-
-
 	}
 }

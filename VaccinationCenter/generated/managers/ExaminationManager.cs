@@ -14,13 +14,15 @@ namespace managers {
 			Init();
 		}
 
-		override public void PrepareReplication() {
+		public override void PrepareReplication() {
 			base.PrepareReplication();
 			// Setup component for the next replication
+		}
 
-			if (PetriNet != null) {
-				PetriNet.Clear();
-			}
+		protected override void SendServiceToLunch(MyMessage myMessage) {
+			myMessage.Code = Mc.DoctorStartBreak;
+			myMessage.Addressee = MyAgent.FindAssistant(SimId.VacCenterAgent);
+			Notice(myMessage);
 		}
 
 		//meta! sender="DoctorLunchScheduler", id="89", type="Notice"

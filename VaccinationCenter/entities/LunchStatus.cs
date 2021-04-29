@@ -9,9 +9,9 @@ namespace VaccinationCenter.entities {
 	public enum LunchStatus {
 		TooEarly,
 		Hungry,
-		TravelingTo,
+		MoveTo,
 		Eating,
-		TravelingFrom,
+		MoveFrom,
 		Full
 	}
 }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OSPABA;
 using OSPRNG;
 using simulation;
@@ -41,7 +37,7 @@ namespace VaccinationCenter.entities {
 
 		public ServiceStatus ServiceStatus { get; protected set; }
 
-		public LunchStatus LunchStatus { get; set; }
+		public LunchStatus LunchStatus { get; protected set; }
 
 		public ServiceStat ServiceStat { get; }
 
@@ -53,13 +49,48 @@ namespace VaccinationCenter.entities {
 			Debug.Assert(StartOfServiceTime != InvalidValue, "Start of service time is invalid!");
 			double duration = MySim.CurrentTime - StartOfServiceTime;
 			ServiceStat.AddServiceOccupancy(duration);
-			StartOfServiceTime = InvalidValue; // value was already used, now it is invalid
+			StartOfServiceTime = InvalidValue; // value was alreadt
 		}
 
 		public void Occupy() {
 			Debug.Assert(ServiceStatus == ServiceStatus.Free, "Cannot occupied service that is not free");
 			ServiceStatus = ServiceStatus.Occupied;
 			StartOfServiceTime = MySim.CurrentTime;
+		}
+
+		public void StartLunchBreak() {
+			Debug.Assert(ServiceStatus == ServiceStatus.Free, "Only free entity can start lunch break");
+			ServiceStatus = ServiceStatus.Lunch;
+		}
+
+		public void StartBeingHungry() {
+			Debug.Assert(LunchStatus == LunchStatus.TooEarly, "Cannot start being hungry");
+			LunchStatus = LunchStatus.Hungry;
+		}
+
+		public void StartMoveToLunch() {
+			Debug.Assert((ServiceStatus == ServiceStatus.Lunch) && (LunchStatus == LunchStatus.Hungry),
+				"Cannot start move to lunch");
+			LunchStatus = LunchStatus.MoveTo;
+		}
+
+		public void StartEating() {
+			Debug.Assert((ServiceStatus == ServiceStatus.Lunch) && (LunchStatus == LunchStatus.MoveTo),
+				"Cannot start eating");
+			LunchStatus = LunchStatus.Eating;
+		}
+
+		public void StartMoveFromLunch() {
+			Debug.Assert((ServiceStatus == ServiceStatus.Lunch) && (LunchStatus == LunchStatus.Eating),
+				"Cannot start moving from lunch");
+			LunchStatus = LunchStatus.MoveFrom;
+		}
+
+		public void EndLunchBreak() {
+			Debug.Assert((ServiceStatus == ServiceStatus.Lunch) && (LunchStatus == LunchStatus.MoveFrom),
+				"Cannot end lunch break");
+			LunchStatus = LunchStatus.Full;
+			ServiceStatus = ServiceStatus.Free;
 		}
 	}
 }

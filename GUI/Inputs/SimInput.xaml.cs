@@ -35,11 +35,6 @@ namespace GUI {
 			NumOfDoctors = 6;
 			NumOfNurses = 3;
 
-			SourceIntensity = 1500;
-			NumOfWorkers = 15;
-			NumOfDoctors = 18;
-			NumOfNurses = 5;
-
 			MaximumSpeed = false;
 			SimulationDuration = double.MaxValue; // endless time, simulation with cooling
 			ReplicationRefreshFreq = 1;

@@ -5,10 +5,12 @@ using simulation;
 using agents;
 using continualAssistants;
 using VaccinationCenter.common;
+using VaccinationCenter.entities;
 
 namespace managers {
 	//meta! id="6"
 	public class RegistrationManager : ServiceManager {
+
 		public RegistrationManager(int id, Simulation mySim, Agent myAgent) :
 			base(id, mySim, myAgent) {
 			Init();
@@ -20,6 +22,12 @@ namespace managers {
 
 		}
 
+		protected override void SendServiceToLunch(MyMessage myMessage) {
+			myMessage.Code = Mc.AdminStartBreak;
+			myMessage.Addressee = MyAgent.FindAssistant(SimId.VacCenterAgent);
+			Notice(myMessage);
+		}
+
 		//meta! sender="VacCenterAgent", id="20", type="Request"
 		public void ProcessRegistration(MessageForm message) {
 			GoToServiceOrQueue((MyMessage)message);
@@ -27,10 +35,15 @@ namespace managers {
 
 		//meta! sender="AdminLunchScheduler", id="73", type="Notice"
 		public void ProcessAdminLunchBreak(MessageForm message) {
+			StartOfLunchBreak((MyMessage)message);
 		}
 
 		//meta! sender="VacCenterAgent", id="56", type="Notice"
 		public void ProcessAdminEndBreak(MessageForm message) {
+			MyMessage myMessage = (MyMessage)message;
+			ServiceEntity service = myMessage.Service;
+			service.EndLunchBreak();
+			ServiceNextPatient(myMessage);
 		}
 
 		//meta! sender="AdminLunchScheduler", id="71", type="Finish"
@@ -60,46 +73,42 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init()
-		{
+		public void Init() {
 		}
 
-		override public void ProcessMessage(MessageForm message)
-		{
-			switch (message.Code)
-			{
-			case Mc.Finish:
-				switch (message.Sender.Id)
-				{
-				case SimId.RegistrationProcess:
-					ProcessFinishRegistrationProcess(message);
-				break;
+		public override void ProcessMessage(MessageForm message) {
+			switch (message.Code) {
+				case Mc.Finish:
+					switch (message.Sender.Id) {
+						case SimId.RegistrationProcess:
+							ProcessFinishRegistrationProcess(message);
+							break;
 
-				case SimId.AdminLunchScheduler:
-					ProcessFinishAdminLunchScheduler(message);
-				break;
-				}
-			break;
+						case SimId.AdminLunchScheduler:
+							ProcessFinishAdminLunchScheduler(message);
+							break;
+					}
+					break;
 
-			case Mc.Registration:
-				ProcessRegistration(message);
-			break;
+				case Mc.Registration:
+					ProcessRegistration(message);
+					break;
 
-			case Mc.AdminEndBreak:
-				ProcessAdminEndBreak(message);
-			break;
+				case Mc.AdminEndBreak:
+					ProcessAdminEndBreak(message);
+					break;
 
-			case Mc.RegistrationProcessEnd:
-				ProcessRegistrationProcessEnd(message);
-			break;
+				case Mc.RegistrationProcessEnd:
+					ProcessRegistrationProcessEnd(message);
+					break;
 
-			case Mc.AdminLunchBreak:
-				ProcessAdminLunchBreak(message);
-			break;
+				case Mc.AdminLunchBreak:
+					ProcessAdminLunchBreak(message);
+					break;
 
-			default:
-				ProcessDefault(message);
-			break;
+				default:
+					ProcessDefault(message);
+					break;
 			}
 		}
 		//meta! tag="end"

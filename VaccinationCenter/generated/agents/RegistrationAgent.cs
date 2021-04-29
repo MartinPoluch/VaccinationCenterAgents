@@ -12,10 +12,13 @@ namespace agents {
 		public RegistrationAgent(int id, Simulation mySim, Agent parent) :
 			base(id, mySim, parent) {
 			Init();
-			RegistrationProcess = (ContinualAssistant)FindAssistant(SimId.RegistrationProcess);
+			RegistrationProcess = (Process)FindAssistant(SimId.RegistrationProcess);
+			LunchBreakScheduler = (Scheduler)FindAssistant(SimId.AdminLunchScheduler);
 		}
 
-		private ContinualAssistant RegistrationProcess { get; }
+		private Process RegistrationProcess { get; }
+
+		private Scheduler LunchBreakScheduler { get; }
 
 		protected override ServiceEntity CreateEntity() {
 			return new AdminWorker(MySim);
@@ -25,8 +28,16 @@ namespace agents {
 			return ServiceType.AdminWorker;
 		}
 
-		public override ContinualAssistant GetServiceProcess() {
+		public override Process GetServiceProcess() {
 			return RegistrationProcess;
+		}
+
+		public override double GetStartTimeOfLunch() {
+			return 60 * 60 * 3; // 11:00
+		}
+
+		public override Scheduler GetLunchBreakScheduler() {
+			return (Scheduler)LunchBreakScheduler;
 		}
 
 		public override void PrepareReplication() {

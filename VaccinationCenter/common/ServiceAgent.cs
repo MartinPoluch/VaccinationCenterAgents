@@ -63,6 +63,10 @@ namespace VaccinationCenter.common {
 
 		public abstract ServiceType GetServiceType();
 
-		public abstract ContinualAssistant GetServiceProcess();
+		public abstract Process GetServiceProcess();
+
+		public abstract double GetStartTimeOfLunch();
+
+		public abstract Scheduler GetLunchBreakScheduler();
 	}
 }

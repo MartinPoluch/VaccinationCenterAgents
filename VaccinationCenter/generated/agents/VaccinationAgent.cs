@@ -11,10 +11,13 @@ namespace agents {
 		public VaccinationAgent(int id, Simulation mySim, Agent parent) :
 			base(id, mySim, parent) {
 			Init();
-			VaccinationProcess = (ContinualAssistant)FindAssistant(SimId.VaccinationProcess);
+			VaccinationProcess = (Process)FindAssistant(SimId.VaccinationProcess);
+			LunchBreakScheduler = (Scheduler)FindAssistant(SimId.NursesLunchScheduler);
 		}
 
-		private ContinualAssistant VaccinationProcess { get; }
+		private Process VaccinationProcess { get; }
+
+		private Scheduler LunchBreakScheduler { get; }
 
 		protected override ServiceEntity CreateEntity() {
 			return new Nurse(MySim);
@@ -24,11 +27,19 @@ namespace agents {
 			return ServiceType.Nurse;
 		}
 
-		public override ContinualAssistant GetServiceProcess() {
+		public override Process GetServiceProcess() {
 			return VaccinationProcess;
 		}
 
-		override public void PrepareReplication() {
+		public override double GetStartTimeOfLunch() {
+			return (60 * 60 * 5) + (60 * 30); // 13:30
+		}
+
+		public override Scheduler GetLunchBreakScheduler() {
+			return LunchBreakScheduler;
+		}
+
+		public override void PrepareReplication() {
 			base.PrepareReplication();
 			// Setup component for the next replication
 		}

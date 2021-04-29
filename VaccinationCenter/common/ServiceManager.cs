@@ -22,6 +22,8 @@ namespace VaccinationCenter.common {
 			// Setup component for the next replication
 		}
 
+		protected abstract void SendServiceToLunch(MyMessage myMessage);
+
 		private List<ServiceEntity> GetFreeServices() {
 			List<ServiceEntity> freeServices = new List<ServiceEntity>();
 			foreach (ServiceEntity service in MyAgent.ServiceEntities) {
@@ -88,10 +90,25 @@ namespace VaccinationCenter.common {
 		}
 
 		protected void ServiceNextPatient(MyMessage message) {
-			//TODO handle lunch here
+			//TODO handle lunch here, this method is called also after service return from lunch
 			if (!MyAgent.Queue.IsEmpty()) {
 				message.Patient = MyAgent.Queue.Dequeue(); // get first patient in queue
 				StartService(message); // we know that at least one service is free
+			}
+		}
+
+		protected void StartOfLunchBreak(MyMessage myMessage) {
+			foreach (ServiceEntity service in MyAgent.ServiceEntities) {
+				service.StartBeingHungry();
+			}
+
+			var freeServices = GetFreeServices();
+			if (freeServices.Count > 0) {
+				//TODO, implement, do not forget copy of message
+				ServiceEntity service = freeServices[0];
+				myMessage.Service = service;
+				service.StartLunchBreak();
+				SendServiceToLunch(myMessage); //TODO, only for testing
 			}
 		}
 

@@ -55,6 +55,11 @@ namespace managers {
 			}
 		}
 
+		private void SendServiceToLunch(MessageForm message) {
+			message.Addressee = MySim.FindAgent(SimId.LunchAgent);
+			message.Code = Mc.LunchBreak;
+			Request(message);
+		}
 
 		//meta! sender="ExaminationAgent", id="26", type="Notice"
 		public void ProcessDoctorStartBreak(MessageForm message) {
@@ -62,6 +67,7 @@ namespace managers {
 
 		//meta! sender="RegistrationAgent", id="25", type="Notice"
 		public void ProcessAdminStartBreak(MessageForm message) {
+			SendServiceToLunch(message);
 		}
 
 		//meta! sender="VaccinationAgent", id="22", type="Response"
@@ -80,6 +86,28 @@ namespace managers {
 
 		//meta! sender="LunchAgent", id="28", type="Response"
 		public void ProcessLunchBreak(MessageForm message) {
+			MyMessage myMessage = (MyMessage)message;
+			ServiceEntity service = myMessage.Service;
+			switch (service.ServiceType) {
+				case ServiceType.AdminWorker: {
+					myMessage.Addressee = MySim.FindAgent(SimId.RegistrationAgent);
+					myMessage.Code = Mc.AdminEndBreak;
+					Notice(myMessage);
+					break;
+				}
+				case ServiceType.Doctor: {
+					myMessage.Addressee = MySim.FindAgent(SimId.ExaminationAgent);
+					myMessage.Code = Mc.DoctorEndBreak;
+					Notice(myMessage);
+					break;
+				}
+				case ServiceType.Nurse: {
+					myMessage.Addressee = MySim.FindAgent(SimId.VaccinationAgent);
+					myMessage.Code = Mc.NurseEndBreak;
+					Notice(myMessage);
+					break;
+				}
+			}
 		}
 
 		//meta! sender="ModelAgent", id="19", type="Notice"
