@@ -20,9 +20,12 @@ namespace continualAssistants {
 		public void ProcessStart(MessageForm message) {
 			MyMessage myMessage = (MyMessage)message;
 			Patient patient = myMessage.Patient;
-			RNG<double> generator = MyAgent.MoveDurationGenerators[patient.LastVisitedService];
 			myMessage.Code = Mc.EndOfMove;
-			Hold(generator.Sample(), myMessage);
+			RNG<double> generator = MyAgent.MoveDurationGenerators[patient.LastVisitedService];
+			double moveDuration = ((MySimulation)MySim).SimParameter.ValidationMode 
+				? 0 
+				: generator.Sample();
+			Hold(moveDuration, myMessage);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"

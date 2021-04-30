@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GUI"
              xmlns:outputs="clr-namespace:GUI.Outputs"
+             xmlns:current="clr-namespace:GUI.Outputs.current"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -27,5 +28,6 @@
         <outputs:RefillOutput x:Name="Refill" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="0"></outputs:RefillOutput>
         <outputs:MovementOutput x:Name="Movement" Grid.Row="1" Grid.Column="2" Margin="0"></outputs:MovementOutput>
         <outputs:WaitRoomOutput x:Name="WaitRoom" Grid.Row="2" Grid.Column="2" Margin="0"></outputs:WaitRoomOutput>
+        <current:LunchOutput x:Name="Lunch" Grid.Row="2" Grid.Column="0" Margin="0"></current:LunchOutput>
     </Grid>
 </UserControl>

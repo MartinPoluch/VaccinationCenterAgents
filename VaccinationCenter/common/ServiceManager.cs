@@ -90,7 +90,19 @@ namespace VaccinationCenter.common {
 		}
 
 		protected void ServiceNextPatient(MyMessage message) {
-			//TODO handle lunch here, this method is called also after service return from lunch
+			//TODO, follow rule tha half of services must be present
+			//bool serviceCanGoToLunch = (MySim.CurrentTime > MyAgent.GetStartTimeOfLunch());
+			//if (MySim.CurrentTime > MyAgent.GetStartTimeOfLunch()) {
+			//	ServiceEntity service = PickServiceForLunch();
+			//	if (service != null) {
+			//		MyMessage lunchMessage = (MyMessage)message.CreateCopy();
+			//		service.StartLunchBreak();
+			//		lunchMessage.Service = service;
+			//		SendServiceToLunch(lunchMessage);
+			//	}
+			//}
+
+
 			if (!MyAgent.Queue.IsEmpty()) {
 				message.Patient = MyAgent.Queue.Dequeue(); // get first patient in queue
 				StartService(message); // we know that at least one service is free
@@ -102,15 +114,37 @@ namespace VaccinationCenter.common {
 				service.StartBeingHungry();
 			}
 
-			var freeServices = GetFreeServices();
+			var freeServices = GetFreeServices(); // nobody has eaten yet, so everybody has HUNGRY state
 			if (freeServices.Count > 0) {
-				//TODO, implement, do not forget copy of message
-				ServiceEntity service = freeServices[0];
-				myMessage.Service = service;
-				service.StartLunchBreak();
-				SendServiceToLunch(myMessage); //TODO, only for testing
+				int serviceLimit = MyAgent.ServiceEntities.Count / 2; // at least half of services must be in the room all the time
+				int numOfServiceToLunch = (freeServices.Count <= serviceLimit) ? freeServices.Count : serviceLimit; // how many services can go to lunch
+				for (int i = 0; i < numOfServiceToLunch; i++) {
+					MyMessage lunchMessage = (i == (numOfServiceToLunch - 1)) // last sent service
+						? myMessage // don't want to copy last message
+						: (MyMessage)myMessage.CreateCopy(); // I need copy messages
+
+					ServiceEntity service = freeServices[i];
+					service.StartLunchBreak();
+					lunchMessage.Service = service;
+					SendServiceToLunch(lunchMessage);
+				}
 			}
 		}
+
+		/**
+		 * Pick one service for lunch.
+		 * If no service is available, then it will return NULL.
+		 */
+		private ServiceEntity PickServiceForLunch() {
+			foreach (ServiceEntity service in MyAgent.ServiceEntities) {
+				if ((service.ServiceStatus == ServiceStatus.Free) && (service.LunchStatus == LunchStatus.Hungry)) {
+					return service;
+				}
+			}
+
+			return null; // no free service available or everybody has already eaten
+		}
+
 
 		public override void ProcessMessage(MessageForm message) {
 			switch (message.Code) {

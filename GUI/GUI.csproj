@@ -67,6 +67,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Outputs\current\LunchOutput.xaml.cs">
+      <DependentUpon>LunchOutput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Outputs\current\MovementOutput.xaml.cs">
       <DependentUpon>MovementOutput.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
     <Page Include="Outputs\current\GeneralOutput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Outputs\current\LunchOutput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Outputs\current\MovementOutput.xaml">
       <SubType>Designer</SubType>

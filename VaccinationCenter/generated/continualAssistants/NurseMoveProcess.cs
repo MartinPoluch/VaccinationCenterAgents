@@ -20,7 +20,10 @@ namespace continualAssistants {
 		//meta! sender="RefillAgent", id="150", type="Start"
 		public void ProcessStart(MessageForm message) {
 			message.Code = Mc.EndOfNurseMove;
-			Hold(MyAgent.MoveDurationGenerator.Sample(), message);
+			double moveDuration = ((MySimulation)MySim).SimParameter.ValidationMode
+				? 0
+				: MyAgent.MoveDurationGenerator.Sample();
+			Hold(moveDuration, message);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"

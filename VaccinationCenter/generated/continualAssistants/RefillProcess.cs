@@ -17,10 +17,16 @@ namespace continualAssistants {
 			// Setup component for the next replication
 		}
 
+		private double GenerateOneRefillDuration() {
+			return ((MySimulation)MySim).SimParameter.ValidationMode
+				? 0
+				: MyAgent.OneRefillGenerator.Sample();
+		}
+
 		//meta! sender="RefillAgent", id="155", type="Start"
 		public void ProcessStart(MessageForm message) {
 			message.Code = Mc.OneRefillDone;
-			Hold(MyAgent.OneRefillGenerator.Sample(), message);
+			Hold(GenerateOneRefillDuration(), message);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
@@ -36,7 +42,7 @@ namespace continualAssistants {
 						Notice(myMessage);
 					}
 					else {
-						Hold(MyAgent.OneRefillGenerator.Sample(), message); // another dose refill
+						Hold(GenerateOneRefillDuration(), message); // another dose refill
 					}
 					break;
 				}

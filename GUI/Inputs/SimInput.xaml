@@ -28,6 +28,9 @@
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -38,13 +41,13 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Margin="5">Replications:</TextBlock>
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Replications}" PreviewTextInput="CheckIntegerInput" Margin="5"></TextBox>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Margin="5">Source intensity (per day):</TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="5">Patients (per day):</TextBlock>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SourceIntensity}" PreviewTextInput="CheckIntegerInput" Margin="5"></TextBox>
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Margin="10">Replication refresh frequency::</TextBlock>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ReplicationRefreshFreq}" PreviewTextInput="CheckIntegerInput" Margin="10"></TextBox>
-
-                <CheckBox Name="MaximumSpeedCheckBox" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="{Binding MaximumSpeed}" Margin="5">Maximum speed (without animations)</CheckBox>
+                
+                <CheckBox Name="MaximumSpeedCb" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="{Binding MaximumSpeed}" Margin="5">Maximum speed</CheckBox>
+                <CheckBox Name="ValidationCb" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="{Binding Validation}" Margin="5">Validation</CheckBox>
+                <CheckBox Name="EarlyArrivalsCb" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="{Binding EarlyArrivals}" Margin="5">Early arrivals</CheckBox>
             </Grid>
         </GroupBox>
 

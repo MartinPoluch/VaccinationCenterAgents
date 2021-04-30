@@ -36,6 +36,9 @@ namespace GUI {
 			NumOfNurses = 3;
 
 			MaximumSpeed = false;
+			Validation = false;
+			EarlyArrivals = false;
+
 			SimulationDuration = double.MaxValue; // endless time, simulation with cooling
 			ReplicationRefreshFreq = 1;
 		}
@@ -51,6 +54,10 @@ namespace GUI {
 		public int NumOfNurses { get; set; }
 
 		public bool MaximumSpeed { get; set; }
+
+		public bool Validation { get; set; }
+
+		public bool EarlyArrivals { get; set; }
 
 		public double SimulationDuration { get; set; }
 
@@ -74,13 +81,14 @@ namespace GUI {
 			return new DateTime(2021, 2, 3, 8, 0, 0);
 		}
 
-
 		public SimParameter CreateSimParameter() {
 			return new SimParameter() {
 				NumOfAdminWorkers = NumOfWorkers,
 				NumOfDoctors = NumOfDoctors,
 				NumOfNurses = NumOfNurses,
-				NumOfPatients = SourceIntensity
+				NumOfPatients = SourceIntensity,
+				ValidationMode = Validation,
+				EarlyArrivals = EarlyArrivals
 			};
 		}
 	}

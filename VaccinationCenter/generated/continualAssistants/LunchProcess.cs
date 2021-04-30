@@ -16,7 +16,10 @@ namespace continualAssistants {
 		//meta! sender="LunchAgent", id="41", type="Start"
 		public void ProcessStart(MessageForm message) {
 			message.Code = Mc.EndOfLunch;
-			Hold(MyAgent.LunchDurationGenerator.Sample(), message);
+			double lunchDuration = ((MySimulation)MySim).SimParameter.ValidationMode
+				? 0
+				: MyAgent.LunchDurationGenerator.Sample();
+			Hold(lunchDuration, message);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"

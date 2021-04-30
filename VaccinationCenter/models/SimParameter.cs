@@ -17,6 +17,10 @@ namespace VaccinationCenter.models {
 
 		public int NumOfPatients { get; set; }
 
+		public bool ValidationMode { get; set; }
+
+		public bool EarlyArrivals { get; set; }
+
 		public int GetNumberOfServices(ServiceType type) {
 			switch (type) {
 				case ServiceType.AdminWorker: {

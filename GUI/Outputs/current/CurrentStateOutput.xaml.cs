@@ -31,6 +31,7 @@ namespace GUI {
 			Refill.Refresh(simulation);
 			Movement.Refresh(simulation);
 			WaitRoom.Refresh(simulation);
+			Lunch.Refresh(simulation);
 		}
 	}
 }
