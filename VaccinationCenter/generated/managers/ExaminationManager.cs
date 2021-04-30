@@ -46,7 +46,7 @@ namespace managers {
 		public void ProcessExaminationProcessEnd(MessageForm message) {
 			MyMessage myMessage = (MyMessage)message;
 			FreeServiceAndReference(myMessage); // does not resend message, no copy needed
-			ServiceNextPatient((MyMessage)myMessage.CreateCopy());
+			ServiceNextPatientOrGoToLunch((MyMessage)myMessage.CreateCopy());
 
 			Debug.Assert(myMessage.Service == null, "Service should be null.");
 			MyMessage endOfExamination = myMessage;

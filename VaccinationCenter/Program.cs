@@ -22,6 +22,12 @@ namespace VaccinationCenter {
 			//int replication = 10000;
 			//double endTime = double.MaxValue;
 			//simulation.Simulate(replication, endTime);
+			Random seeder = new Random(1);
+			RNG<double>.SetSeedGen(seeder);
+			RNG<double> generator = new UniformContinuousRNG(10, 20);
+			for (int i = 0; i < 100; i++) {
+				Console.WriteLine(generator.Sample());
+			}
 
 			Console.Read();
 

@@ -43,7 +43,8 @@ namespace managers {
 			MyMessage myMessage = (MyMessage)message;
 			ServiceEntity service = myMessage.Service;
 			service.EndLunchBreak();
-			ServiceNextPatient(myMessage);
+			myMessage.Service = null;
+			ServiceNextPatientOrGoToLunch(myMessage);
 		}
 
 		//meta! sender="AdminLunchScheduler", id="71", type="Finish"
@@ -58,8 +59,9 @@ namespace managers {
 		public void ProcessRegistrationProcessEnd(MessageForm message) {
 			MyMessage myMessage = (MyMessage)message;
 			FreeServiceAndReference(myMessage); // does not resend message, no copy needed
-			ServiceNextPatient((MyMessage)myMessage.CreateCopy());
-
+			MyMessage messageCopy = (MyMessage)myMessage.CreateCopy();
+			ServiceNextPatientOrGoToLunch(messageCopy);
+			
 			Debug.Assert(myMessage.Service == null, "Service should be null.");
 			MyMessage endOfRegistration = myMessage;
 			endOfRegistration.Code = Mc.Registration;

@@ -16,12 +16,16 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GUI.Inputs;
 using OSPABA;
+using OSPRNG;
 using simulation;
 
 namespace GUI {
 	public partial class MainWindow : Window {
 
 		public MainWindow() {
+			Random seeder = new Random(5000);
+			RNG<double>.SetSeedGen(seeder);
+			RNG<int>.SetSeedGen(seeder);
 			InitializeComponent();
 			InitVacCenter();
 			Title = "Vaccination center";

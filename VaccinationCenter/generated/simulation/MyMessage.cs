@@ -1,3 +1,4 @@
+using System;
 using OSPABA;
 using VaccinationCenter.entities;
 
@@ -16,6 +17,7 @@ namespace simulation
 			// copy() is called in superclass
 		}
 
+		public String DebugText { get; set; }
 
 		public ServiceEntity Service { get; set; }
 

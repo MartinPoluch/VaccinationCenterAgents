@@ -25,14 +25,9 @@ namespace VaccinationCenter.common {
 		protected abstract void SendServiceToLunch(MyMessage myMessage);
 
 		private List<ServiceEntity> GetFreeServices() {
-			List<ServiceEntity> freeServices = new List<ServiceEntity>();
-			foreach (ServiceEntity service in MyAgent.ServiceEntities) {
-				if (service.ServiceStatus == ServiceStatus.Free) {
-					freeServices.Add(service);
-				}
-			}
-
-			return freeServices;
+			return MyAgent.ServiceEntities
+				.Where(x => x.ServiceStatus == ServiceStatus.Free)
+				.ToList();
 		}
 
 		public ServiceEntity GetFreeService() {
@@ -48,13 +43,7 @@ namespace VaccinationCenter.common {
 		}
 
 		protected bool IsAnyServiceFree() {
-			foreach (ServiceEntity service in MyAgent.ServiceEntities) {
-				if (service.ServiceStatus == ServiceStatus.Free) {
-					return true;
-				}
-			}
-
-			return false;
+			return MyAgent.ServiceEntities.Any(x => x.ServiceStatus == ServiceStatus.Free);
 		}
 
 		private void StartService(MyMessage message) {
@@ -89,27 +78,49 @@ namespace VaccinationCenter.common {
 			service.Free();
 		}
 
-		protected void ServiceNextPatient(MyMessage message) {
-			//TODO, follow rule tha half of services must be present
-			//bool serviceCanGoToLunch = (MySim.CurrentTime > MyAgent.GetStartTimeOfLunch());
-			//if (MySim.CurrentTime > MyAgent.GetStartTimeOfLunch()) {
-			//	ServiceEntity service = PickServiceForLunch();
-			//	if (service != null) {
-			//		MyMessage lunchMessage = (MyMessage)message.CreateCopy();
-			//		service.StartLunchBreak();
-			//		lunchMessage.Service = service;
-			//		SendServiceToLunch(lunchMessage);
-			//	}
-			//}
+		private int GetNumberOfCurrentAvailableServices() {
+			return MyAgent.ServiceEntities.Count(x => x.ServiceStatus != ServiceStatus.Lunch);
+		}
 
+		private bool CanGoToLunch() {
+			int minimalNumOfServices = (int)Math.Ceiling(((double)MyAgent.ServiceEntities.Count) / 2);
+			bool isAnybodyFreeAndHungry = MyAgent.ServiceEntities
+				.Any(x => x.LunchStatus == LunchStatus.Hungry && x.ServiceStatus == ServiceStatus.Free);
+			return (MySim.CurrentTime >= MyAgent.GetStartTimeOfLunch())
+			       && (GetNumberOfCurrentAvailableServices() > minimalNumOfServices)
+			       && (isAnybodyFreeAndHungry);
+		}
 
-			if (!MyAgent.Queue.IsEmpty()) {
+		/**
+		 * This method is called when service finish its process (end of registration, end of vaccination, end of lunch break, etc.)
+		 */
+		protected void ServiceNextPatientOrGoToLunch(MyMessage message) {
+			Debug.Assert(IsAnyServiceFree(), "At least one service should be free");
+			if (CanGoToLunch()) { // if there is someone who want and also can go to lunch
+				ServiceEntity service = PickServiceForLunch(); // pick first and hungry service
+				if (service != null) {
+					service.StartLunchBreak();
+					message.Service = service;
+					SendServiceToLunch(message); // abstract method, real message call is implemented in the child class
+				}
+				else { // No one is free, but should be ...
+					   //if this method was called some service must be free, because this method is called only when some service end it process
+					Debug.Fail("No service cannot go to lunch because no service is free, but someone should be free");
+				}
+			}
+			else if (!MyAgent.Queue.IsEmpty()) { // if someone is waiting in queue for service
 				message.Patient = MyAgent.Queue.Dequeue(); // get first patient in queue
+				Console.WriteLine($"Service entity from lunch has just started service: {MySim.CurrentTime}");
 				StartService(message); // we know that at least one service is free
+			}
+			else {
+				// Service cannot go to lunch and nobody is waiting in the queue. So it is free time :)
 			}
 		}
 
 		protected void StartOfLunchBreak(MyMessage myMessage) {
+			Debug.Assert(Math.Abs(MySim.CurrentTime - MyAgent.GetStartTimeOfLunch()) < Double.Epsilon, "It is not lunch time!");
+			Debug.Assert(GetNumberOfCurrentAvailableServices() == MyAgent.ServiceEntities.Count, "All services should be available at this time.");
 			foreach (ServiceEntity service in MyAgent.ServiceEntities) {
 				service.StartBeingHungry();
 			}

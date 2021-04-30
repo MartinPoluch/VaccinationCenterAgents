@@ -59,7 +59,7 @@ namespace managers {
 				Request(refillMessage);
 			}
 			else {
-				ServiceNextPatient((MyMessage)myMessage.CreateCopy());
+				ServiceNextPatientOrGoToLunch((MyMessage)myMessage.CreateCopy());
 			}
 
 			Debug.Assert(myMessage.Service == null, "Service should be null.");
@@ -82,7 +82,7 @@ namespace managers {
 		public void ProcessRefill(MessageForm message) {
 			MyMessage myMessage = (MyMessage)message;
 			FreeServiceAndReference(myMessage);
-			ServiceNextPatient(myMessage);
+			ServiceNextPatientOrGoToLunch(myMessage);
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
