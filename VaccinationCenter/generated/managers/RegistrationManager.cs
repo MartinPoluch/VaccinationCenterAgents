@@ -26,7 +26,7 @@ namespace managers {
 			myMessage.Code = Mc.AdminStartBreak;
 			myMessage.Addressee = MyAgent.FindAssistant(SimId.VacCenterAgent);
 			Notice(myMessage);
-		}
+		} 
 
 		//meta! sender="AdminLunchScheduler", id="73", type="Notice"
 		public void ProcessAdminLunchBreak(MessageForm message) {
@@ -36,9 +36,7 @@ namespace managers {
 		//meta! sender="VacCenterAgent", id="56", type="Notice"
 		public void ProcessAdminEndBreak(MessageForm message) {
 			MyMessage myMessage = (MyMessage)message;
-			ServiceEntity service = myMessage.Service;
-			service.EndLunchBreak();
-			myMessage.Service = null;
+			EndServiceLunchBreakAndReference(myMessage);
 			ServiceNextPatientOrGoToLunch(myMessage);
 		}
 

@@ -63,6 +63,7 @@ namespace managers {
 
 		//meta! sender="ExaminationAgent", id="26", type="Notice"
 		public void ProcessDoctorStartBreak(MessageForm message) {
+			SendServiceToLunch(message);
 		}
 
 		//meta! sender="RegistrationAgent", id="25", type="Notice"
@@ -70,18 +71,9 @@ namespace managers {
 			SendServiceToLunch(message);
 		}
 
-		//meta! userInfo="Removed from model"
-		public void ProcessVaccination(MessageForm message) {
-			MovePatientToAnotherRoom(message);
-		}
-
 		//meta! sender="VaccinationAgent", id="27", type="Notice"
 		public void ProcessNurseStartBreak(MessageForm message) {
-		}
-
-		//meta! userInfo="Removed from model"
-		public void ProcessRegistration(MessageForm message) {
-			MovePatientToAnotherRoom(message);
+			SendServiceToLunch(message);
 		}
 
 		//meta! sender="LunchAgent", id="28", type="Response"
@@ -151,57 +143,54 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init()
-		{
+		public void Init() {
 		}
 
-		override public void ProcessMessage(MessageForm message)
-		{
-			switch (message.Code)
-			{
-			case Mc.LunchBreak:
-				ProcessLunchBreak(message);
-			break;
+		public override void ProcessMessage(MessageForm message) {
+			switch (message.Code) {
+				case Mc.LunchBreak:
+					ProcessLunchBreak(message);
+					break;
 
-			case Mc.VaccinationEnd:
-				ProcessVaccinationEnd(message);
-			break;
+				case Mc.VaccinationEnd:
+					ProcessVaccinationEnd(message);
+					break;
 
-			case Mc.NurseStartBreak:
-				ProcessNurseStartBreak(message);
-			break;
+				case Mc.NurseStartBreak:
+					ProcessNurseStartBreak(message);
+					break;
 
-			case Mc.RegistrationEnd:
-				ProcessRegistrationEnd(message);
-			break;
+				case Mc.RegistrationEnd:
+					ProcessRegistrationEnd(message);
+					break;
 
-			case Mc.ExaminationEnd:
-				ProcessExaminationEnd(message);
-			break;
+				case Mc.ExaminationEnd:
+					ProcessExaminationEnd(message);
+					break;
 
-			case Mc.MoveToAnotherRoom:
-				ProcessMoveToAnotherRoom(message);
-			break;
+				case Mc.MoveToAnotherRoom:
+					ProcessMoveToAnotherRoom(message);
+					break;
 
-			case Mc.PatientEnterCenter:
-				ProcessPatientEnterCenter(message);
-			break;
+				case Mc.PatientEnterCenter:
+					ProcessPatientEnterCenter(message);
+					break;
 
-			case Mc.DoctorStartBreak:
-				ProcessDoctorStartBreak(message);
-			break;
+				case Mc.DoctorStartBreak:
+					ProcessDoctorStartBreak(message);
+					break;
 
-			case Mc.AdminStartBreak:
-				ProcessAdminStartBreak(message);
-			break;
+				case Mc.AdminStartBreak:
+					ProcessAdminStartBreak(message);
+					break;
 
-			case Mc.Waiting:
-				ProcessWaiting(message);
-			break;
+				case Mc.Waiting:
+					ProcessWaiting(message);
+					break;
 
-			default:
-				ProcessDefault(message);
-			break;
+				default:
+					ProcessDefault(message);
+					break;
 			}
 		}
 		//meta! tag="end"

@@ -5,6 +5,7 @@ using simulation;
 using agents;
 using continualAssistants;
 using VaccinationCenter.common;
+using VaccinationCenter.entities;
 
 namespace managers {
 	//meta! id="5"
@@ -27,6 +28,7 @@ namespace managers {
 
 		//meta! sender="DoctorLunchScheduler", id="89", type="Notice"
 		public void ProcessDoctorLunchBreak(MessageForm message) {
+			StartOfLunchBreak((MyMessage)message);
 		}
 
 		//meta! sender="ExaminationProcess", id="83", type="Finish"
@@ -40,6 +42,9 @@ namespace managers {
 
 		//meta! sender="VacCenterAgent", id="57", type="Notice"
 		public void ProcessDoctorEndBreak(MessageForm message) {
+			MyMessage myMessage = (MyMessage)message;
+			EndServiceLunchBreakAndReference(myMessage);
+			ServiceNextPatientOrGoToLunch(myMessage);
 		}
 
 		//meta! sender="ExaminationProcess", id="88", type="Notice"

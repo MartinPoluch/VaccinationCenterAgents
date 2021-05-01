@@ -50,6 +50,11 @@ namespace VaccinationCenter.entities {
 			}
 		}
 
+		public override void StartLunchBreak() {
+			Debug.Assert(Doses > 0, $"Nurse cannot go to lunch with zero doses");
+			base.StartLunchBreak();
+		}
+
 		public void StartMoveToRefill() {
 			Debug.Assert(ServiceStatus == ServiceStatus.Free);
 			ServiceStatus = ServiceStatus.MoveToRefill;

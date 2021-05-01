@@ -58,7 +58,7 @@ namespace VaccinationCenter.entities {
 			StartOfServiceTime = MySim.CurrentTime;
 		}
 
-		public void StartLunchBreak() {
+		public virtual void StartLunchBreak() {
 			Debug.Assert(ServiceStatus == ServiceStatus.Free, "Only free entity can start lunch break");
 			ServiceStatus = ServiceStatus.Lunch;
 		}

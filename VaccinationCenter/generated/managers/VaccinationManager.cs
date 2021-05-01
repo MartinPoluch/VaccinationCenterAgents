@@ -29,6 +29,7 @@ namespace managers {
 
 		//meta! sender="NursesLunchScheduler", id="95", type="Notice"
 		public void ProcessNurseLunchBreak(MessageForm message) {
+			StartOfLunchBreak((MyMessage)message);
 		}
 
 		//meta! sender="NursesLunchScheduler", id="94", type="Finish"
@@ -45,7 +46,7 @@ namespace managers {
 			Nurse nurse = myMessage.GetNurse(); // I need keep reference before FreeService call
 			nurse.Doses--;
 			FreeServiceAndReference(myMessage); // set service reference to NULL and update stats, no message copy needed
-			if (nurse.Doses <= 0) {
+			if (nurse.Doses <= 0) { // refill has more priority then lunch break
 				Debug.Assert(nurse.Doses == 0, $"nurse should have 0 doses (but has {nurse.Doses} doses)");
 				MyMessage refillMessage = (MyMessage)myMessage.CreateCopy();
 				refillMessage.Service = nurse; //FreeService() kill old reference, I need assign service reference again
@@ -67,6 +68,9 @@ namespace managers {
 
 		//meta! sender="VacCenterAgent", id="59", type="Notice"
 		public void ProcessNurseEndBreak(MessageForm message) {
+			MyMessage myMessage = (MyMessage)message;
+			EndServiceLunchBreakAndReference(myMessage);
+			ServiceNextPatientOrGoToLunch(myMessage);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
@@ -91,7 +95,7 @@ namespace managers {
 		public void Init() {
 		}
 
-		override public void ProcessMessage(MessageForm message) {
+		public override void ProcessMessage(MessageForm message) {
 			switch (message.Code) {
 				case Mc.Finish:
 					switch (message.Sender.Id) {

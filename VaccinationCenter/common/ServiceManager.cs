@@ -78,6 +78,12 @@ namespace VaccinationCenter.common {
 			service.Free();
 		}
 
+		protected void EndServiceLunchBreakAndReference(MyMessage myMessage) {
+			ServiceEntity service = myMessage.Service;
+			myMessage.Service = null;
+			service.EndLunchBreak();
+		}
+
 		private int GetNumberOfCurrentAvailableServices() {
 			return MyAgent.ServiceEntities.Count(x => x.ServiceStatus != ServiceStatus.Lunch);
 		}
@@ -110,7 +116,6 @@ namespace VaccinationCenter.common {
 			}
 			else if (!MyAgent.Queue.IsEmpty()) { // if someone is waiting in queue for service
 				message.Patient = MyAgent.Queue.Dequeue(); // get first patient in queue
-				Console.WriteLine($"Service entity from lunch has just started service: {MySim.CurrentTime}");
 				StartService(message); // we know that at least one service is free
 			}
 			else {
@@ -131,8 +136,8 @@ namespace VaccinationCenter.common {
 				int numOfServiceToLunch = (freeServices.Count <= serviceLimit) ? freeServices.Count : serviceLimit; // how many services can go to lunch
 				for (int i = 0; i < numOfServiceToLunch; i++) {
 					MyMessage lunchMessage = (i == (numOfServiceToLunch - 1)) // last sent service
-						? myMessage // don't need to copy last message
-						: (MyMessage)myMessage.CreateCopy(); // I need copy messages
+						? myMessage // don't need to copy the last message
+						: (MyMessage)myMessage.CreateCopy(); // I need copy rest of messages
 
 					ServiceEntity service = freeServices[i];
 					service.StartLunchBreak();
