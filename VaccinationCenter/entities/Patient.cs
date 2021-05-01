@@ -29,6 +29,5 @@ namespace VaccinationCenter.entities {
 		public Dictionary<ServiceType, double> StartOfWaiting { get; set; }
 
 		public ServiceType LastVisitedService { get; set; }
-
 	}
 }

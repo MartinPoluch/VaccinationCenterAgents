@@ -18,6 +18,7 @@ using GUI.Inputs;
 using OSPABA;
 using OSPRNG;
 using simulation;
+using VaccinationCenter;
 
 namespace GUI {
 	public partial class MainWindow : Window {
@@ -42,6 +43,8 @@ namespace GUI {
 		}
 
 		public Simulation VacCenterSim { get; set; }
+
+		public SimulationWrapper SimulationWrapper { get; set; }
 
 		private void SimulationWillStart(Simulation simulation) {
 			MySimulation vacSimulation = (MySimulation)simulation;
@@ -102,14 +105,59 @@ namespace GUI {
 				ResetAllOutputs();
 				ActivateRunningState();
 				if (OtherInputs.SelectedMode() == Mode.Classic) {
-					//InitVacCenter();
+					InitVacCenter();
 					VacCenterSim.SimulateAsync(SimInputs.Replications, MySimulation.InfinityTime);
 				}
-				
+				else if (OtherInputs.SelectedMode() == Mode.DependencyChart) {
+					CreateDependencyChart();
+				}
 			}
 			else {
 				MessageBox.Show("Cannot start simulation", "Wrong inputs", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+		}
+
+		private void CreateDependencyChart() {
+			Charts.ResetOutput();
+			ConsoleOut.Text = "Calculating points for dependency chart ...";
+			SimulationWrapper = new SimulationWrapper();
+			BackgroundWorker worker = new BackgroundWorker() {
+				WorkerReportsProgress = true,
+				WorkerSupportsCancellation = true
+			};
+			worker.DoWork += delegate (object sender, DoWorkEventArgs args) {
+				SimulationWrapper.Simulate(
+					worker,
+					SimInputs.Replications,
+					SimInputs.SourceIntensity,
+					SimInputs.NumOfWorkers,
+					OtherInputs.MinDoctors,
+					OtherInputs.MaxDoctors,
+					SimInputs.NumOfNurses,
+					SimInputs.Validation,
+					SimInputs.EarlyArrivals);
+			};
+			worker.ProgressChanged += RefreshDependencyChart;
+			worker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs args) {
+				RefreshAfterSimulation(sender, args);
+				ConsoleOut.Text += "Dependency chart was successfully created.";
+			};
+			worker.RunWorkerAsync();
+		}
+
+		private void RefreshDependencyChart(object sender, ProgressChangedEventArgs e) {
+			MySimulation simulation = (MySimulation)e.UserState;
+			Charts.Refresh(simulation);
+		}
+
+		private void RefreshAfterSimulation(object sender, RunWorkerCompletedEventArgs e) {
+			var error = e.Error;
+			if (error != null) {
+				Console.WriteLine($"Error occured: {error}");
+				MessageBox.Show(error.StackTrace, error.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+			StartAndStopBtn.IsChecked = false;
+			ActivateReadyState();
 		}
 
 		private void ActivateReadyState() {
@@ -152,17 +200,32 @@ namespace GUI {
 		}
 
 		private void StopClick(object sender, RoutedEventArgs e) {
-			VacCenterSim.StopSimulation();
+			if (OtherInputs.SelectedMode() == Mode.Classic) {
+				VacCenterSim.StopSimulation();
+			}
+			else {
+				SimulationWrapper.Stop();
+			}
 			ActivateReadyState();
 		}
 
 		private void PauseClick(object sender, RoutedEventArgs e) {
-			VacCenterSim.PauseSimulation();
+			if (OtherInputs.SelectedMode() == Mode.Classic) {
+				VacCenterSim.PauseSimulation();
+			}
+			else {
+				SimulationWrapper.Pause();
+			}
 			ActivatePausedState();
 		}
 
 		private void ContinueClick(object sender, RoutedEventArgs e) {
-			VacCenterSim.ResumeSimulation();
+			if (OtherInputs.SelectedMode() == Mode.Classic) {
+				VacCenterSim.ResumeSimulation();
+			}
+			else {
+				SimulationWrapper.Continue();
+			}
 			ActivateRunningState();
 		}
 

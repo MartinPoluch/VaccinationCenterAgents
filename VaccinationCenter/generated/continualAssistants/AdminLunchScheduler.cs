@@ -18,31 +18,29 @@ namespace continualAssistants {
 
 		//meta! sender="RegistrationAgent", id="71", type="Start"
 		public void ProcessStart(MessageForm message) {
-			
+
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
 		public void ProcessDefault(MessageForm message) {
 			switch (message.Code) {
 				case Mc.AdminLunchBreak: {
-					Notice(message);
-					break;
-				}
+						Notice(message);
+						break;
+					}
 			}
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		override public void ProcessMessage(MessageForm message)
-		{
-			switch (message.Code)
-			{
-			case Mc.Start:
-				ProcessStart(message);
-			break;
+		public override void ProcessMessage(MessageForm message) {
+			switch (message.Code) {
+				case Mc.Start:
+					ProcessStart(message);
+					break;
 
-			default:
-				ProcessDefault(message);
-			break;
+				default:
+					ProcessDefault(message);
+					break;
 			}
 		}
 		//meta! tag="end"

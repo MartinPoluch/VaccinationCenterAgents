@@ -57,6 +57,20 @@
                     <local:ReplicationOutput x:Name="ReplicationsOut" Grid.Row="0" Grid.Column="0" Margin="10"></local:ReplicationOutput>
                 </Grid>
             </TabItem>
+            <TabItem Header="Charts">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="61*"></ColumnDefinition>
+                        <ColumnDefinition Width="1032*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <outputs:ChartsOutput x:Name="Charts" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></outputs:ChartsOutput>
+                </Grid>
+            </TabItem>
         </TabControl>
 
         <TabControl Grid.Row="2" Grid.Column="1" Margin="10">

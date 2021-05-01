@@ -12,12 +12,21 @@ namespace agents {
 	//meta! id="2"
 	public class SurroundingsAgent : Agent, Initializable {
 
-		public readonly double WorkDayDuration = 9 * 60 * 60;
+		private static readonly double Minute = 60;
+
+		public readonly double WorkDayDuration = 9 * 60 * Minute;
 
 		public SurroundingsAgent(int id, Simulation mySim, Agent parent) :
 			base(id, mySim, parent) {
 			Init();
 			MissingDecisionGen = new UniformContinuousRNG(0, 1);
+			EarlyArrivalDecisionGen = new UniformContinuousRNG(0, 1);
+			EarlyArrivalGen = new EmpiricRNG<double>(
+				new EmpiricPair<double>(new UniformContinuousRNG(Minute, 20 * Minute), 0.3),
+				new EmpiricPair<double>(new UniformContinuousRNG(20 * Minute, 60 * Minute), 0.4),
+				new EmpiricPair<double>(new UniformContinuousRNG(60 * Minute, 80 * Minute), 0.2),
+				new EmpiricPair<double>(new UniformContinuousRNG(80 * Minute, 240 * Minute), 0.1)
+			);
 		}
 
 		public int PatientsPerDay { get; private set; } // planned number of patients per day
@@ -35,6 +44,10 @@ namespace agents {
 		private RNG<double> MissingDecisionGen { get; set; }
 
 		private double ProbabilityOfMissing { get; set; }
+
+		private RNG<double> EarlyArrivalDecisionGen { get; set; }
+
+		public RNG<double> EarlyArrivalGen { get; set; }
 
 		public void Initialize(SimParameter parameter) {
 			PatientsPerDay = parameter.NumOfPatients;
@@ -76,6 +89,10 @@ namespace agents {
 
 		public bool PatientIsMissing() {
 			return (MissingDecisionGen.Sample() < ProbabilityOfMissing);
+		}
+
+		public bool PatientWilComeEarly() {
+			return (EarlyArrivalDecisionGen.Sample() < 0.9);
 		}
 	}
 }

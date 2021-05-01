@@ -47,6 +47,9 @@
     <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="PriorityQueue, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5e136dbf0437dacd, processorArchitecture=MSIL">
+      <HintPath>..\packages\OptimizedPriorityQueue.5.1.0\lib\net45\PriorityQueue.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -67,6 +70,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Outputs\charts\ChartsOutput.xaml.cs">
+      <DependentUpon>ChartsOutput.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Outputs\current\LunchOutput.xaml.cs">
       <DependentUpon>LunchOutput.xaml</DependentUpon>
     </Compile>
@@ -82,6 +88,7 @@
     <Compile Include="Outputs\current\WaitRoomOutput.xaml.cs">
       <DependentUpon>WaitRoomOutput.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Outputs\ResettableOutput.cs" />
     <Compile Include="Utils.cs" />
     <Page Include="ChartControls\MyChart.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -118,6 +125,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Outputs\charts\ChartsOutput.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Outputs\current\CurrentStateOutput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

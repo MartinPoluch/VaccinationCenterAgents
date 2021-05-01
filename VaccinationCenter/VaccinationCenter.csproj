@@ -36,6 +36,9 @@
     <Reference Include="ABACore">
       <HintPath>..\ABACore.dll</HintPath>
     </Reference>
+    <Reference Include="PriorityQueue, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5e136dbf0437dacd, processorArchitecture=MSIL">
+      <HintPath>..\packages\OptimizedPriorityQueue.5.1.0\lib\net45\PriorityQueue.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,6 +62,7 @@
     <Compile Include="generated\continualAssistants\NurseMoveProcess.cs" />
     <Compile Include="generated\continualAssistants\RefillProcess.cs" />
     <Compile Include="generated\managers\RefillManager.cs" />
+    <Compile Include="SimulationWrapper.cs" />
     <Compile Include="stats\Resettable.cs" />
     <Compile Include="stats\ServiceReplicationStat.cs" />
     <Compile Include="stats\ServiceStat.cs" />
@@ -104,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

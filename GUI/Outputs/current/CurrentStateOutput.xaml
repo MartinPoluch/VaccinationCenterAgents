@@ -25,9 +25,9 @@
         <outputs:RoomOutput x:Name="Examination" RoomName="Examination" Grid.Row="0" Grid.Column="1" Margin="0"></outputs:RoomOutput>
         <outputs:RoomOutput x:Name="Vaccination" RoomName="Vaccination" Grid.Row="0" Grid.Column="2" Margin="0"></outputs:RoomOutput>
         <local:GeneralOutput x:Name="GeneralOut" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="0"></local:GeneralOutput>
-        <outputs:RefillOutput x:Name="Refill" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="0"></outputs:RefillOutput>
-        <outputs:MovementOutput x:Name="Movement" Grid.Row="1" Grid.Column="2" Margin="0"></outputs:MovementOutput>
-        <outputs:WaitRoomOutput x:Name="WaitRoom" Grid.Row="2" Grid.Column="2" Margin="0"></outputs:WaitRoomOutput>
-        <current:LunchOutput x:Name="Lunch" Grid.Row="2" Grid.Column="0" Margin="0"></current:LunchOutput>
+        <outputs:RefillOutput x:Name="Refill" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" Margin="0"></outputs:RefillOutput>
+        <outputs:MovementOutput x:Name="Movement" Grid.Row="1" Grid.Column="1" Margin="0"></outputs:MovementOutput>
+        <outputs:WaitRoomOutput x:Name="WaitRoom" Grid.Row="2" Grid.Column="0" Margin="0, 10, 0, 0"></outputs:WaitRoomOutput>
+        <current:LunchOutput x:Name="Lunch" Grid.Row="2" Grid.Column="1" Margin="0"></current:LunchOutput>
     </Grid>
 </UserControl>
