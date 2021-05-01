@@ -34,11 +34,12 @@ namespace agents {
 		public Dictionary<ServiceType, int> MovingPatients { get; set; }
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		private void Init() {
+		private void Init()
+		{
 			new MovementManager(SimId.MovementManager, MySim, this);
 			new MovementProcess(SimId.MovementProcess, MySim, this);
-			AddOwnMessage(Mc.MoveToAnotherRoom);
 			AddOwnMessage(Mc.EndOfMove);
+			AddOwnMessage(Mc.MoveToAnotherRoom);
 		}
 		//meta! tag="end"
 	}

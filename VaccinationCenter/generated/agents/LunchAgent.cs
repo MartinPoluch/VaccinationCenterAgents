@@ -33,7 +33,8 @@ namespace agents {
 		public int ServicesMovingFromLunch { get; set; }
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		private void Init() {
+		private void Init()
+		{
 			new LunchManager(SimId.LunchManager, MySim, this);
 			new LunchProcess(SimId.LunchProcess, MySim, this);
 			new TravelProcess(SimId.TravelProcess, MySim, this);

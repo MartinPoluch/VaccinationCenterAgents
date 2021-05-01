@@ -33,15 +33,17 @@ namespace continualAssistants {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public override void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.Start:
-					ProcessStart(message);
-					break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.Start:
+				ProcessStart(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

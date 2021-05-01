@@ -53,9 +53,9 @@ namespace agents
 			new ExaminationManager(SimId.ExaminationManager, MySim, this);
 			new DoctorLunchScheduler(SimId.DoctorLunchScheduler, MySim, this);
 			new ExaminationProcess(SimId.ExaminationProcess, MySim, this);
+			AddOwnMessage(Mc.ExaminationStart);
 			AddOwnMessage(Mc.DoctorLunchBreak);
 			AddOwnMessage(Mc.DoctorEndBreak);
-			AddOwnMessage(Mc.Examination);
 			AddOwnMessage(Mc.ExaminationProcessEnd);
 		}
 		//meta! tag="end"

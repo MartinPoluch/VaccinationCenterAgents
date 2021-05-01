@@ -56,7 +56,8 @@ namespace agents {
 		public RNG<double> OneRefillGenerator { get; }
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		private void Init() {
+		private void Init()
+		{
 			new RefillManager(SimId.RefillManager, MySim, this);
 			new NurseMoveProcess(SimId.NurseMoveProcess, MySim, this);
 			new RefillProcess(SimId.RefillProcess, MySim, this);

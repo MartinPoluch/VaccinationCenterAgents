@@ -31,27 +31,27 @@ namespace managers {
 			Patient patient = myMessage.Patient;
 			switch (patient.LastVisitedService) {
 				case ServiceType.AdminWorker: {
-					myMessage.Addressee = MySim.FindAgent(SimId.ExaminationAgent);
-					myMessage.Code = Mc.Examination;
-					Request(myMessage);
-					break;
-				}
+						myMessage.Addressee = MySim.FindAgent(SimId.ExaminationAgent);
+						myMessage.Code = Mc.ExaminationStart;
+						Notice(myMessage);
+						break;
+					}
 				case ServiceType.Doctor: {
-					myMessage.Addressee = MySim.FindAgent(SimId.VaccinationAgent);
-					myMessage.Code = Mc.Vaccination;
-					Request(myMessage);
-					break;
-				}
+						myMessage.Addressee = MySim.FindAgent(SimId.VaccinationAgent);
+						myMessage.Code = Mc.VaccinationStart;
+						Notice(myMessage);
+						break;
+					}
 				case ServiceType.Nurse: {
-					myMessage.Addressee = MySim.FindAgent(SimId.WaitingAgent);
-					myMessage.Code = Mc.Waiting;
-					Request(myMessage);
-					break;
-				}
+						myMessage.Addressee = MySim.FindAgent(SimId.WaitingAgent);
+						myMessage.Code = Mc.Waiting;
+						Request(myMessage);
+						break;
+					}
 				default: {
-					Debug.Fail("Patient did not visit any known service and he tries to move.");
-					break;
-				}
+						Debug.Fail("Patient did not visit any known service and he tries to move.");
+						break;
+					}
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace managers {
 			SendServiceToLunch(message);
 		}
 
-		//meta! sender="VaccinationAgent", id="22", type="Response"
+		//meta! userInfo="Removed from model"
 		public void ProcessVaccination(MessageForm message) {
 			MovePatientToAnotherRoom(message);
 		}
@@ -79,7 +79,7 @@ namespace managers {
 		public void ProcessNurseStartBreak(MessageForm message) {
 		}
 
-		//meta! sender="RegistrationAgent", id="20", type="Response"
+		//meta! userInfo="Removed from model"
 		public void ProcessRegistration(MessageForm message) {
 			MovePatientToAnotherRoom(message);
 		}
@@ -90,34 +90,34 @@ namespace managers {
 			ServiceEntity service = myMessage.Service;
 			switch (service.ServiceType) {
 				case ServiceType.AdminWorker: {
-					myMessage.Addressee = MySim.FindAgent(SimId.RegistrationAgent);
-					myMessage.Code = Mc.AdminEndBreak;
-					Notice(myMessage);
-					break;
-				}
+						myMessage.Addressee = MySim.FindAgent(SimId.RegistrationAgent);
+						myMessage.Code = Mc.AdminEndBreak;
+						Notice(myMessage);
+						break;
+					}
 				case ServiceType.Doctor: {
-					myMessage.Addressee = MySim.FindAgent(SimId.ExaminationAgent);
-					myMessage.Code = Mc.DoctorEndBreak;
-					Notice(myMessage);
-					break;
-				}
+						myMessage.Addressee = MySim.FindAgent(SimId.ExaminationAgent);
+						myMessage.Code = Mc.DoctorEndBreak;
+						Notice(myMessage);
+						break;
+					}
 				case ServiceType.Nurse: {
-					myMessage.Addressee = MySim.FindAgent(SimId.VaccinationAgent);
-					myMessage.Code = Mc.NurseEndBreak;
-					Notice(myMessage);
-					break;
-				}
+						myMessage.Addressee = MySim.FindAgent(SimId.VaccinationAgent);
+						myMessage.Code = Mc.NurseEndBreak;
+						Notice(myMessage);
+						break;
+					}
 			}
 		}
 
 		//meta! sender="ModelAgent", id="19", type="Notice"
 		public void ProcessPatientEnterCenter(MessageForm message) {
 			message.Addressee = MySim.FindAgent(SimId.RegistrationAgent);
-			message.Code = Mc.Registration;
-			Request(message);
+			message.Code = Mc.RegistrationStart;
+			Notice(message);
 		}
 
-		//meta! sender="ExaminationAgent", id="21", type="Response"
+		//meta! userInfo="Removed from model"
 		public void ProcessExamination(MessageForm message) {
 			MovePatientToAnotherRoom(message);
 		}
@@ -135,53 +135,68 @@ namespace managers {
 			}
 		}
 
+		//meta! sender="ExaminationAgent", id="165", type="Notice"
+		public void ProcessExaminationEnd(MessageForm message) {
+			MovePatientToAnotherRoom(message);
+		}
+
+		//meta! sender="VaccinationAgent", id="169", type="Notice"
+		public void ProcessVaccinationEnd(MessageForm message) {
+			MovePatientToAnotherRoom(message);
+		}
+
+		//meta! sender="RegistrationAgent", id="164", type="Notice"
+		public void ProcessRegistrationEnd(MessageForm message) {
+			MovePatientToAnotherRoom(message);
+		}
+
 		//meta! userInfo="Generated code: do not modify", tag="begin"
 		public void Init()
 		{
 		}
 
-		public override void ProcessMessage(MessageForm message)
+		override public void ProcessMessage(MessageForm message)
 		{
 			switch (message.Code)
 			{
-			case Mc.Examination:
-				ProcessExamination(message);
-			break;
-
-			case Mc.Registration:
-				ProcessRegistration(message);
-			break;
-
 			case Mc.LunchBreak:
 				ProcessLunchBreak(message);
 			break;
 
-			case Mc.Vaccination:
-				ProcessVaccination(message);
-			break;
-
-			case Mc.Waiting:
-				ProcessWaiting(message);
-			break;
-
-			case Mc.AdminStartBreak:
-				ProcessAdminStartBreak(message);
-			break;
-
-			case Mc.DoctorStartBreak:
-				ProcessDoctorStartBreak(message);
+			case Mc.VaccinationEnd:
+				ProcessVaccinationEnd(message);
 			break;
 
 			case Mc.NurseStartBreak:
 				ProcessNurseStartBreak(message);
 			break;
 
-			case Mc.PatientEnterCenter:
-				ProcessPatientEnterCenter(message);
+			case Mc.RegistrationEnd:
+				ProcessRegistrationEnd(message);
+			break;
+
+			case Mc.ExaminationEnd:
+				ProcessExaminationEnd(message);
 			break;
 
 			case Mc.MoveToAnotherRoom:
 				ProcessMoveToAnotherRoom(message);
+			break;
+
+			case Mc.PatientEnterCenter:
+				ProcessPatientEnterCenter(message);
+			break;
+
+			case Mc.DoctorStartBreak:
+				ProcessDoctorStartBreak(message);
+			break;
+
+			case Mc.AdminStartBreak:
+				ProcessAdminStartBreak(message);
+			break;
+
+			case Mc.Waiting:
+				ProcessWaiting(message);
 			break;
 
 			default:

@@ -48,11 +48,11 @@ namespace agents {
 		private void Init()
 		{
 			new VaccinationManager(SimId.VaccinationManager, MySim, this);
-			new NursesLunchScheduler(SimId.NursesLunchScheduler, MySim, this);
 			new VaccinationProcess(SimId.VaccinationProcess, MySim, this);
+			new NursesLunchScheduler(SimId.NursesLunchScheduler, MySim, this);
 			AddOwnMessage(Mc.VaccinationProcessEnd);
 			AddOwnMessage(Mc.NurseLunchBreak);
-			AddOwnMessage(Mc.Vaccination);
+			AddOwnMessage(Mc.VaccinationStart);
 			AddOwnMessage(Mc.Refill);
 			AddOwnMessage(Mc.NurseEndBreak);
 		}

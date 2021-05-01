@@ -28,11 +28,6 @@ namespace managers {
 			Notice(myMessage);
 		}
 
-		//meta! sender="VacCenterAgent", id="20", type="Request"
-		public void ProcessRegistration(MessageForm message) {
-			GoToServiceOrQueue((MyMessage)message);
-		}
-
 		//meta! sender="AdminLunchScheduler", id="73", type="Notice"
 		public void ProcessAdminLunchBreak(MessageForm message) {
 			StartOfLunchBreak((MyMessage)message);
@@ -61,11 +56,12 @@ namespace managers {
 			FreeServiceAndReference(myMessage); // does not resend message, no copy needed
 			MyMessage messageCopy = (MyMessage)myMessage.CreateCopy();
 			ServiceNextPatientOrGoToLunch(messageCopy);
-			
+
 			Debug.Assert(myMessage.Service == null, "Service should be null.");
 			MyMessage endOfRegistration = myMessage;
-			endOfRegistration.Code = Mc.Registration;
-			Response(endOfRegistration);
+			endOfRegistration.Addressee = MySim.FindAgent(SimId.VacCenterAgent);
+			endOfRegistration.Code = Mc.RegistrationEnd;
+			Notice(endOfRegistration);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
@@ -74,43 +70,52 @@ namespace managers {
 			}
 		}
 
-		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		//meta! sender="VacCenterAgent", id="163", type="Notice"
+		public void ProcessRegistrationStart(MessageForm message) {
+			GoToServiceOrQueue((MyMessage)message);
 		}
 
-		public override void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.Finish:
-					switch (message.Sender.Id) {
-						case SimId.RegistrationProcess:
-							ProcessFinishRegistrationProcess(message);
-							break;
+		//meta! userInfo="Generated code: do not modify", tag="begin"
+		public void Init()
+		{
+		}
 
-						case SimId.AdminLunchScheduler:
-							ProcessFinishAdminLunchScheduler(message);
-							break;
-					}
-					break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.RegistrationProcessEnd:
+				ProcessRegistrationProcessEnd(message);
+			break;
 
-				case Mc.Registration:
-					ProcessRegistration(message);
-					break;
+			case Mc.Finish:
+				switch (message.Sender.Id)
+				{
+				case SimId.RegistrationProcess:
+					ProcessFinishRegistrationProcess(message);
+				break;
 
-				case Mc.AdminEndBreak:
-					ProcessAdminEndBreak(message);
-					break;
+				case SimId.AdminLunchScheduler:
+					ProcessFinishAdminLunchScheduler(message);
+				break;
+				}
+			break;
 
-				case Mc.RegistrationProcessEnd:
-					ProcessRegistrationProcessEnd(message);
-					break;
+			case Mc.RegistrationStart:
+				ProcessRegistrationStart(message);
+			break;
 
-				case Mc.AdminLunchBreak:
-					ProcessAdminLunchBreak(message);
-					break;
+			case Mc.AdminLunchBreak:
+				ProcessAdminLunchBreak(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			case Mc.AdminEndBreak:
+				ProcessAdminEndBreak(message);
+			break;
+
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

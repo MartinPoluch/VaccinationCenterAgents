@@ -108,38 +108,42 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		public void Init()
+		{
 		}
 
-		public override void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.EndOfRefill:
-					ProcessEndOfRefill(message);
-					break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.Finish:
+				switch (message.Sender.Id)
+				{
+				case SimId.RefillProcess:
+					ProcessFinishRefillProcess(message);
+				break;
 
-				case Mc.Refill:
-					ProcessRefill(message);
-					break;
+				case SimId.NurseMoveProcess:
+					ProcessFinishNurseMoveProcess(message);
+				break;
+				}
+			break;
 
-				case Mc.Finish:
-					switch (message.Sender.Id) {
-						case SimId.NurseMoveProcess:
-							ProcessFinishNurseMoveProcess(message);
-							break;
+			case Mc.EndOfNurseMove:
+				ProcessEndOfNurseMove(message);
+			break;
 
-						case SimId.RefillProcess:
-							ProcessFinishRefillProcess(message);
-							break;
-					}
-					break;
+			case Mc.EndOfRefill:
+				ProcessEndOfRefill(message);
+			break;
 
-				case Mc.EndOfNurseMove:
-					ProcessEndOfNurseMove(message);
-					break;
+			case Mc.Refill:
+				ProcessRefill(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

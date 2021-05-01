@@ -131,7 +131,7 @@ namespace VaccinationCenter.common {
 				int numOfServiceToLunch = (freeServices.Count <= serviceLimit) ? freeServices.Count : serviceLimit; // how many services can go to lunch
 				for (int i = 0; i < numOfServiceToLunch; i++) {
 					MyMessage lunchMessage = (i == (numOfServiceToLunch - 1)) // last sent service
-						? myMessage // don't want to copy last message
+						? myMessage // don't need to copy last message
 						: (MyMessage)myMessage.CreateCopy(); // I need copy messages
 
 					ServiceEntity service = freeServices[i];

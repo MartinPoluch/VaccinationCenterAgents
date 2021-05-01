@@ -26,10 +26,6 @@ namespace managers {
 			Notice(myMessage);
 		}
 
-		//meta! sender="VacCenterAgent", id="22", type="Request"
-		public void ProcessVaccination(MessageForm message) {
-			GoToServiceOrQueue((MyMessage)message);
-		}
 
 		//meta! sender="NursesLunchScheduler", id="95", type="Notice"
 		public void ProcessNurseLunchBreak(MessageForm message) {
@@ -64,8 +60,9 @@ namespace managers {
 
 			Debug.Assert(myMessage.Service == null, "Service should be null.");
 			MyMessage endOfVaccination = myMessage;
-			endOfVaccination.Code = Mc.Vaccination;
-			Response(endOfVaccination);
+			endOfVaccination.Addressee = MySim.FindAgent(SimId.VacCenterAgent);
+			endOfVaccination.Code = Mc.VaccinationEnd;
+			Notice(endOfVaccination);
 		}
 
 		//meta! sender="VacCenterAgent", id="59", type="Notice"
@@ -85,29 +82,47 @@ namespace managers {
 			ServiceNextPatientOrGoToLunch(myMessage);
 		}
 
+		//meta! sender="VacCenterAgent", id="167", type="Notice"
+		public void ProcessVaccinationStart(MessageForm message) {
+			GoToServiceOrQueue((MyMessage)message);
+		}
+
 		//meta! userInfo="Generated code: do not modify", tag="begin"
 		public void Init() {
 		}
 
-		public override void ProcessMessage(MessageForm message) {
+		override public void ProcessMessage(MessageForm message) {
 			switch (message.Code) {
-				case Mc.NurseLunchBreak:
-					ProcessNurseLunchBreak(message);
+				case Mc.Finish:
+					switch (message.Sender.Id) {
+						case SimId.VaccinationProcess:
+							ProcessFinishVaccinationProcess(message);
+							break;
+
+						case SimId.NursesLunchScheduler:
+							ProcessFinishNursesLunchScheduler(message);
+							break;
+					}
 					break;
+
+				case Mc.VaccinationStart:
+					ProcessVaccinationStart(message);
+					break;
+
 				case Mc.VaccinationProcessEnd:
 					ProcessVaccinationProcessEnd(message);
 					break;
 
-				case Mc.Refill:
-					ProcessRefill(message);
-					break;
-
-				case Mc.Vaccination:
-					ProcessVaccination(message);
-					break;
-
 				case Mc.NurseEndBreak:
 					ProcessNurseEndBreak(message);
+					break;
+
+				case Mc.NurseLunchBreak:
+					ProcessNurseLunchBreak(message);
+					break;
+
+				case Mc.Refill:
+					ProcessRefill(message);
 					break;
 
 				default:

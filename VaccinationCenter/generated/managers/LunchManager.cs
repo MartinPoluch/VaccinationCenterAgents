@@ -80,38 +80,42 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		public void Init()
+		{
 		}
 
-		public override void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.Finish:
-					switch (message.Sender.Id) {
-						case SimId.LunchProcess:
-							ProcessFinishLunchProcess(message);
-							break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.LunchBreak:
+				ProcessLunchBreak(message);
+			break;
 
-						case SimId.TravelProcess:
-							ProcessFinishTravelProcess(message);
-							break;
-					}
-					break;
+			case Mc.Finish:
+				switch (message.Sender.Id)
+				{
+				case SimId.LunchProcess:
+					ProcessFinishLunchProcess(message);
+				break;
 
-				case Mc.EndOfLunch:
-					ProcessEndOfLunch(message);
-					break;
+				case SimId.TravelProcess:
+					ProcessFinishTravelProcess(message);
+				break;
+				}
+			break;
 
-				case Mc.LunchBreak:
-					ProcessLunchBreak(message);
-					break;
+			case Mc.EndOfTravel:
+				ProcessEndOfTravel(message);
+			break;
 
-				case Mc.EndOfTravel:
-					ProcessEndOfTravel(message);
-					break;
+			case Mc.EndOfLunch:
+				ProcessEndOfLunch(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

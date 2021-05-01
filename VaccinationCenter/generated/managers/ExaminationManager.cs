@@ -31,7 +31,7 @@ namespace managers {
 
 		//meta! sender="ExaminationProcess", id="83", type="Finish"
 		public void ProcessFinishExaminationProcess(MessageForm message) {
-		
+
 		}
 
 		//meta! sender="DoctorLunchScheduler", id="87", type="Finish"
@@ -50,13 +50,9 @@ namespace managers {
 
 			Debug.Assert(myMessage.Service == null, "Service should be null.");
 			MyMessage endOfExamination = myMessage;
-			endOfExamination.Code = Mc.Examination;
-			Response(endOfExamination);
-		}
-
-		//meta! sender="VacCenterAgent", id="21", type="Request"
-		public void ProcessExamination(MessageForm message) {
-			GoToServiceOrQueue((MyMessage)message);
+			endOfExamination.Addressee = MySim.FindAgent(SimId.VacCenterAgent);
+			endOfExamination.Code = Mc.ExaminationEnd;
+			Notice(endOfExamination);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
@@ -65,47 +61,48 @@ namespace managers {
 			}
 		}
 
-		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init()
-		{
+		//meta! sender="VacCenterAgent", id="166", type="Notice"
+		public void ProcessExaminationStart(MessageForm message) {
+			GoToServiceOrQueue((MyMessage)message);
 		}
 
-		override public void ProcessMessage(MessageForm message)
-		{
-			switch (message.Code)
-			{
-			case Mc.DoctorEndBreak:
-				ProcessDoctorEndBreak(message);
-			break;
+		//meta! userInfo="Generated code: do not modify", tag="begin"
+		public void Init() {
+		}
 
-			case Mc.Examination:
-				ProcessExamination(message);
-			break;
+		override public void ProcessMessage(MessageForm message) {
+			switch (message.Code) {
+				case Mc.ExaminationProcessEnd:
+					ProcessExaminationProcessEnd(message);
+					break;
 
-			case Mc.DoctorLunchBreak:
-				ProcessDoctorLunchBreak(message);
-			break;
+				case Mc.Finish:
+					switch (message.Sender.Id) {
+						case SimId.ExaminationProcess:
+							ProcessFinishExaminationProcess(message);
+							break;
 
-			case Mc.ExaminationProcessEnd:
-				ProcessExaminationProcessEnd(message);
-			break;
+						case SimId.DoctorLunchScheduler:
+							ProcessFinishDoctorLunchScheduler(message);
+							break;
+					}
+					break;
 
-			case Mc.Finish:
-				switch (message.Sender.Id)
-				{
-				case SimId.ExaminationProcess:
-					ProcessFinishExaminationProcess(message);
-				break;
+				case Mc.DoctorEndBreak:
+					ProcessDoctorEndBreak(message);
+					break;
 
-				case SimId.DoctorLunchScheduler:
-					ProcessFinishDoctorLunchScheduler(message);
-				break;
-				}
-			break;
+				case Mc.ExaminationStart:
+					ProcessExaminationStart(message);
+					break;
 
-			default:
-				ProcessDefault(message);
-			break;
+				case Mc.DoctorLunchBreak:
+					ProcessDoctorLunchBreak(message);
+					break;
+
+				default:
+					ProcessDefault(message);
+					break;
 			}
 		}
 		//meta! tag="end"

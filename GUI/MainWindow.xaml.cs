@@ -23,9 +23,9 @@ namespace GUI {
 	public partial class MainWindow : Window {
 
 		public MainWindow() {
-			Random seeder = new Random(5000);
-			RNG<double>.SetSeedGen(seeder);
-			RNG<int>.SetSeedGen(seeder);
+			//Random seeder = new Random(5000);
+			//RNG<double>.SetSeedGen(seeder);
+			//RNG<int>.SetSeedGen(seeder);
 			InitializeComponent();
 			InitVacCenter();
 			Title = "Vaccination center";
