@@ -89,6 +89,9 @@
       <DependentUpon>WaitRoomOutput.xaml</DependentUpon>
     </Compile>
     <Compile Include="Outputs\ResettableOutput.cs" />
+    <Compile Include="Outputs\VariantsTable.xaml.cs">
+      <DependentUpon>VariantsTable.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <Page Include="ChartControls\MyChart.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -166,6 +169,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Outputs\current\WaitRoomOutput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Outputs\VariantsTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -5,7 +5,7 @@ using GUI.Outputs;
 using OSPABA;
 using simulation;
 
-
+ 
 namespace GUI {
 	/// <summary>
 	/// Interaction logic for GeneralOutput.xaml
@@ -20,7 +20,9 @@ namespace GUI {
 			PatientsArrived.Text = surroundings.PatientsArrived.ToString();
 			PatientsLeft.Text = surroundings.PatientsLeft.ToString();
 			PatientsMissing.Text = surroundings.PatientsMissing.ToString();
-			PatientsInSystem.Text = "XXX";
+
+			VacCenterAgent vacCenter = simulation.VacCenterAgent;
+			PatientsInSystem.Text = vacCenter.PatientsInTheSystem.ToString();
 		}
 	}
 }

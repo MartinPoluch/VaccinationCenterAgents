@@ -111,6 +111,12 @@ namespace GUI {
 				else if (OtherInputs.SelectedMode() == Mode.DependencyChart) {
 					CreateDependencyChart();
 				}
+				else if (OtherInputs.SelectedMode() == Mode.VariantsComparison) {
+					CreateVariantsTable();
+				}
+				else {
+					Console.WriteLine($"Unknown mode: {OtherInputs.SelectedMode()}");
+				}
 			}
 			else {
 				MessageBox.Show("Cannot start simulation", "Wrong inputs", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -126,7 +132,7 @@ namespace GUI {
 				WorkerSupportsCancellation = true
 			};
 			worker.DoWork += delegate (object sender, DoWorkEventArgs args) {
-				SimulationWrapper.Simulate(
+				SimulationWrapper.SimulateDoctorsDependency(
 					worker,
 					SimInputs.Replications,
 					SimInputs.SourceIntensity,
@@ -148,6 +154,30 @@ namespace GUI {
 		private void RefreshDependencyChart(object sender, ProgressChangedEventArgs e) {
 			MySimulation simulation = (MySimulation)e.UserState;
 			Charts.Refresh(simulation);
+		}
+
+		private void CreateVariantsTable() {
+			VariantsTable.ResetOutput();
+			ConsoleOut.Text = "Calculating different simulation variants ...";
+			SimulationWrapper = new SimulationWrapper();
+			BackgroundWorker worker = new BackgroundWorker() {
+				WorkerReportsProgress = true,
+				WorkerSupportsCancellation = true
+			};
+			worker.DoWork += delegate (object sender, DoWorkEventArgs args) {
+				SimulationWrapper.SimulateVariants(worker, SimInputs.Replications, SimInputs.CreateSimParameter());
+			};
+			worker.ProgressChanged += RefreshVariantsTable;
+			worker.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs args) {
+				RefreshAfterSimulation(sender, args);
+				ConsoleOut.Text += "Results table was successfully created.";
+			};
+			worker.RunWorkerAsync();
+		}
+
+		private void RefreshVariantsTable(object sender, ProgressChangedEventArgs e) {
+			MySimulation simulation = (MySimulation)e.UserState;
+			VariantsTable.Refresh(simulation);
 		}
 
 		private void RefreshAfterSimulation(object sender, RunWorkerCompletedEventArgs e) {
@@ -195,7 +225,6 @@ namespace GUI {
 		}
 
 		private void ResetAllOutputs() {
-			//TODO reset outputs here
 			ConsoleOut.Text = "";
 		}
 

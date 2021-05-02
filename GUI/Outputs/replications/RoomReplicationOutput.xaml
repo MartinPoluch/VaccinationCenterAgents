@@ -51,8 +51,8 @@
                 <TextBlock Grid.Row="5" Grid.Column="0" Margin="5">CI service occupancy:</TextBlock>
                 <TextBlock Name="CiServiceOccupancy" Grid.Row="5" Grid.Column="1" Margin="5">0</TextBlock>
 
-                <TextBlock Grid.Row="6" Grid.Column="0" Margin="5">Average queue length at end:</TextBlock>
-                <TextBlock Name="AvgQueueLengthAtEnd" Grid.Row="6" Grid.Column="1" Margin="5">0</TextBlock>
+                <!--<TextBlock Grid.Row="6" Grid.Column="0" Margin="5">Average queue length at end:</TextBlock>
+                <TextBlock Name="AvgQueueLengthAtEnd" Grid.Row="6" Grid.Column="1" Margin="5">0</TextBlock>-->
             </Grid>
         </GroupBox>
     </Grid>

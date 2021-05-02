@@ -3,26 +3,23 @@ using simulation;
 using managers;
 using continualAssistants;
 
-namespace agents
-{
+namespace agents {
 	//meta! id="3"
-	public class VacCenterAgent : Agent
-	{
+	public class VacCenterAgent : Agent {
 		public VacCenterAgent(int id, Simulation mySim, Agent parent) :
-			base(id, mySim, parent)
-		{
+			base(id, mySim, parent) {
 			Init();
 		}
 
-		override public void PrepareReplication()
-		{
+		public override void PrepareReplication() {
 			base.PrepareReplication();
-			// Setup component for the next replication
+			PatientsInTheSystem = 0;
 		}
 
+		public int PatientsInTheSystem { get; set; }
+
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		private void Init()
-		{
+		private void Init() {
 			new VacCenterManager(SimId.VacCenterManager, MySim, this);
 			AddOwnMessage(Mc.ExaminationEnd);
 			AddOwnMessage(Mc.MoveToAnotherRoom);

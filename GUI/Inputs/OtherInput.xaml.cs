@@ -39,6 +39,9 @@ namespace GUI.Inputs {
 			if (DependencyChart.IsChecked ?? false) {
 				return Mode.DependencyChart;
 			}
+			if (VariantsComparison.IsChecked ?? false) {
+				return Mode.VariantsComparison;
+			}
 			else {
 				return Mode.Classic; // default
 			}

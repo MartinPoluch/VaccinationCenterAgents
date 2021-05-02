@@ -33,6 +33,7 @@
 
                 <RadioButton x:Name="ClassicMode" Grid.Row="0" GroupName="Mode" Content="Classic" IsChecked="True"/>
                 <RadioButton x:Name="DependencyChart" Grid.Row="1" GroupName="Mode" Content="Dependency chart"/>
+                <RadioButton x:Name="VariantsComparison" Grid.Row="2" GroupName="Mode" Content="Variants comparison"/>
             </Grid>
         </GroupBox>
 

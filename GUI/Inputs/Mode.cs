@@ -8,5 +8,6 @@ namespace GUI.Inputs {
 	public enum Mode {
 		Classic,
 		DependencyChart,
+		VariantsComparison,
 	}
 }

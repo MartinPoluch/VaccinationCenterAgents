@@ -98,10 +98,6 @@ namespace continualAssistants {
 			switch (message.Code) {
 				case Mc.NewEarlyArrival: {
 					MyMessage myMessage = (MyMessage)message;
-					if (myMessage.Patient.ArrivalTime != MySim.CurrentTime) {
-						Console.WriteLine();
-					}
-					Debug.Assert(myMessage.Patient.ArrivalTime == MySim.CurrentTime, "Not good time for arrival.");
 					if (MyAgent.PatientIsMissing()) {
 						MyAgent.PatientsMissing++;
 					}

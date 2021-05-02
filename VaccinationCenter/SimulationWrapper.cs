@@ -33,7 +33,7 @@ namespace VaccinationCenter {
 
 		public MySimulation simulation { get; set; }
 
-		public void Simulate(BackgroundWorker worker, int replications, int numOfPatients, int numOfWorkers,
+		public void SimulateDoctorsDependency(BackgroundWorker worker, int replications, int numOfPatients, int numOfWorkers,
 			int minNumOfDoctors, int maxNumOfDoctors, int numOfNurses, bool validationMode, bool earlyArrivals) {
 			_stop = false;
 			for (int doctors = minNumOfDoctors; (doctors < maxNumOfDoctors); doctors++) {
@@ -47,12 +47,35 @@ namespace VaccinationCenter {
 						NumOfDoctors = doctors,
 						NumOfNurses = numOfNurses,
 						NumOfPatients = numOfPatients,
-						ValidationMode = validationMode,
 						EarlyArrivals = earlyArrivals,
+						ValidationMode = validationMode,
 					}
 				};
 				simulation.Simulate(replications, MySimulation.InfinityTime);
 				worker.ReportProgress(1, simulation);
+			}
+		}
+
+		public void SimulateVariants(BackgroundWorker worker, int replications, SimParameter simParameter) {
+			int numOfAdminWorkers = simParameter.NumOfAdminWorkers;
+			int numOfDoctors = simParameter.NumOfDoctors;
+			int numOfNurses = simParameter.NumOfNurses;
+			for (int adminWorkers = numOfAdminWorkers - 1; adminWorkers <= numOfAdminWorkers + 1; adminWorkers++) {
+				for (int doctors = numOfDoctors - 1; doctors <= numOfDoctors + 1 ; doctors++) {
+					for (int nurses = numOfNurses - 1; nurses <= numOfNurses + 1; nurses++) {
+						simulation = new MySimulation() {
+							SimParameter = new SimParameter() {
+								NumOfAdminWorkers = adminWorkers,
+								NumOfDoctors = doctors,
+								NumOfNurses = nurses,
+								EarlyArrivals = simParameter.EarlyArrivals,
+								ValidationMode = simParameter.ValidationMode
+							}
+						};
+						simulation.Simulate(replications, MySimulation.InfinityTime);
+						worker.ReportProgress(1, simulation);
+					}
+				}
 			}
 		}
 	}

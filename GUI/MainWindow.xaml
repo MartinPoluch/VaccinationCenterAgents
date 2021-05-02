@@ -64,11 +64,24 @@
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="61*"></ColumnDefinition>
-                        <ColumnDefinition Width="1032*"/>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <outputs:ChartsOutput x:Name="Charts" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></outputs:ChartsOutput>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Charts">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <outputs:VariantsTable x:Name="VariantsTable" Grid.Row="0" Grid.Column="0"></outputs:VariantsTable>
                 </Grid>
             </TabItem>
         </TabControl>
