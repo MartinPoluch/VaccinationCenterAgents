@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using OSPABA;
 using simulation;
 using agents;
@@ -41,6 +42,7 @@ namespace continualAssistants {
 				Patient patient = new Patient(MySim);
 				if (MyAgent.PatientWilComeEarly()) {
 					double realArrivalTime = simTime - MyAgent.EarlyArrivalGen.Sample();
+					patient.ArrivalTime = realArrivalTime;
 					if (realArrivalTime <= 0) {
 						PatientBeforeOpening.Add(patient);
 					}
@@ -49,6 +51,7 @@ namespace continualAssistants {
 					}
 				}
 				else {
+					patient.ArrivalTime = simTime;
 					if (simTime == 0) { // only for first patient, if he will come at 8:00
 						PatientBeforeOpening.Add(patient);
 					}
@@ -56,9 +59,12 @@ namespace continualAssistants {
 						PatientArrivals.Enqueue(patient, simTime);
 					}
 				}
+				
 				simTime += timeBetweenArrivals;
 			}
 		}
+
+		
 
 
 		//meta! sender="SurroundingsAgent", id="31", type="Start"
@@ -74,6 +80,7 @@ namespace continualAssistants {
 
 		private void NewRegularArrivalProcess(MyMessage newArrival) {
 			Patient patient = new Patient(MySim); // incrementation of patient Id
+			patient.ArrivalTime = MySim.CurrentTime;
 			if (MyAgent.PatientIsMissing()) {
 				MyAgent.PatientsMissing++;
 			}
@@ -89,12 +96,33 @@ namespace continualAssistants {
 
 		private void ArrivalOfPatientBeforeOpening(MyMessage message) {
 			foreach (Patient patient in PatientBeforeOpening) {
-				//TODO, implement
+				if (MyAgent.PatientIsMissing()) {
+					MyAgent.PatientsMissing++;
+				}
+				else {
+					MyMessage newArrival = (MyMessage)message.CreateCopy();
+					newArrival.Patient = patient;
+					Notice(newArrival);
+				}
 			}
+			NewEarlyArrivalProcess(message);
 		}
 
 		private void NewEarlyArrivalProcess(MyMessage newArrival) {
-			//TODO, implement
+			if (PatientArrivals.Count > 0) {
+				
+				//TODO refactor needed, only for validation purposes, missing patients not included yet
+				Patient patient = PatientArrivals.First;
+				double arrivalTime = PatientArrivals.GetPriority(patient);
+				var p = PatientArrivals.Dequeue();
+				newArrival.Patient = patient;
+
+				Debug.Assert(p == patient, "Not correct patient");
+				Debug.Assert(patient.ArrivalTime == arrivalTime, "Patient arrival time is invalid.");
+				Debug.Assert(arrivalTime >= MySim.CurrentTime, "This patient should already be in the system. Arrival time is smaller then current time");
+				double durationFromNowToArrival = arrivalTime - MySim.CurrentTime;
+				Hold(durationFromNowToArrival, newArrival);
+			}
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
@@ -103,6 +131,8 @@ namespace continualAssistants {
 				case Mc.NewArrival: {
 					MyMessage myMessage = (MyMessage)message;
 					if (GetSimParameter().EarlyArrivals) {
+						Debug.Assert(myMessage.Patient.ArrivalTime == MySim.CurrentTime, "Not good time for arrival.");
+						Notice(myMessage.CreateCopy());
 						NewEarlyArrivalProcess(myMessage);
 					}
 					else {

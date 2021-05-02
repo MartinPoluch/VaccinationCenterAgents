@@ -57,7 +57,7 @@ namespace managers {
 		{
 		}
 
-		override public void ProcessMessage(MessageForm message)
+		public override void ProcessMessage(MessageForm message)
 		{
 			switch (message.Code)
 			{
