@@ -82,8 +82,8 @@ namespace managers {
 		{
 			switch (message.Code)
 			{
-			case Mc.RegistrationProcessEnd:
-				ProcessRegistrationProcessEnd(message);
+			case Mc.AdminEndBreak:
+				ProcessAdminEndBreak(message);
 			break;
 
 			case Mc.Finish:
@@ -99,16 +99,16 @@ namespace managers {
 				}
 			break;
 
-			case Mc.RegistrationStart:
-				ProcessRegistrationStart(message);
+			case Mc.RegistrationProcessEnd:
+				ProcessRegistrationProcessEnd(message);
 			break;
 
 			case Mc.AdminLunchBreak:
 				ProcessAdminLunchBreak(message);
 			break;
 
-			case Mc.AdminEndBreak:
-				ProcessAdminEndBreak(message);
+			case Mc.RegistrationStart:
+				ProcessRegistrationStart(message);
 			break;
 
 			default:

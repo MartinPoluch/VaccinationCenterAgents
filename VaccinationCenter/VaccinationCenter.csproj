@@ -59,6 +59,7 @@
     <Compile Include="entities\Patient.cs" />
     <Compile Include="entities\ServiceEntity.cs" />
     <Compile Include="generated\agents\RefillAgent.cs" />
+    <Compile Include="generated\continualAssistants\EarlyArrivalsScheduler.cs" />
     <Compile Include="generated\continualAssistants\NurseMoveProcess.cs" />
     <Compile Include="generated\continualAssistants\RefillProcess.cs" />
     <Compile Include="generated\managers\RefillManager.cs" />

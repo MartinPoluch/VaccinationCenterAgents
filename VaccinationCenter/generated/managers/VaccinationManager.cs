@@ -92,46 +92,50 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		public void Init()
+		{
 		}
 
-		public override void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.Finish:
-					switch (message.Sender.Id) {
-						case SimId.VaccinationProcess:
-							ProcessFinishVaccinationProcess(message);
-							break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.VaccinationProcessEnd:
+				ProcessVaccinationProcessEnd(message);
+			break;
 
-						case SimId.NursesLunchScheduler:
-							ProcessFinishNursesLunchScheduler(message);
-							break;
-					}
-					break;
+			case Mc.NurseEndBreak:
+				ProcessNurseEndBreak(message);
+			break;
 
-				case Mc.VaccinationStart:
-					ProcessVaccinationStart(message);
-					break;
+			case Mc.VaccinationStart:
+				ProcessVaccinationStart(message);
+			break;
 
-				case Mc.VaccinationProcessEnd:
-					ProcessVaccinationProcessEnd(message);
-					break;
+			case Mc.Finish:
+				switch (message.Sender.Id)
+				{
+				case SimId.VaccinationProcess:
+					ProcessFinishVaccinationProcess(message);
+				break;
 
-				case Mc.NurseEndBreak:
-					ProcessNurseEndBreak(message);
-					break;
+				case SimId.NursesLunchScheduler:
+					ProcessFinishNursesLunchScheduler(message);
+				break;
+				}
+			break;
 
-				case Mc.NurseLunchBreak:
-					ProcessNurseLunchBreak(message);
-					break;
+			case Mc.NurseLunchBreak:
+				ProcessNurseLunchBreak(message);
+			break;
 
-				case Mc.Refill:
-					ProcessRefill(message);
-					break;
+			case Mc.Refill:
+				ProcessRefill(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

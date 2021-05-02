@@ -78,7 +78,9 @@ namespace agents {
 		{
 			new SurroundingsManager(SimId.SurroundingsManager, MySim, this);
 			new ArrivalsScheduler(SimId.ArrivalsScheduler, MySim, this);
+			new EarlyArrivalsScheduler(SimId.EarlyArrivalsScheduler, MySim, this);
 			AddOwnMessage(Mc.PatientExit);
+			AddOwnMessage(Mc.NewEarlyArrival);
 			AddOwnMessage(Mc.NewArrival);
 		}
 		//meta! tag="end"

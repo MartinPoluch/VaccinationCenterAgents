@@ -49,12 +49,12 @@ namespace managers {
 		{
 			switch (message.Code)
 			{
-			case Mc.PatientLeftCenter:
-				ProcessPatientLeftCenter(message);
-			break;
-
 			case Mc.PatientArrival:
 				ProcessPatientArrival(message);
+			break;
+
+			case Mc.PatientLeftCenter:
+				ProcessPatientLeftCenter(message);
 			break;
 
 			default:

@@ -95,12 +95,12 @@ namespace managers {
 			case Mc.Finish:
 				switch (message.Sender.Id)
 				{
-				case SimId.LunchProcess:
-					ProcessFinishLunchProcess(message);
-				break;
-
 				case SimId.TravelProcess:
 					ProcessFinishTravelProcess(message);
+				break;
+
+				case SimId.LunchProcess:
+					ProcessFinishLunchProcess(message);
 				break;
 				}
 			break;

@@ -72,42 +72,46 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		public void Init()
+		{
 		}
 
-		override public void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.ExaminationProcessEnd:
-					ProcessExaminationProcessEnd(message);
-					break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.ExaminationStart:
+				ProcessExaminationStart(message);
+			break;
 
-				case Mc.Finish:
-					switch (message.Sender.Id) {
-						case SimId.ExaminationProcess:
-							ProcessFinishExaminationProcess(message);
-							break;
+			case Mc.Finish:
+				switch (message.Sender.Id)
+				{
+				case SimId.DoctorLunchScheduler:
+					ProcessFinishDoctorLunchScheduler(message);
+				break;
 
-						case SimId.DoctorLunchScheduler:
-							ProcessFinishDoctorLunchScheduler(message);
-							break;
-					}
-					break;
+				case SimId.ExaminationProcess:
+					ProcessFinishExaminationProcess(message);
+				break;
+				}
+			break;
 
-				case Mc.DoctorEndBreak:
-					ProcessDoctorEndBreak(message);
-					break;
+			case Mc.DoctorLunchBreak:
+				ProcessDoctorLunchBreak(message);
+			break;
 
-				case Mc.ExaminationStart:
-					ProcessExaminationStart(message);
-					break;
+			case Mc.DoctorEndBreak:
+				ProcessDoctorEndBreak(message);
+			break;
 
-				case Mc.DoctorLunchBreak:
-					ProcessDoctorLunchBreak(message);
-					break;
+			case Mc.ExaminationProcessEnd:
+				ProcessExaminationProcessEnd(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

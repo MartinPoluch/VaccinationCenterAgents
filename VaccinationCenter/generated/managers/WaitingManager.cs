@@ -51,16 +51,16 @@ namespace managers {
 		{
 			switch (message.Code)
 			{
+			case Mc.Waiting:
+				ProcessWaiting(message);
+			break;
+
 			case Mc.EndOfWaiting:
 				ProcessEndOfWaiting(message);
 			break;
 
 			case Mc.Finish:
 				ProcessFinish(message);
-			break;
-
-			case Mc.Waiting:
-				ProcessWaiting(message);
 			break;
 
 			default:

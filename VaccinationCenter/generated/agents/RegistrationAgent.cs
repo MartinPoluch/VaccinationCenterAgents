@@ -49,8 +49,8 @@ namespace agents {
 		private void Init()
 		{
 			new RegistrationManager(SimId.RegistrationManager, MySim, this);
-			new AdminLunchScheduler(SimId.AdminLunchScheduler, MySim, this);
 			new RegistrationProcess(SimId.RegistrationProcess, MySim, this);
+			new AdminLunchScheduler(SimId.AdminLunchScheduler, MySim, this);
 			AddOwnMessage(Mc.RegistrationStart);
 			AddOwnMessage(Mc.AdminLunchBreak);
 			AddOwnMessage(Mc.AdminEndBreak);

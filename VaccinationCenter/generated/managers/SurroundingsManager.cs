@@ -3,6 +3,7 @@ using OSPABA;
 using simulation;
 using agents;
 using continualAssistants;
+using VaccinationCenter.models;
 
 namespace managers {
 	//meta! id="2"
@@ -28,54 +29,80 @@ namespace managers {
 			}
 		}
 
-		//meta! sender="ArrivalsScheduler", id="32", type="Notice"
-		public void ProcessNewArrival(MessageForm message) {
-			//Console.WriteLine($"Customer arrival: {MySim.CurrentTime}");
+		private void NewPatientArrival(MessageForm message) {
 			MyAgent.PatientsArrived++;
 			message.Addressee = MySim.FindAgent(SimId.ModelAgent);
 			message.Code = Mc.PatientArrival;
 			Notice(message);
 		}
 
+		//meta! sender="ArrivalsScheduler", id="32", type="Notice"
+		public void ProcessNewArrival(MessageForm message) {
+			NewPatientArrival(message);
+		}
+
 		//meta! sender="ArrivalsScheduler", id="31", type="Finish"
-		public void ProcessFinish(MessageForm message) {
+		public void ProcessFinishArrivalsScheduler(MessageForm message) {
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
 		public void ProcessDefault(MessageForm message) {
 			switch (message.Code) {
 				case Mc.Initialization: {
-						message.Addressee = MyAgent.FindAssistant(SimId.ArrivalsScheduler);
-						StartContinualAssistant(message);
-						break;
+					if (((MySimulation)MySim).SimParameter.EarlyArrivals) {
+						message.Addressee = MyAgent.FindAssistant(SimId.EarlyArrivalsScheduler);
 					}
+					else {
+						message.Addressee = MyAgent.FindAssistant(SimId.ArrivalsScheduler);
+					}
+					StartContinualAssistant(message);
+					break;
+				}
 			}
 		}
 
-		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init()
-		{
+		//meta! sender="EarlyArrivalsScheduler", id="187", type="Notice"
+		public void ProcessNewEarlyArrival(MessageForm message) {
+			NewPatientArrival(message);
 		}
 
-		public override void ProcessMessage(MessageForm message)
-		{
-			switch (message.Code)
-			{
-			case Mc.NewArrival:
-				ProcessNewArrival(message);
-			break;
+		//meta! sender="EarlyArrivalsScheduler", id="186", type="Finish"
+		public void ProcessFinishEarlyArrivalsScheduler(MessageForm message) {
+		}
 
-			case Mc.Finish:
-				ProcessFinish(message);
-			break;
+		//meta! userInfo="Generated code: do not modify", tag="begin"
+		public void Init() {
+		}
 
-			case Mc.PatientExit:
-				ProcessPatientExit(message);
-			break;
+		public override void ProcessMessage(MessageForm message) {
+			switch (message.Code) {
+				case Mc.Finish:
+					switch (message.Sender.Id) {
+						case SimId.ArrivalsScheduler:
+							ProcessFinishArrivalsScheduler(message);
+							break;
 
-			default:
-				ProcessDefault(message);
-			break;
+						case SimId.EarlyArrivalsScheduler:
+							ProcessFinishEarlyArrivalsScheduler(message);
+							break;
+					}
+					break;
+
+				case Mc.NewArrival:
+					ProcessNewArrival(message);
+					break;
+
+				case Mc.PatientExit:
+					ProcessPatientExit(message);
+					break;
+
+				case Mc.NewEarlyArrival:
+					ProcessNewEarlyArrival(message);
+					break;
+
+				default:
+					ProcessDefault(message);
+					break;
 			}
 		}
 		//meta! tag="end"

@@ -143,54 +143,57 @@ namespace managers {
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"
-		public void Init() {
+		public void Init()
+		{
 		}
 
-		public override void ProcessMessage(MessageForm message) {
-			switch (message.Code) {
-				case Mc.LunchBreak:
-					ProcessLunchBreak(message);
-					break;
+		override public void ProcessMessage(MessageForm message)
+		{
+			switch (message.Code)
+			{
+			case Mc.RegistrationEnd:
+				ProcessRegistrationEnd(message);
+			break;
 
-				case Mc.VaccinationEnd:
-					ProcessVaccinationEnd(message);
-					break;
+			case Mc.AdminStartBreak:
+				ProcessAdminStartBreak(message);
+			break;
 
-				case Mc.NurseStartBreak:
-					ProcessNurseStartBreak(message);
-					break;
+			case Mc.ExaminationEnd:
+				ProcessExaminationEnd(message);
+			break;
 
-				case Mc.RegistrationEnd:
-					ProcessRegistrationEnd(message);
-					break;
+			case Mc.PatientEnterCenter:
+				ProcessPatientEnterCenter(message);
+			break;
 
-				case Mc.ExaminationEnd:
-					ProcessExaminationEnd(message);
-					break;
+			case Mc.LunchBreak:
+				ProcessLunchBreak(message);
+			break;
 
-				case Mc.MoveToAnotherRoom:
-					ProcessMoveToAnotherRoom(message);
-					break;
+			case Mc.Waiting:
+				ProcessWaiting(message);
+			break;
 
-				case Mc.PatientEnterCenter:
-					ProcessPatientEnterCenter(message);
-					break;
+			case Mc.VaccinationEnd:
+				ProcessVaccinationEnd(message);
+			break;
 
-				case Mc.DoctorStartBreak:
-					ProcessDoctorStartBreak(message);
-					break;
+			case Mc.MoveToAnotherRoom:
+				ProcessMoveToAnotherRoom(message);
+			break;
 
-				case Mc.AdminStartBreak:
-					ProcessAdminStartBreak(message);
-					break;
+			case Mc.NurseStartBreak:
+				ProcessNurseStartBreak(message);
+			break;
 
-				case Mc.Waiting:
-					ProcessWaiting(message);
-					break;
+			case Mc.DoctorStartBreak:
+				ProcessDoctorStartBreak(message);
+			break;
 
-				default:
-					ProcessDefault(message);
-					break;
+			default:
+				ProcessDefault(message);
+			break;
 			}
 		}
 		//meta! tag="end"

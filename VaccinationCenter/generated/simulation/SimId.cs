@@ -24,20 +24,21 @@ namespace simulation
 		public const int WaitingManager = 108;
 		public const int MovementManager = 110;
 		public const int RefillManager = 112;
-		public const int MovementProcess = 1013;
-		public const int WaitingProcess = 1002;
 		public const int RegistrationProcess = 1006;
 		public const int AdminLunchScheduler = 1007;
-		public const int TravelProcess = 1003;
-		public const int LunchProcess = 1004;
 		public const int ExaminationProcess = 1008;
 		public const int NurseMoveProcess = 1016;
 		public const int DoctorLunchScheduler = 1010;
-		public const int DummyAction = 1015;
 		public const int RefillProcess = 1017;
 		public const int VaccinationProcess = 1011;
 		public const int NursesLunchScheduler = 1012;
 		public const int ArrivalsScheduler = 1001;
+		public const int WaitingProcess = 1002;
+		public const int MovementProcess = 1013;
+		public const int TravelProcess = 1003;
+		public const int LunchProcess = 1004;
+		public const int DummyAction = 1015;
+		public const int EarlyArrivalsScheduler = 1018;
 		//meta! tag="end"
 	}
 }

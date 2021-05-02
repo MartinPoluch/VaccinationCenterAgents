@@ -119,14 +119,18 @@ namespace managers {
 			case Mc.Finish:
 				switch (message.Sender.Id)
 				{
-				case SimId.RefillProcess:
-					ProcessFinishRefillProcess(message);
-				break;
-
 				case SimId.NurseMoveProcess:
 					ProcessFinishNurseMoveProcess(message);
 				break;
+
+				case SimId.RefillProcess:
+					ProcessFinishRefillProcess(message);
+				break;
 				}
+			break;
+
+			case Mc.Refill:
+				ProcessRefill(message);
 			break;
 
 			case Mc.EndOfNurseMove:
@@ -135,10 +139,6 @@ namespace managers {
 
 			case Mc.EndOfRefill:
 				ProcessEndOfRefill(message);
-			break;
-
-			case Mc.Refill:
-				ProcessRefill(message);
 			break;
 
 			default:
