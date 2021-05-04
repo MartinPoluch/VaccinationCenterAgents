@@ -63,7 +63,7 @@ namespace VaccinationCenter.entities {
 			if (durationOfSimulation == 0) {
 				return 0.0;
 			}
-			return Math.Round(((_durationOfOccupiedService / (durationOfSimulation - DurationOfLunchBreak)) * 100), 2);
+			return ((_durationOfOccupiedService / (durationOfSimulation - DurationOfLunchBreak)) * 100);
 		}
 
 		/**

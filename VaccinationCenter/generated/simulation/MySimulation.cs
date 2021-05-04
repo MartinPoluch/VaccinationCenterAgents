@@ -85,7 +85,7 @@ namespace simulation {
 
 		protected override void SimulationFinished() {
 			base.SimulationFinished();
-			//PrintResults();
+			PrintResults();
 		}
 
 		private void PrintResults() {
