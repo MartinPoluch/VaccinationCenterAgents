@@ -20,6 +20,7 @@ namespace VaccinationCenter.entities {
 			ServiceStatus = ServiceStatus.Free;
 			LunchStatus = LunchStatus.TooEarly;
 			StartOfServiceTime = InvalidValue;
+			StartOfLunchBreak = InvalidValue;
 		}
 
 		public virtual void Reset() {
@@ -43,6 +44,8 @@ namespace VaccinationCenter.entities {
 
 		private double StartOfServiceTime { get; set; } // time when service start working
 
+		public double StartOfLunchBreak { get; set; } // time when service went to lunch
+
 		public virtual void Free() {
 			Debug.Assert((ServiceStatus == ServiceStatus.Occupied), "Cannot free service that is not occupied");
 			ServiceStatus = ServiceStatus.Free;
@@ -61,6 +64,8 @@ namespace VaccinationCenter.entities {
 		public virtual void StartLunchBreak() {
 			Debug.Assert(ServiceStatus == ServiceStatus.Free, "Only free entity can start lunch break");
 			ServiceStatus = ServiceStatus.Lunch;
+			Debug.Assert(StartOfLunchBreak == InvalidValue, "StartOfLunchBreak should not be initialized yet");
+			StartOfLunchBreak = MySim.CurrentTime;
 		}
 
 		public void StartBeingHungry() {
@@ -91,6 +96,10 @@ namespace VaccinationCenter.entities {
 				"Cannot end lunch break");
 			LunchStatus = LunchStatus.Full;
 			ServiceStatus = ServiceStatus.Free;
+			Debug.Assert(StartOfLunchBreak != InvalidValue, "StartOfLunchBreak has invalid value");
+			double durationOfLunch =  MySim.CurrentTime - StartOfLunchBreak;
+			ServiceStat.SetDurationOfLunchBreak(durationOfLunch);
+			StartOfLunchBreak = InvalidValue;
 		}
 	}
 }

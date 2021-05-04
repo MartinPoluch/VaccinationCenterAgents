@@ -89,8 +89,8 @@ namespace continualAssistants {
 
 		//meta! sender="SurroundingsAgent", id="186", type="Start"
 		public void ProcessStart(MessageForm message) {
-			message.Code = Mc.NewEarlyArrival;
-			ArrivalOfPatientBeforeOpening((MyMessage)message);
+			message.Code = Mc.GroupArrival;
+			Hold(0, message);
 		}
 
 		//meta! userInfo="Process messages defined in code", id="0"
@@ -105,6 +105,11 @@ namespace continualAssistants {
 						Notice(myMessage.CreateCopy());
 					}
 					NewEarlyArrivalProcess(myMessage);
+					break;
+				}
+				case Mc.GroupArrival: {
+					message.Code = Mc.NewEarlyArrival;
+					ArrivalOfPatientBeforeOpening((MyMessage)message);
 					break;
 				}
 			}

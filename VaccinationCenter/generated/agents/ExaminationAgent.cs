@@ -14,12 +14,9 @@ namespace agents
 			base(id, mySim, parent) {
 			Init();
 			ExaminationProcess = (Process)FindAssistant(SimId.ExaminationProcess);
-			LunchBreakScheduler = (Scheduler)FindAssistant(SimId.DoctorLunchScheduler);
 		}
 
 		private Process ExaminationProcess { get; }
-
-		private Scheduler LunchBreakScheduler { get; }
 
 		protected override ServiceEntity CreateEntity() {
 			return new Doctor(MySim);
@@ -35,10 +32,6 @@ namespace agents
 
 		public override double GetStartTimeOfLunch() {
 			return (60 * 60 * 3) + (60 * 45); // 11:45
-		}
-
-		public override Scheduler GetLunchBreakScheduler() {
-			return LunchBreakScheduler;
 		}
 
 		override public void PrepareReplication()

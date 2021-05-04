@@ -19,6 +19,7 @@ namespace agents {
 		public SurroundingsAgent(int id, Simulation mySim, Agent parent) :
 			base(id, mySim, parent) {
 			Init();
+			CustomInit();
 			MissingDecisionGen = new UniformContinuousRNG(0, 1);
 			EarlyArrivalDecisionGen = new UniformContinuousRNG(0, 1);
 			EarlyArrivalGen = new EmpiricRNG<double>(
@@ -27,6 +28,10 @@ namespace agents {
 				new EmpiricPair<double>(new UniformContinuousRNG(60 * Minute, 80 * Minute), 0.2),
 				new EmpiricPair<double>(new UniformContinuousRNG(80 * Minute, 240 * Minute), 0.1)
 			);
+		}
+
+		private void CustomInit() {
+			AddOwnMessage(Mc.GroupArrival);
 		}
 
 		public int PatientsPerDay { get; private set; } // planned number of patients per day

@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OSPStat;
+using simulation;
 using VaccinationCenter.common;
+using VaccinationCenter.entities;
 
 namespace VaccinationCenter.stats {
 	public class ServiceReplicationStat {
@@ -15,7 +17,8 @@ namespace VaccinationCenter.stats {
 			Occupancy = new Stat();
 		}
 
-		public void UpdateStats(ServiceAgent serviceAgent, double endTime) {
+		public void UpdateStats(ServiceAgent serviceAgent, double endTime, Patient fakePatient) {
+			serviceAgent.Queue.Enqueue(fakePatient);
 			WaitingTimes.AddSample(serviceAgent.WaitingTimeStat.Mean());
 			QueueLengths.AddSample(serviceAgent.QueueLengthStat.Mean());
 			Occupancy.AddSample(serviceAgent.GetAverageServiceOccupancy(endTime));

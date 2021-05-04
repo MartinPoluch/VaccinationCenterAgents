@@ -67,6 +67,5 @@ namespace VaccinationCenter.common {
 
 		public abstract double GetStartTimeOfLunch();
 
-		public abstract Scheduler GetLunchBreakScheduler();
 	}
 }

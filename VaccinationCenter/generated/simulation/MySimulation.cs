@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using OSPABA;
 using agents;
 using OSPStat;
@@ -69,9 +70,10 @@ namespace simulation {
 
 		protected override void ReplicationFinished() {
 			base.ReplicationFinished();
+			Patient lastQueueUpdate = new Patient(this);
 			foreach (ServiceAgent serviceAgent in ServiceAgents) {
 				ServiceReplicationStat replicationStat = ServiceAgentStats[serviceAgent.GetServiceType()];
-				replicationStat.UpdateStats(serviceAgent, SurroundingsAgent.LastPatientExitTime);
+				replicationStat.UpdateStats(serviceAgent, SurroundingsAgent.LastPatientExitTime, lastQueueUpdate);
 			}
 			WaitingRoomStat.AddSample(WaitingAgent.WaitingRoomStat.Mean());
 			CoolingDurationStat.AddSample(SurroundingsAgent.LastPatientExitTime - SurroundingsAgent.WorkDayDuration);
@@ -83,7 +85,7 @@ namespace simulation {
 
 		protected override void SimulationFinished() {
 			base.SimulationFinished();
-			PrintResults();
+			//PrintResults();
 		}
 
 		private void PrintResults() {

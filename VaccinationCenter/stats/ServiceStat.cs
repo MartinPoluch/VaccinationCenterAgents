@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Resources;
@@ -16,16 +17,27 @@ namespace VaccinationCenter.entities {
 		private double _currentSimulationTime;
 
 		public ServiceStat(MySimulation simulation) {
+			Init();
+			Simulation = simulation;
+		}
+
+		private void Init() {
 			_durationOfOccupiedService = 0;
 			_currentSimulationTime = 0;
-			Simulation = simulation;
+			DurationOfLunchBreak = 0;
 		}
 
 		private MySimulation Simulation { get; }
 
+		private double DurationOfLunchBreak { get; set; }
+
+		public void SetDurationOfLunchBreak(double duration) {
+			Debug.Assert(DurationOfLunchBreak == 0, "DurationOfLunchBreak should be equals to zero");
+			DurationOfLunchBreak = duration;
+		}
+
 		public void Reset() {
-			_durationOfOccupiedService = 0;
-			_currentSimulationTime = 0;
+			Init();
 		}
 
 		public void AddServiceOccupancy(double duration) {
@@ -37,7 +49,7 @@ namespace VaccinationCenter.entities {
 		 */
 		public double GetServiceOccupancy() {
 			if (Simulation.CurrentTime != MySimulation.InfinityTime) { // if simulation does not end
-				_currentSimulationTime = Simulation.CurrentTime;
+				_currentSimulationTime = Simulation.CurrentTime; // if simulation end then I will uses last time value
 			}
 
 			return GetServiceOccupancy(_currentSimulationTime);
@@ -47,12 +59,11 @@ namespace VaccinationCenter.entities {
 		 * Used for fast mode at end of each replication
 		 */
 		public double GetServiceOccupancy(double currentTime) {
-			//TODO, do not include lunch duration
 			double durationOfSimulation = currentTime;
 			if (durationOfSimulation == 0) {
 				return 0.0;
 			}
-			return Math.Round(((_durationOfOccupiedService / durationOfSimulation) * 100), 2);
+			return Math.Round(((_durationOfOccupiedService / (durationOfSimulation - DurationOfLunchBreak)) * 100), 2);
 		}
 
 		/**

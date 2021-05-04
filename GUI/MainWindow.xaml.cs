@@ -106,7 +106,7 @@ namespace GUI {
 				ActivateRunningState();
 				if (OtherInputs.SelectedMode() == Mode.Classic) {
 					InitVacCenter();
-					VacCenterSim.SimulateAsync(SimInputs.Replications, MySimulation.InfinityTime);
+					VacCenterSim.SimulateAsync(SimInputs.Replications);
 				}
 				else if (OtherInputs.SelectedMode() == Mode.DependencyChart) {
 					CreateDependencyChart();

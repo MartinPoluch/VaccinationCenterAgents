@@ -71,7 +71,7 @@
                     <outputs:ChartsOutput x:Name="Charts" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></outputs:ChartsOutput>
                 </Grid>
             </TabItem>
-            <TabItem Header="Charts">
+            <TabItem Header="Variants">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>

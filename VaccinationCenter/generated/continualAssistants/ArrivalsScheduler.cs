@@ -22,7 +22,7 @@ namespace continualAssistants {
 		//meta! sender="SurroundingsAgent", id="31", type="Start"
 		public void ProcessStart(MessageForm message) {
 			message.Code = Mc.NewArrival;
-			NewArrivalProcess((MyMessage)message);
+			Hold(0, message); // simulation starts from zero time
 		}
 
 		private void NewArrivalProcess(MyMessage newArrival) {

@@ -51,7 +51,7 @@ namespace VaccinationCenter {
 						ValidationMode = validationMode,
 					}
 				};
-				simulation.Simulate(replications, MySimulation.InfinityTime);
+				simulation.Simulate(replications);
 				worker.ReportProgress(1, simulation);
 			}
 		}
@@ -63,16 +63,20 @@ namespace VaccinationCenter {
 			for (int adminWorkers = numOfAdminWorkers - 1; adminWorkers <= numOfAdminWorkers + 1; adminWorkers++) {
 				for (int doctors = numOfDoctors - 1; doctors <= numOfDoctors + 1 ; doctors++) {
 					for (int nurses = numOfNurses - 1; nurses <= numOfNurses + 1; nurses++) {
+						if (_stop) {
+							return;
+						}
 						simulation = new MySimulation() {
 							SimParameter = new SimParameter() {
 								NumOfAdminWorkers = adminWorkers,
 								NumOfDoctors = doctors,
 								NumOfNurses = nurses,
+								NumOfPatients = simParameter.NumOfPatients,
 								EarlyArrivals = simParameter.EarlyArrivals,
-								ValidationMode = simParameter.ValidationMode
+								ValidationMode = simParameter.ValidationMode,
 							}
 						};
-						simulation.Simulate(replications, MySimulation.InfinityTime);
+						simulation.Simulate(replications);
 						worker.ReportProgress(1, simulation);
 					}
 				}
