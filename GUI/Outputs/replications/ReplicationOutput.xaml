@@ -55,6 +55,9 @@
                 <TextBlock Grid.Row="2" Grid.Column="0" Margin="5">Average cooling duration (hours):</TextBlock>
                 <TextBlock Name="AvgCoolingDuration" Grid.Row="2" Grid.Column="1" Margin="5">0</TextBlock>
 
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="5">Average sum of waiting (minutes):</TextBlock>
+                <TextBlock Name="AvgSumOfWaiting" Grid.Row="3" Grid.Column="1" Margin="5">0</TextBlock>
+
             </Grid>
         </GroupBox>
 

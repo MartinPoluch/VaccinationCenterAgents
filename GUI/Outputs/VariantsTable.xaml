@@ -15,7 +15,12 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <DataGrid Name="Results" Grid.Row="0" Grid.Column="0" Margin="10"></DataGrid>
+        <DataGrid Name="Results" Grid.Row="0" Grid.Column="0" IsReadOnly="True" Margin="10"
+                  GridLinesVisibility="All" Padding="5"
+                  HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  RowHeaderWidth="0" Background="White">
+        </DataGrid>
 
     </Grid>
 </UserControl>

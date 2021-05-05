@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using simulation;
-using VaccinationCenter.common;
 using VaccinationCenter.entities;
 
 namespace GUI.Outputs {
@@ -28,7 +15,11 @@ namespace GUI.Outputs {
 		}
 
 		private double GetOccupancy(MySimulation simulation, ServiceType serviceType) {
-			return simulation.ServiceAgentStats[ServiceType.AdminWorker].Occupancy.Mean();
+			return simulation.ServiceAgentStats[serviceType].Occupancy.Mean();
+		}
+
+		private double GetWaitingTime(MySimulation simulation, ServiceType serviceType) {
+			return simulation.ServiceAgentStats[serviceType].WaitingTimes.Mean();
 		}
 
 		public List<SimulationResult> SimulationResults { get; set; }
@@ -41,6 +32,9 @@ namespace GUI.Outputs {
 				WorkersOccupancy = GetOccupancy(simulation, ServiceType.AdminWorker),
 				DoctorsOccupancy = GetOccupancy(simulation, ServiceType.Doctor),
 				NursesOccupancy = GetOccupancy(simulation, ServiceType.Nurse),
+				RegistrationWaitingTime = GetWaitingTime(simulation, ServiceType.AdminWorker),
+				ExaminationWaitingTime = GetWaitingTime(simulation, ServiceType.Doctor),
+				VaccinationWaitingTime = GetWaitingTime(simulation, ServiceType.Nurse),
 			};
 			SimulationResults.Add(result);
 			Results.ItemsSource = null;
@@ -64,6 +58,16 @@ namespace GUI.Outputs {
 			public double DoctorsOccupancy { get; set; }
 
 			public double NursesOccupancy { get; set; }
+
+			public double RegistrationWaitingTime { get; set; }
+
+			public double ExaminationWaitingTime { get; set; }
+
+			public double VaccinationWaitingTime { get; set; }
+
+			public double SumOfWaitingTime {
+				get { return RegistrationWaitingTime + ExaminationWaitingTime + VaccinationWaitingTime; }
+			}
 		}
 	}
 }
