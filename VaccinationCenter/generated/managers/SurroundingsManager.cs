@@ -49,7 +49,7 @@ namespace managers {
 		public void ProcessDefault(MessageForm message) {
 			switch (message.Code) {
 				case Mc.Initialization: {
-					if (((MySimulation)MySim).SimParameter.EarlyArrivals) {
+					if (((VacCenterSimulation)MySim).SimParameter.EarlyArrivals) {
 						message.Addressee = MyAgent.FindAssistant(SimId.EarlyArrivalsScheduler);
 					}
 					else {

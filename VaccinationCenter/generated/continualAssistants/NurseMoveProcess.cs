@@ -20,7 +20,7 @@ namespace continualAssistants {
 		//meta! sender="RefillAgent", id="150", type="Start"
 		public void ProcessStart(MessageForm message) {
 			message.Code = Mc.EndOfNurseMove;
-			double moveDuration = ((MySimulation)MySim).SimParameter.ValidationMode
+			double moveDuration = ((VacCenterSimulation)MySim).SimParameter.ValidationMode
 				? 0
 				: MyAgent.MoveDurationGenerator.Sample();
 			Hold(moveDuration, message);

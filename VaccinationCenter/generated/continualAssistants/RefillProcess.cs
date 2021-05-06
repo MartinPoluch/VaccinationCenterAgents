@@ -18,7 +18,7 @@ namespace continualAssistants {
 		}
 
 		private double GenerateOneRefillDuration() {
-			return ((MySimulation)MySim).SimParameter.ValidationMode
+			return ((VacCenterSimulation)MySim).SimParameter.ValidationMode
 				? 0
 				: MyAgent.OneRefillGenerator.Sample();
 		}
@@ -31,7 +31,7 @@ namespace continualAssistants {
 
 		//meta! userInfo="Process messages defined in code", id="0"
 		public void ProcessDefault(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			switch (message.Code) {
 				case Mc.OneRefillDone: {
 					Nurse nurse = myMessage.GetNurse();

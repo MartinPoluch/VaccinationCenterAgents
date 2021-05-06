@@ -21,7 +21,7 @@ namespace managers {
 			// Setup component for the next replication
 		}
 
-		protected override void SendServiceToLunch(MyMessage myMessage) {
+		protected override void SendServiceToLunch(Message myMessage) {
 			myMessage.Code = Mc.NurseStartBreak;
 			myMessage.Addressee = MyAgent.FindAssistant(SimId.VacCenterAgent);
 			Notice(myMessage);
@@ -30,7 +30,7 @@ namespace managers {
 
 		//meta! sender="NursesLunchScheduler", id="95", type="Notice"
 		public void ProcessNurseLunchBreak(MessageForm message) {
-			StartOfLunchBreak((MyMessage)message);
+			StartOfLunchBreak((Message)message);
 		}
 
 		//meta! sender="NursesLunchScheduler", id="94", type="Finish"
@@ -43,13 +43,13 @@ namespace managers {
 
 		//meta! sender="VaccinationProcess", id="97", type="Notice"
 		public void ProcessVaccinationProcessEnd(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			Nurse nurse = myMessage.GetNurse(); // I need keep reference before FreeService call
 			nurse.Doses--;
 			FreeServiceAndReference(myMessage); // set service reference to NULL and update stats, no message copy needed
 			if (nurse.Doses <= 0) { // refill has more priority then lunch break
 				Debug.Assert(nurse.Doses == 0, $"nurse should have 0 doses (but has {nurse.Doses} doses)");
-				MyMessage refillMessage = (MyMessage)myMessage.CreateCopy();
+				Message refillMessage = (Message)myMessage.CreateCopy();
 				refillMessage.Service = nurse; //FreeService() kill old reference, I need assign service reference again
 				refillMessage.Addressee = MySim.FindAgent(SimId.RefillAgent);
 				refillMessage.Code = Mc.Refill;
@@ -57,11 +57,11 @@ namespace managers {
 				Request(refillMessage);
 			}
 			else {
-				ServiceNextPatientOrGoToLunch((MyMessage)myMessage.CreateCopy());
+				ServiceNextPatientOrGoToLunch((Message)myMessage.CreateCopy());
 			}
 
 			Debug.Assert(myMessage.Service == null, "Service should be null.");
-			MyMessage endOfVaccination = myMessage;
+			Message endOfVaccination = myMessage;
 			endOfVaccination.Addressee = MySim.FindAgent(SimId.VacCenterAgent);
 			endOfVaccination.Code = Mc.VaccinationEnd;
 			Notice(endOfVaccination);
@@ -69,7 +69,7 @@ namespace managers {
 
 		//meta! sender="VacCenterAgent", id="59", type="Notice"
 		public void ProcessNurseEndBreak(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			EndServiceLunchBreakAndReference(myMessage);
 			ServiceNextPatientOrGoToLunch(myMessage);
 		}
@@ -82,14 +82,14 @@ namespace managers {
 
 		//meta! sender="RefillAgent", id="147", type="Request"
 		public void ProcessRefill(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			FreeServiceAndReference(myMessage);
 			ServiceNextPatientOrGoToLunch(myMessage);
 		}
 
 		//meta! sender="VacCenterAgent", id="167", type="Notice"
 		public void ProcessVaccinationStart(MessageForm message) {
-			GoToServiceOrQueue((MyMessage)message);
+			GoToServiceOrQueue((Message)message);
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"

@@ -20,7 +20,7 @@ namespace managers {
 			// Setup component for the next replication
 		}
 
-		protected override void SendServiceToLunch(MyMessage myMessage) {
+		protected override void SendServiceToLunch(Message myMessage) {
 			myMessage.Code = Mc.DoctorStartBreak;
 			myMessage.Addressee = MyAgent.FindAssistant(SimId.VacCenterAgent);
 			Notice(myMessage);
@@ -28,7 +28,7 @@ namespace managers {
 
 		//meta! sender="DoctorLunchScheduler", id="89", type="Notice"
 		public void ProcessDoctorLunchBreak(MessageForm message) {
-			StartOfLunchBreak((MyMessage)message);
+			StartOfLunchBreak((Message)message);
 		}
 
 		//meta! sender="ExaminationProcess", id="83", type="Finish"
@@ -42,19 +42,19 @@ namespace managers {
 
 		//meta! sender="VacCenterAgent", id="57", type="Notice"
 		public void ProcessDoctorEndBreak(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			EndServiceLunchBreakAndReference(myMessage);
 			ServiceNextPatientOrGoToLunch(myMessage);
 		}
 
 		//meta! sender="ExaminationProcess", id="88", type="Notice"
 		public void ProcessExaminationProcessEnd(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			FreeServiceAndReference(myMessage); // does not resend message, no copy needed
-			ServiceNextPatientOrGoToLunch((MyMessage)myMessage.CreateCopy());
+			ServiceNextPatientOrGoToLunch((Message)myMessage.CreateCopy());
 
 			Debug.Assert(myMessage.Service == null, "Service should be null.");
-			MyMessage endOfExamination = myMessage;
+			Message endOfExamination = myMessage;
 			endOfExamination.Addressee = MySim.FindAgent(SimId.VacCenterAgent);
 			endOfExamination.Code = Mc.ExaminationEnd;
 			Notice(endOfExamination);
@@ -68,7 +68,7 @@ namespace managers {
 
 		//meta! sender="VacCenterAgent", id="166", type="Notice"
 		public void ProcessExaminationStart(MessageForm message) {
-			GoToServiceOrQueue((MyMessage)message);
+			GoToServiceOrQueue((Message)message);
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"

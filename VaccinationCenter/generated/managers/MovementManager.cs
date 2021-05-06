@@ -18,7 +18,7 @@ namespace managers {
 
 		//meta! sender="VacCenterAgent", id="105", type="Request"
 		public void ProcessMoveToAnotherRoom(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			Patient patient = myMessage.Patient;
 			MyAgent.MovingPatients[patient.LastVisitedService]++;
 			myMessage.Addressee = MyAgent.FindAssistant(SimId.MovementProcess);
@@ -37,7 +37,7 @@ namespace managers {
 
 		//meta! sender="MovementProcess", id="137", type="Notice"
 		public void ProcessEndOfMove(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			Patient patient = myMessage.Patient;
 			MyAgent.MovingPatients[patient.LastVisitedService]--;
 			myMessage.Code = Mc.MoveToAnotherRoom;

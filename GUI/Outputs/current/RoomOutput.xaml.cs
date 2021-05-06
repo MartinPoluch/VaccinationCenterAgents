@@ -38,7 +38,7 @@ namespace GUI.Outputs {
 
 		public ServiceType ServiceType { get; set; }
 
-		private ServiceAgent GetServiceAgent(MySimulation simulation) {
+		private ServiceAgent GetServiceAgent(VacCenterSimulation simulation) {
 			switch (ServiceType) {
 				case ServiceType.AdminWorker: {
 					return simulation.RegistrationAgent;
@@ -57,7 +57,7 @@ namespace GUI.Outputs {
 
 		public List<ServiceEntity> ServiceEntities { get; set; }
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			ServiceAgent service = GetServiceAgent(simulation);
 			AvgQueueLength.Text = Utils.ParseMean(service.QueueLengthStat);
 			AvgWaitTime.Text = Utils.ParseMean(service.WaitingTimeStat);

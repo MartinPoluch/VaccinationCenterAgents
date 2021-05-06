@@ -24,7 +24,7 @@ namespace GUI.Outputs {
 			InitializeComponent();
 		}
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			WaitingAgent waitingAgent = simulation.WaitingAgent;
 			PatientsInWaitRoom.Text = waitingAgent.GetWaitingPatients().ToString();
 			AvgPatientsInWaitRoom.Text = Utils.ParseMean(waitingAgent.WaitingRoomStat);

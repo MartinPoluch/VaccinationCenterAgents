@@ -17,7 +17,7 @@ namespace continualAssistants {
 
 		//meta! sender="VaccinationAgent", id="92", type="Start"
 		public void ProcessStart(MessageForm message) {
-			ServiceEntity service = ((MyMessage)message).Service;
+			ServiceEntity service = ((Message)message).Service;
 			message.Code = Mc.VaccinationProcessEnd;
 			Hold(service.GenerateDuration(), message);
 		}

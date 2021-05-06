@@ -14,7 +14,7 @@ namespace continualAssistants {
 
 		public override void PrepareReplication() {
 			base.PrepareReplication();
-			if (!((MySimulation)MySim).SimParameter.EarlyArrivals) {
+			if (!((VacCenterSimulation)MySim).SimParameter.EarlyArrivals) {
 				Patient.ResetPatientId();
 			}
 		}
@@ -25,7 +25,7 @@ namespace continualAssistants {
 			Hold(0, message); // simulation starts from zero time
 		}
 
-		private void NewArrivalProcess(MyMessage newArrival) {
+		private void NewArrivalProcess(Message newArrival) {
 			Patient patient = new Patient(MySim); // incrementation of patient Id
 			patient.ArrivalTime = MySim.CurrentTime;
 			if (MyAgent.PatientIsMissing()) {
@@ -45,7 +45,7 @@ namespace continualAssistants {
 		public void ProcessDefault(MessageForm message) {
 			switch (message.Code) {
 				case Mc.NewArrival: {
-						MyMessage myMessage = (MyMessage)message;
+						Message myMessage = (Message)message;
 						NewArrivalProcess(myMessage);
 						break;
 					}

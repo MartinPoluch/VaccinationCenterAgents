@@ -16,7 +16,7 @@ namespace VaccinationCenter.entities {
 		private double _durationOfOccupiedService;
 		private double _currentSimulationTime;
 
-		public ServiceStat(MySimulation simulation) {
+		public ServiceStat(VacCenterSimulation simulation) {
 			Init();
 			Simulation = simulation;
 		}
@@ -27,7 +27,7 @@ namespace VaccinationCenter.entities {
 			DurationOfLunchBreak = 0;
 		}
 
-		private MySimulation Simulation { get; }
+		private VacCenterSimulation Simulation { get; }
 
 		private double DurationOfLunchBreak { get; set; }
 
@@ -48,7 +48,7 @@ namespace VaccinationCenter.entities {
 		 * Used in slow mode, for updating detailed service occupancy (in the table)
 		 */
 		public double GetServiceOccupancy() {
-			if (Simulation.CurrentTime != MySimulation.InfinityTime) { // if simulation does not end
+			if (Simulation.CurrentTime != VacCenterSimulation.InfinityTime) { // if simulation does not end
 				_currentSimulationTime = Simulation.CurrentTime; // if simulation end then I will uses last time value
 			}
 

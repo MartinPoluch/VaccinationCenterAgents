@@ -18,11 +18,11 @@ namespace GUI {
 			Vaccination.ServiceType = ServiceType.Nurse;
 		}
 
-		private double GetWaitingTime(MySimulation simulation, ServiceType serviceType) {
+		private double GetWaitingTime(VacCenterSimulation simulation, ServiceType serviceType) {
 			return simulation.ServiceAgentStats[serviceType].WaitingTimes.Mean();
 		}
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			Registration.Refresh(simulation);
 			Examination.Refresh(simulation);
 			Vaccination.Refresh(simulation);

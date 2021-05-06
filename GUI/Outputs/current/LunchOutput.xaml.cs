@@ -26,7 +26,7 @@ namespace GUI.Outputs.current {
 			InitializeComponent();
 		}
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			LunchAgent lunch = simulation.LunchAgent;
 			MovingTo.Text = lunch.ServicesMovingToLunch.ToString();
 			Eating.Text = lunch.ServicesEating.ToString();

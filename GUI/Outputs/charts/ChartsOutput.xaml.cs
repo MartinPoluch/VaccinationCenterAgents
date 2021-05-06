@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using agents;
 using OSPABA;
 using simulation;
+using VaccinationCenter.entities;
 
 
 namespace GUI.Outputs {
@@ -27,13 +28,13 @@ namespace GUI.Outputs {
 			InitializeComponent();
 		}
 
-		public void Refresh(MySimulation simulation) {
-			ExaminationAgent agent = simulation.ExaminationAgent;
-			int numOfDoctors = agent.ServiceEntities.Count;
-			double avgQueueLength = agent.QueueLengthStat.Mean();
+		public void Refresh(VacCenterSimulation simulation) {
+			int numOfDoctors = simulation.SimParameter.NumOfDoctors;
+			var serviceAgentStat = simulation.ServiceAgentStats[ServiceType.Doctor];
+			double avgQueueLength = serviceAgentStat.QueueLengths.Mean();
 			DoctorQueueLengthChart.AddChartValue(numOfDoctors, avgQueueLength);
 
-			double avgWaitingTime = agent.WaitingTimeStat.Mean();
+			double avgWaitingTime = serviceAgentStat.WaitingTimes.Mean();
 			DoctorWaitingChart.AddChartValue(numOfDoctors, avgWaitingTime);
 
 			Console.WriteLine($"Added point => doctors: {numOfDoctors}  " +

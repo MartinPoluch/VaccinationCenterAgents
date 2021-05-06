@@ -71,7 +71,7 @@ namespace agents {
 			double missingPatients = MissingPatientsGen.Sample();
 			ProbabilityOfMissing = missingPatients / (double)PatientsPerDay;
 
-			MyMessage initialMsg = new MyMessage(MySim) {
+			Message initialMsg = new Message(MySim) {
 				Addressee = this,
 				Code = Mc.Initialization,
 			};

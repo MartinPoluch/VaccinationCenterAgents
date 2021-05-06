@@ -22,7 +22,7 @@ namespace managers {
 
 		}
 
-		protected override void SendServiceToLunch(MyMessage myMessage) {
+		protected override void SendServiceToLunch(Message myMessage) {
 			myMessage.Code = Mc.AdminStartBreak;
 			myMessage.Addressee = MyAgent.FindAssistant(SimId.VacCenterAgent);
 			Notice(myMessage);
@@ -30,12 +30,12 @@ namespace managers {
 
 		//meta! sender="AdminLunchScheduler", id="73", type="Notice"
 		public void ProcessAdminLunchBreak(MessageForm message) {
-			StartOfLunchBreak((MyMessage)message);
+			StartOfLunchBreak((Message)message);
 		}
 
 		//meta! sender="VacCenterAgent", id="56", type="Notice"
 		public void ProcessAdminEndBreak(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			EndServiceLunchBreakAndReference(myMessage);
 			ServiceNextPatientOrGoToLunch(myMessage);
 		}
@@ -50,13 +50,13 @@ namespace managers {
 
 		//meta! sender="RegistrationProcess", id="72", type="Notice"
 		public void ProcessRegistrationProcessEnd(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			FreeServiceAndReference(myMessage); // does not resend message, no copy needed
-			MyMessage messageCopy = (MyMessage)myMessage.CreateCopy();
+			Message messageCopy = (Message)myMessage.CreateCopy();
 			ServiceNextPatientOrGoToLunch(messageCopy);
 
 			Debug.Assert(myMessage.Service == null, "Service should be null.");
-			MyMessage endOfRegistration = myMessage;
+			Message endOfRegistration = myMessage;
 			endOfRegistration.Addressee = MySim.FindAgent(SimId.VacCenterAgent);
 			endOfRegistration.Code = Mc.RegistrationEnd;
 			Notice(endOfRegistration);
@@ -70,7 +70,7 @@ namespace managers {
 
 		//meta! sender="VacCenterAgent", id="163", type="Notice"
 		public void ProcessRegistrationStart(MessageForm message) {
-			GoToServiceOrQueue((MyMessage)message);
+			GoToServiceOrQueue((Message)message);
 		}
 
 		//meta! userInfo="Generated code: do not modify", tag="begin"

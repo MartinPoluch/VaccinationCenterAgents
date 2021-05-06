@@ -27,7 +27,7 @@ namespace managers {
 
 		//meta! sender="MovementAgent", id="105", type="Response"
 		public void ProcessMoveToAnotherRoom(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			Patient patient = myMessage.Patient;
 			switch (patient.LastVisitedService) {
 				case ServiceType.AdminWorker: {
@@ -78,7 +78,7 @@ namespace managers {
 
 		//meta! sender="LunchAgent", id="28", type="Response"
 		public void ProcessLunchBreak(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			ServiceEntity service = myMessage.Service;
 			switch (service.ServiceType) {
 				case ServiceType.AdminWorker: {

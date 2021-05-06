@@ -24,7 +24,7 @@ namespace GUI.Outputs {
 			InitializeComponent();
 		}
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			RefillAgent refill = simulation.RefillAgent;
 			MovingToRefill.Text = refill.NursesMovingToRefill.ToString();
 			CurrentQueueLength.Text = refill.Queue.Count.ToString();

@@ -100,8 +100,8 @@
     <Compile Include="generated\managers\VaccinationManager.cs" />
     <Compile Include="generated\managers\WaitingManager.cs" />
     <Compile Include="generated\simulation\Mc.cs" />
-    <Compile Include="generated\simulation\MyMessage.cs" />
-    <Compile Include="generated\simulation\MySimulation.cs" />
+    <Compile Include="generated\simulation\Message.cs" />
+    <Compile Include="generated\simulation\VacCenterSimulation.cs" />
     <Compile Include="generated\simulation\SimId.cs" />
     <Compile Include="models\SimParameter.cs" />
     <Compile Include="Program.cs" />

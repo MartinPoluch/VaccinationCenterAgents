@@ -31,7 +31,7 @@ namespace VaccinationCenter {
 			simulation?.ResumeSimulation();
 		}
 
-		public MySimulation simulation { get; set; }
+		public VacCenterSimulation simulation { get; set; }
 
 		public void SimulateDoctorsDependency(BackgroundWorker worker, int replications, int numOfPatients, int numOfWorkers,
 			int minNumOfDoctors, int maxNumOfDoctors, int numOfNurses, bool validationMode, bool earlyArrivals) {
@@ -41,7 +41,7 @@ namespace VaccinationCenter {
 					return;
 				}
 
-				simulation = new MySimulation {
+				simulation = new VacCenterSimulation {
 					SimParameter = new SimParameter() {
 						NumOfAdminWorkers = numOfWorkers,
 						NumOfDoctors = doctors,
@@ -66,7 +66,7 @@ namespace VaccinationCenter {
 						if (_stop) {
 							return;
 						}
-						simulation = new MySimulation() {
+						simulation = new VacCenterSimulation() {
 							SimParameter = new SimParameter() {
 								NumOfAdminWorkers = adminWorkers,
 								NumOfDoctors = doctors,

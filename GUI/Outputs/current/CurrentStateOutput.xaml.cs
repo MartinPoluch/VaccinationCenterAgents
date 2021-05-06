@@ -23,7 +23,7 @@ namespace GUI {
 			Vaccination.AddColumn(dosesColumn);
 		}
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			Registration.Refresh(simulation);
 			Examination.Refresh(simulation);
 			Vaccination.Refresh(simulation);

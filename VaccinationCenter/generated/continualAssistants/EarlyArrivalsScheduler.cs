@@ -21,7 +21,7 @@ namespace continualAssistants {
 		private SimplePriorityQueue<Patient, double> PatientArrivals { get; set; }
 
 		private SimParameter GetSimParameter() {
-			return ((MySimulation)MySim).SimParameter;
+			return ((VacCenterSimulation)MySim).SimParameter;
 		}
 
 		public override void PrepareReplication() {
@@ -63,13 +63,13 @@ namespace continualAssistants {
 			}
 		}
 
-		private void ArrivalOfPatientBeforeOpening(MyMessage message) {
+		private void ArrivalOfPatientBeforeOpening(Message message) {
 			foreach (Patient patient in PatientBeforeOpening) {
 				if (MyAgent.PatientIsMissing()) {
 					MyAgent.PatientsMissing++;
 				}
 				else {
-					MyMessage newArrival = (MyMessage)message.CreateCopy();
+					Message newArrival = (Message)message.CreateCopy();
 					newArrival.Patient = patient;
 					Notice(newArrival);
 				}
@@ -77,7 +77,7 @@ namespace continualAssistants {
 			NewEarlyArrivalProcess(message);
 		}
 
-		private void NewEarlyArrivalProcess(MyMessage newArrival) {
+		private void NewEarlyArrivalProcess(Message newArrival) {
 			if (PatientArrivals.Count > 0) {
 				Patient patient = PatientArrivals.Dequeue();
 				Debug.Assert(patient.ArrivalTime >= MySim.CurrentTime, "This patient should already be in the system. Arrival time is smaller then current time");
@@ -97,7 +97,7 @@ namespace continualAssistants {
 		public void ProcessDefault(MessageForm message) {
 			switch (message.Code) {
 				case Mc.NewEarlyArrival: {
-					MyMessage myMessage = (MyMessage)message;
+					Message myMessage = (Message)message;
 					if (MyAgent.PatientIsMissing()) {
 						MyAgent.PatientsMissing++;
 					}
@@ -109,7 +109,7 @@ namespace continualAssistants {
 				}
 				case Mc.GroupArrival: {
 					message.Code = Mc.NewEarlyArrival;
-					ArrivalOfPatientBeforeOpening((MyMessage)message);
+					ArrivalOfPatientBeforeOpening((Message)message);
 					break;
 				}
 			}

@@ -13,7 +13,7 @@ namespace VaccinationCenter.entities {
 
 		protected ServiceEntity(Simulation mySim) : base(mySim) {
 			Init();
-			ServiceStat = new ServiceStat((MySimulation)mySim);
+			ServiceStat = new ServiceStat((VacCenterSimulation)mySim);
 		}
 
 		private void Init() {

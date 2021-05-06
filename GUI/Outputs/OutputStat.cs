@@ -4,6 +4,6 @@ using simulation;
 namespace GUI.Outputs {
 	public interface OutputStat {
 
-		void Refresh(MySimulation simulation);
+		void Refresh(VacCenterSimulation simulation);
 	}
 }

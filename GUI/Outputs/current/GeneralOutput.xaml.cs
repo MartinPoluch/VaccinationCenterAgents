@@ -15,7 +15,7 @@ namespace GUI {
 			InitializeComponent();
 		}
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			SurroundingsAgent surroundings = simulation.SurroundingsAgent;
 			PatientsArrived.Text = surroundings.PatientsArrived.ToString();
 			PatientsLeft.Text = surroundings.PatientsLeft.ToString();

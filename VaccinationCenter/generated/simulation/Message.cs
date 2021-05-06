@@ -4,14 +4,14 @@ using VaccinationCenter.entities;
 
 namespace simulation
 {
-	public class MyMessage : MessageForm
+	public class Message : MessageForm
 	{
-		public MyMessage(Simulation sim) :
+		public Message(Simulation sim) :
 			base(sim)
 		{
 		}
 
-		public MyMessage(MyMessage original) :
+		public Message(Message original) :
 			base(original)
 		{
 			// copy() is called in superclass
@@ -31,7 +31,7 @@ namespace simulation
 		}
 
 		public override MessageForm CreateCopy() {
-			return new MyMessage(this) {
+			return new Message(this) {
 				Service = Service,
 				Patient = Patient,
 			};
@@ -39,7 +39,7 @@ namespace simulation
 
 		protected override void Copy(MessageForm message) {
 			base.Copy(message);
-			MyMessage original = (MyMessage)message;
+			Message original = (Message)message;
 			Service = original.Service;
 			Patient = original.Patient;
 		}

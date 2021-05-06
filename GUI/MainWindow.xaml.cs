@@ -34,7 +34,7 @@ namespace GUI {
 		}
 
 		private void InitVacCenter() {
-			VacCenterSim = new MySimulation();
+			VacCenterSim = new VacCenterSimulation();
 			VacCenterSim.OnSimulationWillStart(SimulationWillStart);
 			VacCenterSim.OnReplicationWillStart(ReplicationWillStart);
 			VacCenterSim.OnRefreshUI(RefreshUI);
@@ -47,7 +47,7 @@ namespace GUI {
 		public SimulationWrapper SimulationWrapper { get; set; }
 
 		private void SimulationWillStart(Simulation simulation) {
-			MySimulation vacSimulation = (MySimulation)simulation;
+			VacCenterSimulation vacSimulation = (VacCenterSimulation)simulation;
 			vacSimulation.SimParameter = SimInputs.CreateSimParameter(); // initialization of all simulation inputs
 		}
 
@@ -72,7 +72,7 @@ namespace GUI {
 		 */
 		private void RefreshUI(Simulation simulation) {
 			Dispatcher.Invoke(() => {
-				MySimulation vacSimulation = (MySimulation)simulation;
+				VacCenterSimulation vacSimulation = (VacCenterSimulation)simulation;
 				CurrentStateOutput.Refresh(vacSimulation);
 				string timeFormat = "HH:mm:ss";
 				SimulationTimeOut.Text = SimInputs.StartDateTime().AddSeconds(vacSimulation.CurrentTime).ToString(timeFormat);
@@ -84,7 +84,7 @@ namespace GUI {
 		 */
 		private void ReplicationDidFinish(Simulation simulation) {
 			Dispatcher.Invoke(() => {
-				MySimulation vacSimulation = (MySimulation)simulation;
+				VacCenterSimulation vacSimulation = (VacCenterSimulation)simulation;
 				// refresh after first replication, because CIs cannot be calculated from only one value
 				if (vacSimulation.CurrentReplication > 1) { 
 					ReplicationsOut.Refresh(vacSimulation);
@@ -152,7 +152,7 @@ namespace GUI {
 		}
 
 		private void RefreshDependencyChart(object sender, ProgressChangedEventArgs e) {
-			MySimulation simulation = (MySimulation)e.UserState;
+			VacCenterSimulation simulation = (VacCenterSimulation)e.UserState;
 			Charts.Refresh(simulation);
 		}
 
@@ -176,7 +176,7 @@ namespace GUI {
 		}
 
 		private void RefreshVariantsTable(object sender, ProgressChangedEventArgs e) {
-			MySimulation simulation = (MySimulation)e.UserState;
+			VacCenterSimulation simulation = (VacCenterSimulation)e.UserState;
 			VariantsTable.Refresh(simulation);
 		}
 

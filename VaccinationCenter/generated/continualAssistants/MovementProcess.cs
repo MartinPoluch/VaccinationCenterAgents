@@ -18,11 +18,11 @@ namespace continualAssistants {
 
 		//meta! sender="MovementAgent", id="100", type="Start"
 		public void ProcessStart(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			Patient patient = myMessage.Patient;
 			myMessage.Code = Mc.EndOfMove;
 			RNG<double> generator = MyAgent.MoveDurationGenerators[patient.LastVisitedService];
-			double moveDuration = ((MySimulation)MySim).SimParameter.ValidationMode 
+			double moveDuration = ((VacCenterSimulation)MySim).SimParameter.ValidationMode 
 				? 0 
 				: generator.Sample();
 			Hold(moveDuration, myMessage);

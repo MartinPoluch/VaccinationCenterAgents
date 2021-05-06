@@ -26,7 +26,7 @@ namespace GUI.Outputs {
 			InitializeComponent();
 		}
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			MovementAgent agent = simulation.MovementAgent;
 			FromRegistration.Text = agent.MovingPatients[ServiceType.AdminWorker].ToString();
 			FromExamination.Text = agent.MovingPatients[ServiceType.Doctor].ToString();

@@ -17,7 +17,7 @@ namespace continualAssistants {
 
 		//meta! sender="ExaminationAgent", id="83", type="Start"
 		public void ProcessStart(MessageForm message) {
-			ServiceEntity service = ((MyMessage)message).Service;
+			ServiceEntity service = ((Message)message).Service;
 			message.Code = Mc.ExaminationProcessEnd;
 			Hold(service.GenerateDuration(), message);
 		}

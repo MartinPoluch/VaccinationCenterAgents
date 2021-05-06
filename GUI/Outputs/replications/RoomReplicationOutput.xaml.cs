@@ -17,7 +17,7 @@ namespace GUI.Outputs {
 
 		public ServiceType ServiceType { get; set; }
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			var serviceStat = simulation.ServiceAgentStats[ServiceType];
 			AvgWaitTime.Text = Utils.ParseMean(serviceStat.WaitingTimes);
 			CiWaitTime.Text = Utils.ParseConfidenceInterval(serviceStat.WaitingTimes);
@@ -27,8 +27,6 @@ namespace GUI.Outputs {
 
 			AvgServiceOccupancy.Text = Utils.ParseMean(serviceStat.Occupancy);
 			CiServiceOccupancy.Text = Utils.ParseConfidenceInterval(serviceStat.Occupancy);
-
-			//AvgQueueLengthAtEnd.Text = state.QueueLengthAtEndOfDayRs[RoomType].Average().ToString(CultureInfo.InvariantCulture);
 		}
 	}
 }

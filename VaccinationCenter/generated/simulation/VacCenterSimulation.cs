@@ -11,11 +11,11 @@ using VaccinationCenter.stats;
 
 namespace simulation {
 
-	public class MySimulation : Simulation {
+	public class VacCenterSimulation : Simulation {
 
 		public static readonly double InfinityTime = double.MaxValue;
 
-		public MySimulation() {
+		public VacCenterSimulation() {
 			Init();
 		}
 

@@ -23,7 +23,7 @@ namespace managers {
 
 		//meta! sender="NurseMoveProcess", id="153", type="Notice"
 		public void ProcessEndOfNurseMove(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			Nurse nurse = myMessage.GetNurse();
 			if (nurse.Doses == 0) { // move from vaccination room to refill room
 				EndOfMoveToRefillRoom(myMessage);
@@ -36,7 +36,7 @@ namespace managers {
 			}
 		}
 
-		private void StartRefillService(MyMessage myMessage) {
+		private void StartRefillService(Message myMessage) {
 			Nurse nurse = myMessage.GetNurse();
 			MyAgent.NursesRefilling++;
 			double waitingTime = MySim.CurrentTime - nurse.StartOfWaiting;
@@ -48,7 +48,7 @@ namespace managers {
 			//Console.WriteLine($"Nurse {nurse.Id} done start refill");
 		}
 
-		private void EndOfMoveToRefillRoom(MyMessage myMessage) {
+		private void EndOfMoveToRefillRoom(Message myMessage) {
 			Nurse nurse = myMessage.GetNurse();
 			Debug.Assert(nurse.Doses == 0, "If nurse goes to refill room, then she should have 0 doses.");
 			MyAgent.NursesMovingToRefill--;
@@ -62,7 +62,7 @@ namespace managers {
 			}
 		}
 
-		private void EndOfMoveFromRefillRoom(MyMessage myMessage) {
+		private void EndOfMoveFromRefillRoom(Message myMessage) {
 			MyAgent.NursesMovingFromRefill--;
 			myMessage.Code = Mc.Refill;
 			Response(myMessage); // back to vaccination room
@@ -85,11 +85,11 @@ namespace managers {
 
 		//meta! sender="RefillProcess", id="156", type="Notice"
 		public void ProcessEndOfRefill(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			Nurse nurse = myMessage.GetNurse();
 			nurse.StartMoveFromRefill();
 			myMessage.Addressee = MyAgent.FindAssistant(SimId.NurseMoveProcess);
-			StartContinualAssistant((MyMessage)myMessage.CreateCopy()); // move from refill room back to vaccination room
+			StartContinualAssistant((Message)myMessage.CreateCopy()); // move from refill room back to vaccination room
 
 			MyAgent.NursesMovingFromRefill++;
 			MyAgent.NursesRefilling--;

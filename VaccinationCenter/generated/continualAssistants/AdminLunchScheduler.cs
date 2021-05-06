@@ -11,7 +11,7 @@ namespace continualAssistants {
 
 		public override void PrepareReplication() {
 			base.PrepareReplication();
-			MessageForm startScheduler = new MyMessage(MySim);
+			MessageForm startScheduler = new Message(MySim);
 			startScheduler.Code = Mc.AdminLunchBreak;
 			Hold(MyAgent.GetStartTimeOfLunch(), startScheduler);
 		}

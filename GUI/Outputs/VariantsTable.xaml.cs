@@ -14,17 +14,17 @@ namespace GUI.Outputs {
 			DataContext = this;
 		}
 
-		private double GetOccupancy(MySimulation simulation, ServiceType serviceType) {
+		private double GetOccupancy(VacCenterSimulation simulation, ServiceType serviceType) {
 			return simulation.ServiceAgentStats[serviceType].Occupancy.Mean();
 		}
 
-		private double GetWaitingTime(MySimulation simulation, ServiceType serviceType) {
+		private double GetWaitingTime(VacCenterSimulation simulation, ServiceType serviceType) {
 			return simulation.ServiceAgentStats[serviceType].WaitingTimes.Mean();
 		}
 
 		public List<SimulationResult> SimulationResults { get; set; }
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			SimulationResult result = new SimulationResult() {
 				Workers = simulation.SimParameter.NumOfAdminWorkers,
 				Doctors = simulation.SimParameter.NumOfDoctors,

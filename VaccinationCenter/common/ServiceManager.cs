@@ -22,7 +22,7 @@ namespace VaccinationCenter.common {
 			// Setup component for the next replication
 		}
 
-		protected abstract void SendServiceToLunch(MyMessage myMessage);
+		protected abstract void SendServiceToLunch(Message myMessage);
 
 		private List<ServiceEntity> GetFreeServices() {
 			return MyAgent.ServiceEntities
@@ -46,7 +46,7 @@ namespace VaccinationCenter.common {
 			return MyAgent.ServiceEntities.Any(x => x.ServiceStatus == ServiceStatus.Free);
 		}
 
-		private void StartService(MyMessage message) {
+		private void StartService(Message message) {
 			Debug.Assert(message.Service == null, "Service should be NULL");
 			double startOfWaiting = message.Patient.StartOfWaiting[MyAgent.GetServiceType()];
 			double waitingTime = MySim.CurrentTime - startOfWaiting;
@@ -59,7 +59,7 @@ namespace VaccinationCenter.common {
 			StartContinualAssistant(message);
 		}
 
-		protected void GoToServiceOrQueue(MyMessage message) {
+		protected void GoToServiceOrQueue(Message message) {
 			Patient patient = message.Patient;
 			patient.LastVisitedService = MyAgent.GetServiceType();
 			patient.StartOfWaiting[MyAgent.GetServiceType()] = MySim.CurrentTime;
@@ -71,14 +71,14 @@ namespace VaccinationCenter.common {
 			}
 		}
 
-		protected void FreeServiceAndReference(MyMessage message) {
+		protected void FreeServiceAndReference(Message message) {
 			Debug.Assert(message.Service != null, "No service available");
 			ServiceEntity service = message.Service;
 			message.Service = null; // delete service reference
 			service.Free();
 		}
 
-		protected void EndServiceLunchBreakAndReference(MyMessage myMessage) {
+		protected void EndServiceLunchBreakAndReference(Message myMessage) {
 			ServiceEntity service = myMessage.Service;
 			myMessage.Service = null;
 			service.EndLunchBreak();
@@ -100,7 +100,7 @@ namespace VaccinationCenter.common {
 		/**
 		 * This method is called when service finish its process (end of registration, end of vaccination, end of lunch break, etc.)
 		 */
-		protected void ServiceNextPatientOrGoToLunch(MyMessage message) {
+		protected void ServiceNextPatientOrGoToLunch(Message message) {
 			Debug.Assert(IsAnyServiceFree(), "At least one service should be free");
 			if (CanGoToLunch()) { // if there is someone who want and also can go to lunch
 				ServiceEntity service = PickServiceForLunch(); // pick first and hungry service
@@ -123,7 +123,7 @@ namespace VaccinationCenter.common {
 			}
 		}
 
-		protected void StartOfLunchBreak(MyMessage myMessage) {
+		protected void StartOfLunchBreak(Message myMessage) {
 			Debug.Assert(Math.Abs(MySim.CurrentTime - MyAgent.GetStartTimeOfLunch()) < Double.Epsilon, "It is not lunch time!");
 			Debug.Assert(GetNumberOfCurrentAvailableServices() == MyAgent.ServiceEntities.Count, "All services should be available at this time.");
 			foreach (ServiceEntity service in MyAgent.ServiceEntities) {
@@ -135,9 +135,9 @@ namespace VaccinationCenter.common {
 				int serviceLimit = MyAgent.ServiceEntities.Count / 2; // at least half of services must be in the room all the time
 				int numOfServiceToLunch = (freeServices.Count <= serviceLimit) ? freeServices.Count : serviceLimit; // how many services can go to lunch
 				for (int i = 0; i < numOfServiceToLunch; i++) {
-					MyMessage lunchMessage = (i == (numOfServiceToLunch - 1)) // last sent service
+					Message lunchMessage = (i == (numOfServiceToLunch - 1)) // last sent service
 						? myMessage // don't need to copy the last message
-						: (MyMessage)myMessage.CreateCopy(); // I need copy rest of messages
+						: (Message)myMessage.CreateCopy(); // I need copy rest of messages
 
 					ServiceEntity service = freeServices[i];
 					service.StartLunchBreak();

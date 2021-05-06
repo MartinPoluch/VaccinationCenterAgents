@@ -16,7 +16,7 @@ namespace continualAssistants {
 		//meta! sender="LunchAgent", id="39", type="Start"
 		public void ProcessStart(MessageForm message) {
 			message.Code = Mc.EndOfTravel;
-			double travelDuration = ((MySimulation)MySim).SimParameter.ValidationMode
+			double travelDuration = ((VacCenterSimulation)MySim).SimParameter.ValidationMode
 				? 0
 				: MyAgent.MoveDurationGenerator.Sample();
 			Hold(travelDuration, message);

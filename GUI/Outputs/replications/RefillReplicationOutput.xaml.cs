@@ -24,7 +24,7 @@ namespace GUI.Outputs {
 			InitializeComponent();
 		}
 
-		public void Refresh(MySimulation simulation) {
+		public void Refresh(VacCenterSimulation simulation) {
 			AvgWaitingTime.Text = Utils.ParseMean(simulation.NurseWaitingTimeStat);
 			CiWaitingTime.Text = Utils.ParseConfidenceInterval(simulation.NurseWaitingTimeStat);
 			AvgQueueLength.Text = Utils.ParseMean(simulation.NursesQueueLengthStat);

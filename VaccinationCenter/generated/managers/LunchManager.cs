@@ -21,7 +21,7 @@ namespace managers {
 
 		//meta! sender="LunchProcess", id="46", type="Notice"
 		public void ProcessEndOfLunch(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			ServiceEntity service = myMessage.Service;
 			MyAgent.ServicesEating--;
 			MyAgent.ServicesMovingFromLunch++;
@@ -33,7 +33,7 @@ namespace managers {
 
 		//meta! sender="VacCenterAgent", id="28", type="Request"
 		public void ProcessLunchBreak(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			MyAgent.ServicesMovingToLunch++;
 			ServiceEntity service = myMessage.Service;
 			service.StartMoveToLunch();
@@ -52,7 +52,7 @@ namespace managers {
 
 		//meta! sender="TravelProcess", id="43", type="Notice"
 		public void ProcessEndOfTravel(MessageForm message) {
-			MyMessage myMessage = (MyMessage)message;
+			Message myMessage = (Message)message;
 			ServiceEntity service = myMessage.Service;
 			if (service.LunchStatus == LunchStatus.MoveTo) {
 				MyAgent.ServicesMovingToLunch--;
